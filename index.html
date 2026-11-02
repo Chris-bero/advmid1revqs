@@ -715,8 +715,8 @@ window.I18N = {
       lblWhy: "Why this is correct", lblOthers: "Why the other options are wrong", lblNote: "Note",
       showExpl: "Explanation & solution", hideExpl: "Hide explanation",
       btnShowAnswer: "Show correct answer", btnExpl: "Explanation",
-      btnShuffle: "Shuffle option order", shuffleOpts: "Shuffle option order",
-      sideOptions: "Options", optOn: "On", optOff: "Off",
+      shuffleOpts: "Shuffle answer-option order", shuffleHint: "Set it here before you start practicing — option order then stays fixed while you practice.",
+      optOn: "On", optOff: "Off",
       btnNext: "Next question", listEnd: "You reached the end of the list.",
       fbPeek: "Correct answer: {L}", badgePeek: "Answer revealed",
       sideShow: "Topics & filters", sideHideTip: "Collapse panel",
@@ -728,7 +728,7 @@ window.I18N = {
       examTitle: "Mock Exam", examSub: "Simulate the real midterm: pick your questions, race the clock, then review every answer with a full explanation.",
       examNumQ: "How many questions?", numAll: "All",
       examSections: "Which topics?", examSecAll: "All topics",
-      examShuffle: "Shuffle question order", examStart: "Start Exam",
+      examStart: "Start Exam",
       examNotEnough: "Not enough questions for this selection — lower the count or pick more topics.",
       examOf: "Question {i} of {n}", examAnswered: "{a}/{n} answered",
       examPrev: "Previous", examNext: "Next", examSubmit: "Submit Exam",
@@ -803,8 +803,8 @@ window.I18N = {
       lblWhy: "لماذا هذه الإجابة صحيحة؟", lblOthers: "لماذا باقي الاختيارات خاطئة؟", lblNote: "تنبيه",
       showExpl: "الشرح والحل", hideExpl: "إخفاء الشرح",
       btnShowAnswer: "إظهار الإجابة الصحيحة", btnExpl: "الشرح",
-      btnShuffle: "خلط ترتيب الاختيارات", shuffleOpts: "خلط ترتيب الاختيارات",
-      sideOptions: "خيارات", optOn: "مفعّل", optOff: "معطّل",
+      shuffleOpts: "خلط ترتيب الاختيارات", shuffleHint: "حدّده هنا قبل بدء التدريب — ويبقى ترتيب الاختيارات ثابتًا أثناء التدرب.",
+      optOn: "مفعّل", optOff: "معطّل",
       btnNext: "السؤال التالي", listEnd: "وصلت إلى نهاية القائمة.",
       fbPeek: "الإجابة الصحيحة: {L}", badgePeek: "الإجابة ظاهرة",
       sideShow: "المواضيع والتصفية", sideHideTip: "طي القائمة",
@@ -816,7 +816,7 @@ window.I18N = {
       examTitle: "الامتحان التجريبي", examSub: "حاكِ الامتحان الحقيقي: اختر عدد الأسئلة والمواضيع، ثم راجع كل إجابة بشرح كامل بعد التسليم.",
       examNumQ: "كم عدد الأسئلة؟", numAll: "الكل",
       examSections: "ما المواضيع؟", examSecAll: "كل المواضيع",
-      examShuffle: "ترتيب عشوائي للأسئلة", examStart: "ابدأ الامتحان",
+      examStart: "ابدأ الامتحان",
       examNotEnough: "عدد الأسئلة المختارة أكبر من المتاح — قلّل العدد أو اختر مواضيع أكثر.",
       examOf: "سؤال {i} من {n}", examAnswered: "تمت إجابة {a} من {n}",
       examPrev: "السابق", examNext: "التالي", examSubmit: "تسليم الامتحان",
@@ -941,1131 +941,2247 @@ window.I18N = {
 </script>
 <script>
 /* ============================================================
-   Question bank — Part 1
-   Section A: Stocks & Public Offering (q01–q08)
-   Section B: Risk & Return Fundamentals (q09–q16)
-   Each question: { id, sec, diff, correct, en{...}, ar{...} }
-   en/ar = { q, o[4], f(formula), s(steps[]), why, w[4](wrong reasons), note }
+   Question bank — Part 1 (PPTX file order positions 1–15)
+   Array order follows the official "Midterm 1 revision" slide order.
+   ids stay stable (q01–q44); the sec field still drives topic grouping.
    ============================================================ */
 "use strict";
 window.QB = window.QB || [];
 
-/* ================= Section A — Stocks & Public Offering ================= */
-
-QB.push({ id:"q01", sec:"equity", diff:"concept", correct:1,
-en:{ q:"Which of the following is a characteristic of preferred stock?",
-  o:["Voting rights on board elections","Dividend preference over common stock","Residual ownership in the corporation","Right to residual assets before creditors"],
-  f:null, s:[],
-  why:"Preferred stock is a hybrid security. Its defining feature is dividend preference: preferred shareholders must receive their (usually fixed) dividend before any dividend can be paid to common shareholders. They give up most voting rights in exchange for that priority.",
-  w:["Voting on board elections belongs to common shareholders. Preferred shareholders generally do not vote, except in special situations (e.g., when dividends are in arrears).",
-     "",
-     "Residual ownership is the essence of common stock — common holders claim what is left after everyone else is paid. Preferred holders get a fixed, prior claim on dividends, not the residual.",
-     "In liquidation, creditors are always paid first. Preferred shareholders rank after all creditors and only ahead of common shareholders."],
-  note:null },
-ar:{ q:"أي مما يلي يُعد من خصائص الأسهم الممتازة؟",
-  o:["حق التصويت في انتخاب مجلس الإدارة","أولوية في توزيعات الأرباح على الأسهم العادية","ملكية متبقية في الشركة","الحق في الأصول المتبقية قبل الدائنين"],
-  f:null, s:[],
-  why:"السهم الممتاز أداة هجينة بين السند والسهم العادي. وأهم خصائصه هي أولوية التوزيع: يجب أن يحصل حملة الأسهم الممتازة على توزيعاتهم (الثابتة عادةً) قبل توزيع أي أرباح على حملة الأسهم العادية، وذلك مقابل تنازلهم عن حق التصويت في الغالب.",
-  w:["التصويت في انتخاب مجلس الإدارة من حقوق المساهمين العاديين. حملة الأسهم الممتازة لا يصوّتون عادةً إلا في حالات استثنائية (مثل تراكم توزيعات غير مدفوعة).",
-     "",
-     "الملكية المتبقية هي جوهر السهم العادي، فصاحبه يحصل على ما يتبقى بعد سداد الجميع. أما السهم الممتاز فله حق ثابت ذو أولوية في التوزيعات وليس في المتبقي.",
-     "عند التصفية يُسدد للدائنين أولًا دائمًا، ويأتي حملة الأسهم الممتازة بعد جميع الدائنين وقبل حملة الأسهم العادية فقط."],
-  note:null }});
-
-QB.push({ id:"q02", sec:"equity", diff:"concept", correct:1,
-en:{ q:"The cumulative feature of preferred stock means that:",
-  o:["Preferred dividends increase each year","Omitted dividends accumulate and must be paid before common dividends","Preferred shareholders can vote if dividends are paid","Preferred stock can be converted to common stock"],
-  f:null, s:[],
-  why:"Under the cumulative feature, any preferred dividends skipped in a given year accumulate as “dividends in arrears”. The firm must pay all arrears plus the current year's preferred dividend before common shareholders can receive a single dollar.",
-  w:["That describes a growing-dividend policy. Cumulative does not mean increasing — the dividend is typically fixed.",
-     "",
-     "Voting rights are unrelated to the cumulative feature; preferred holders generally still do not vote.",
-     "That describes the convertible feature, not the cumulative one."],
-  note:null },
-ar:{ q:"خاصية التراكم (Cumulative) في الأسهم الممتازة تعني أن:",
-  o:["توزيعات الأسهم الممتازة تتزايد كل عام","التوزيعات غير المدفوعة تتراكم ويجب سدادها قبل أي توزيعات للأسهم العادية","يحق لحملة الأسهم الممتازة التصويت إذا دُفعت التوزيعات","يمكن تحويل السهم الممتاز إلى سهم عادي"],
-  f:null, s:[],
-  why:"بموجب خاصية التراكم، أي توزيعات ممتازة لم تُدفع في سنة ما تتراكم كمستحقات متأخرة (Dividends in arrears)، ويلزم أن تسدد الشركة كل المتأخرات إضافة إلى توزيع السنة الحالية قبل أن يحصل المساهمون العاديون على أي توزيع.",
-  w:["هذا يصف سياسة توزيعات متنامية. فالتراكم لا يعني الزيادة؛ إذ تكون التوزيعات ثابتة عادةً.",
-     "",
-     "حق التصويت لا علاقة له بخاصية التراكم؛ فحملة الأسهم الممتازة لا يصوّتون في الغالب.",
-     "هذا يصف خاصية القابلية للتحويل (Convertible) وليس خاصية التراكم."],
-  note:null }});
-
-QB.push({ id:"q03", sec:"equity", diff:"concept", correct:1,
-en:{ q:"The ex-dividend date is:",
-  o:["The date the dividend is paid","2 business days before the record date","The date the dividend is declared","2 business days after the record date"],
-  f:null, s:[],
-  why:"Because a share trade settles in 2 business days (T+2 convention in the textbook), the ex-dividend date is set 2 business days before the record date. Whoever buys the stock on or after the ex-dividend date will NOT be on the books by the record date, so the seller keeps the declared dividend.",
-  w:["That is the payment date — the last date in the dividend timeline.",
-     "",
-     "That is the declaration date — when the board formally announces the dividend.",
-     "The ex-dividend date comes before the record date, not after it."],
-  note:"Remember the order: Declaration → Ex-dividend (−2 business days) → Record → Payment." },
-ar:{ q:"تاريخ تداول السهم دون أرباح (Ex-Dividend Date) هو:",
-  o:["التاريخ الذي تُدفع فيه التوزيعات","يومان عمل قبل تاريخ السجل (Record Date)","التاريخ الذي يُعلن فيه عن التوزيعات","يومان عمل بعد تاريخ السجل"],
-  f:null, s:[],
-  why:"نظرًا لأن تسوية صفقة الأسهم تستغرق يومي عمل (وفق قاعدة T+2 في الكتاب)، يُحدد تاريخ Ex-dividend قبل تاريخ السجل بيومي عمل. فمن يشتري السهم في تاريخ Ex-dividend أو بعده لن تُنقل ملكيته إلى سجلات الشركة قبل تاريخ السجل، وبالتالي يحتفظ البائع بالتوزيعة المعلَنة.",
-  w:["هذا هو تاريخ الدفع (Payment Date)، وهو آخر تواريخ العملية.",
-     "",
-     "هذا هو تاريخ الإعلان (Declaration Date) حين يعلن مجلس الإدارة التوزيع رسميًا.",
-     "تاريخ Ex-dividend يسبق تاريخ السجل ولا يأتي بعده."],
-  note:"تذكر الترتيب: الإعلان ← Ex-dividend (قبله بيومي عمل) ← السجل ← الدفع." }});
-
-QB.push({ id:"q04", sec:"equity", diff:"concept", correct:1,
-en:{ q:"IPO underpricing represents:",
-  o:["A gain to the issuing firm's original shareholders","A transfer of wealth from original shareholders to new investors","A cost borne entirely by the underwriter","A regulatory requirement"],
-  f:null, s:[],
-  why:"Underpricing means the offer price is set below the price at which the stock actually trades on day one. New investors instantly capture that difference (“money left on the table”), while the original shareholders sold part of the company for less than the market was willing to pay — a direct wealth transfer from old owners to new investors.",
-  w:["The opposite: original shareholders lose, because the company raised less capital than the market valued it at.",
-     "",
-     "The underwriter earns its contractual spread either way; underpricing is a cost borne by the issuer's original owners, not the underwriter.",
-     "Regulators never require underpricing — it is a market/issuing outcome, often used to make the deal attractive."],
-  note:null },
-ar:{ q:"التسعير بأقل من القيمة في الطرح العام الأولي (IPO Underpricing) يمثل:",
-  o:["مكسبًا للمساهمين الأصليين في الشركة المصدرة","نقل ثروة من المساهمين الأصليين إلى المستثمرين الجدد","تكلفة يتحملها متعهد التغطية بالكامل","متطلبًا تنظيميًا إلزاميًا"],
-  f:null, s:[],
-  why:"التسعير المنخفض يعني تحديد سعر الطرح أقل من السعر الذي يتداول به السهم فعليًا في أول يوم. فيقتنص المستثمرون الجدد هذا الفرق فورًا («الأموال المتروكة على الطاولة»)، بينما يكون المساهمون الأصليون قد باعوا جزءًا من الشركة بأقل مما كان السوق مستعدًا لدفعه — أي أنه نقل مباشر للثروة من الملاك القدامى إلى المستثمرين الجدد.",
-  w:["العكس هو الصحيح: المساهمون الأصليون يخسرون، لأن الشركة جمعت أموالًا أقل من القيمة التي قدّرها السوق بها.",
-     "",
-     "متعهد التغطية يحصل على عمولته التعاقدية في كل الأحوال؛ وتكلفة التسعير المنخفض يتحملها الملاك الأصليون للمُصدِر وليس متعهد التغطية.",
-     "لا تلزم الجهات التنظيمية أبدًا بالتسعير المنخفض — فهو نتيجة سوقية عند الإصدار، تُستخدم أحيانًا لجعل الطرح جذابًا."],
-  note:null }});
-
-QB.push({ id:"q05", sec:"equity", diff:"calc", correct:0,
-en:{ q:"A company needs to raise $90,000,000 net for a new project. The underwriting spread is 5% of gross proceeds, and direct expenses (legal, accounting, printing) are $1,200,000. If the offer price is $40 per share, how many shares must be sold?",
-  o:["2,400,000","2,400,632","2,401,579","2,402,500"],
-  f:"Gross proceeds = (Net needed + Direct expenses) / (1 − Spread)\nShares to sell = Gross proceeds / Offer price",
-  s:["Add the direct expenses to the net amount needed: $90,000,000 + $1,200,000 = $91,200,000.",
-     "Gross up for the 5% underwriting spread: $91,200,000 / (1 − 0.05) = $91,200,000 / 0.95 = $96,000,000.",
-     "Divide by the offer price: $96,000,000 / $40 = 2,400,000 shares.",
-     "Check: 2,400,000 × $40 = $96M gross → minus 5% spread ($4.8M) = $91.2M → minus $1.2M expenses = $90M net ✓"],
-  why:"The firm must first cover its direct out-of-pocket expenses, then inflate (gross up) the amount so that after the underwriter takes 5% of everything raised, exactly $90M is left for the project.",
-  w:["",
-     "A near-miss distractor: results from a slightly different (incorrect) order of grossing-up operations.",
-     "A near-miss distractor: e.g., grossing up only the $90M and then adding expenses in share form, instead of including expenses before the gross-up.",
-     "A near-miss distractor from applying the spread on the wrong base (net rather than gross proceeds)."],
-  note:null },
-ar:{ q:"تحتاج شركة إلى جمع 90,000,000 دولار صافي لمشروع جديد. عمولة التغطية 5% من إجمالي الحصيلة، والمصروفات المباشرة (قانونية ومحاسبية وطباعة) 1,200,000 دولار. إذا كان سعر الطرح 40 دولارًا للسهم، فكم سهمًا يجب بيعه؟",
-  o:["2,400,000","2,400,632","2,401,579","2,402,500"],
-  f:"إجمالي الحصيلة = (الصافي المطلوب + المصروفات المباشرة) ÷ (1 − نسبة العمولة)\nعدد الأسهم = إجمالي الحصيلة ÷ سعر الطرح",
-  s:["أضف المصروفات المباشرة إلى الصافي المطلوب: 90,000,000 + 1,200,000 = 91,200,000 دولار.",
-     "قم بالزيادة الإجمالية لتغطية عمولة 5%: 91,200,000 ÷ (1 − 0.05) = 91,200,000 ÷ 0.95 = 96,000,000 دولار.",
-     "اقسم على سعر الطرح: 96,000,000 ÷ 40 = 2,400,000 سهم.",
-     "التحقق: 2,400,000 × 40 = 96 مليون إجمالي ← نطرح عمولة 5% (4.8 مليون) = 91.2 مليون ← نطرح المصروفات 1.2 مليون = 90 مليون صافي ✓"],
-  why:"يجب على الشركة أولًا تغطية مصروفاتها المباشرة، ثم تضخيم المبلغ (Gross-up) بحيث يتبقى لها بالضبط 90 مليون دولار للمشروع بعد أن يقتطع متعهد التغطية 5% من كل ما يتم جمعه.",
-  w:["",
-     "إجابة قريبة خاطئة: ناتجة عن ترتيب عمليات مختلف (وخاطئ) قليلًا في حساب الزيادة الإجمالية.",
-     "إجابة قريبة خاطئة: مثل تضخيم الـ 90 مليون فقط ثم إضافة المصروفات في صورة أسهم، بدلًا من ضم المصروفات قبل التضخيم.",
-     "إجابة قريبة خاطئة ناتجة عن تطبيق نسبة العمولة على أساس خطأ (الصافي بدلًا من الإجمالي)."],
-  note:null }});
-
-QB.push({ id:"q06", sec:"equity", diff:"calc", correct:0,
-en:{ q:"A company needs to raise $120,000,000 net for a new project. The underwriting spread is 7% of gross proceeds, and direct expenses are $1,400,000. If the offer price is $50 per share, how many shares must be sold?",
-  o:["2,610,753","2,500,000","2,400,000","2,700,000"],
-  f:"Gross proceeds = (Net needed + Direct expenses) / (1 − Spread)\nShares to sell = Gross proceeds / Offer price",
-  s:["Net needed + expenses: $120,000,000 + $1,400,000 = $121,400,000.",
-     "Gross up for the 7% spread: $121,400,000 / (1 − 0.07) = $121,400,000 / 0.93 = $130,537,634.41.",
-     "Shares = $130,537,634.41 / $50 = 2,610,752.69 → round up to 2,610,753 shares (you cannot sell a fraction of a share, and rounding down would leave the raise short)."],
-  why:"Same gross-up logic as the previous IPO question: cover expenses first, then divide by (1 − spread) because the spread is a percentage of the GROSS amount, and finally convert dollars into shares at the offer price.",
-  w:["",
-     "Too low: implies only about a 4% gross-up — it under-collects and the net proceeds fall short of $120M.",
-     "Exactly $120M / $50 — this ignores both the spread and the direct expenses entirely.",
-     "Too high: over-grosses-up (as if adding 7% on top plus more), raising more money than needed."],
-  note:null },
-ar:{ q:"تحتاج شركة إلى جمع 120,000,000 دولار صافي لمشروع جديد. عمولة التغطية 7% من إجمالي الحصيلة، والمصروفات المباشرة 1,400,000 دولار. إذا كان سعر الطرح 50 دولارًا للسهم، فكم سهمًا يجب بيعه؟",
-  o:["2,610,753","2,500,000","2,400,000","2,700,000"],
-  f:"إجمالي الحصيلة = (الصافي المطلوب + المصروفات المباشرة) ÷ (1 − نسبة العمولة)\nعدد الأسهم = إجمالي الحصيلة ÷ سعر الطرح",
-  s:["الصافي المطلوب + المصروفات: 120,000,000 + 1,400,000 = 121,400,000 دولار.",
-     "الزيادة الإجمالية لتغطية عمولة 7%: 121,400,000 ÷ (1 − 0.07) = 121,400,000 ÷ 0.93 = 130,537,634.41 دولار.",
-     "عدد الأسهم = 130,537,634.41 ÷ 50 = 2,610,752.69 ← يُقرَّب لأعلى إلى 2,610,753 سهمًا (لا يمكن بيع جزء من سهم، والتقريب لأسفل يجعل الحصيلة أقل من المطلوب)."],
-  why:"نفس منطق الزيادة الإجمالية في سؤال الطرح السابق: غطِّ المصروفات أولًا، ثم اقسم على (1 − نسبة العمولة) لأن العمولة نسبة من الإجمالي وليس الصافي، وأخيرًا حوّل الدولارات إلى أسهم بقسمتها على سعر الطرح.",
-  w:["",
-     "أقل من المطلوب: تفترض زيادة إجمالية بنحو 4% فقط، فتكون الحصيلة الصافية أقل من 120 مليون دولار.",
-     "هذا ببساطة 120 مليون ÷ 50، أي أنه يتجاهل العمولة والمصروفات المباشرة معًا.",
-     "أكثر من اللازم: تضخيم زائد (كأنه أضاف 7% وأكثر فوق المبلغ)، فيجمع أموالًا أكثر من الحاجة."],
-  note:null }});
-
-QB.push({ id:"q07", sec:"equity", diff:"calc", correct:2,
-en:{ q:"A company issues 15,000,000 shares at an offer price of $18. On the first day of trading, the stock closes at $24. How much money was left on the table?",
-  o:["$75,000,000","$80,000,000","$90,000,000","$100,000,000"],
-  f:"Money left on the table = (First-day closing price − Offer price) × Number of shares issued",
-  s:["Price difference per share: $24 − $18 = $6.",
-     "Multiply by the number of shares issued: $6 × 15,000,000 = $90,000,000."],
-  why:"“Money left on the table” measures the cost of IPO underpricing: it is the instant paper profit captured by new investors because the offer price was set $6 below where the market valued the stock on day one.",
-  w:["Uses a wrong price gap (e.g., $5 instead of $6 per share).",
-     "Uses a wrong price gap (≈ $5.33 per share) — a distractor around the true $6 difference.",
-     "",
-     "Would imply a gap of $6.67 per share — overstating the underpricing."],
-  note:null },
-ar:{ q:"طرحت شركة 15,000,000 سهم بسعر عرض 18 دولارًا. وفي أول يوم تداول أغلق السهم عند 24 دولارًا. كم تبلغ «الأموال المتروكة على الطاولة»؟",
-  o:["75,000,000 دولار","80,000,000 دولار","90,000,000 دولار","100,000,000 دولار"],
-  f:"الأموال المتروكة على الطاولة = (سعر إغلاق أول يوم − سعر العرض) × عدد الأسهم المطروحة",
-  s:["فرق السعر للسهم الواحد: 24 − 18 = 6 دولارات.",
-     "نضرب في عدد الأسهم المطروحة: 6 × 15,000,000 = 90,000,000 دولار."],
-  why:"«الأموال المتروكة على الطاولة» تقيس تكلفة التسعير بأقل من القيمة في الطرح العام: فهي الربح الفوري الذي اقتنصه المستثمرون الجدد لأن سعر العرض حُدّد أقل بـ 6 دولارات من القيمة التي قدّرها السوق للسهم في اليوم الأول.",
-  w:["يستخدم فرق سعر خاطئًا (مثل 5 دولارات بدلًا من 6 للسهم).",
-     "يستخدم فرق سعر خاطئًا (حوالي 5.33 دولار) — إجابة مغلوطة قريبة من الفرق الحقيقي 6 دولارات.",
-     "",
-     "يفترض فرقًا قدره 6.67 دولار للسهم — أي مبالغة في تقدير التسعير المنخفض."],
-  note:null }});
-
-QB.push({ id:"q08", sec:"equity", diff:"calc", correct:0,
-en:{ q:"A company issues 20,000,000 shares at an offer price of $25. On the first day of trading, the stock closes at $32. How much money was left on the table?",
-  o:["$140,000,000","$150,000,000","$160,000,000","$170,000,000"],
-  f:"Money left on the table = (First-day closing price − Offer price) × Number of shares issued",
-  s:["Price difference per share: $32 − $25 = $7.",
-     "Multiply by the shares issued: $7 × 20,000,000 = $140,000,000."],
-  why:"The company could have raised $7 × 20M = $140M more had the offer price matched the first-day market value. That $140M is the wealth transferred to new investors — the textbook measure of underpricing cost.",
-  w:["",
-     "Implies an $7.5 gap per share ($150M / 20M) — a small arithmetic slip.",
-     "Implies an $8 gap per share — using the closing price digits incorrectly.",
-     "Implies an $8.5 gap per share — overstated difference."],
-  note:null },
-ar:{ q:"طرحت شركة 20,000,000 سهم بسعر عرض 25 دولارًا. وفي أول يوم تداول أغلق السهم عند 32 دولارًا. كم تبلغ «الأموال المتروكة على الطاولة»؟",
-  o:["140,000,000 دولار","150,000,000 دولار","160,000,000 دولار","170,000,000 دولار"],
-  f:"الأموال المتروكة على الطاولة = (سعر إغلاق أول يوم − سعر العرض) × عدد الأسهم المطروحة",
-  s:["فرق السعر للسهم الواحد: 32 − 25 = 7 دولارات.",
-     "نضرب في عدد الأسهم المطروحة: 7 × 20,000,000 = 140,000,000 دولار."],
-  why:"كان بإمكان الشركة جمع 140 مليون دولار إضافية (7 × 20 مليون) لو أن سعر العرض عادل قيمة السوق في اليوم الأول. هذا المبلغ هو الثروة المنتقلة إلى المستثمرين الجدد، وهو المقياس المعياري في الكتاب لتكلفة التسعير المنخفض.",
-  w:["",
-     "يفترض فرق 7.5 دولار للسهم (150 مليون ÷ 20 مليون) — خطأ حسابي بسيط.",
-     "يفترض فرق 8 دولارات للسهم — ناتج عن استخدام خاطئ لرقم سعر الإغلاق.",
-     "يفترض فرق 8.5 دولار للسهم — فرق مبالغ فيه."],
-  note:null }});
-
-/* ================= Section B — Risk & Return Fundamentals ================= */
-
-QB.push({ id:"q09", sec:"risk", diff:"concept", correct:1,
-en:{ q:"A risk-averse investor is one who:",
-  o:["Chooses the investment with the higher return regardless of risk","Requires an increased return as compensation for an increase in risk","Prefers investments with greater risk even if they have lower expected returns","Is indifferent to risk"],
-  f:null, s:[],
-  why:"Risk aversion is the standard assumption in finance: investors dislike risk, so they will only accept more risk if they are compensated with a higher expected return (a risk premium). Given two investments with the same expected return, a risk-averse investor always picks the less risky one.",
-  w:["That is return-chasing without any risk consideration — the opposite of risk-averse behavior.",
-     "",
-     "That describes a risk-seeking (risk-preferring) investor, who enjoys risk for its own sake.",
-     "That describes a risk-neutral investor, who cares only about expected return and ignores risk entirely."],
-  note:null },
-ar:{ q:"المستثمر المتجنب للمخاطرة (Risk-averse) هو الذي:",
-  o:["يختار الاستثمار الأعلى عائدًا بغض النظر عن المخاطرة","يشترط عائدًا أعلى كتعويض عن أي زيادة في المخاطرة","يفضل الاستثمارات الأعلى مخاطرة حتى لو كانت عوائدها المتوقعة أقل","لا يهتم بالمخاطرة إطلاقًا"],
-  f:null, s:[],
-  why:"تجنب المخاطرة هو الافتراض الأساسي في التمويل: المستثمرون يكرهون المخاطرة، لذلك لا يقبلون المزيد منها إلا بتعويض في صورة عائد متوقع أعلى (علاوة مخاطرة). وعند تساوي العائد المتوقع لاستثمارين، يختار المستثمر المتجنب للمخاطرة دائمًا الأقل خطرًا.",
-  w:["هذا مطاردة للعائد دون أي اعتبار للمخاطرة — وهو عكس سلوك متجنب المخاطرة.",
-     "",
-     "هذا يصف المستثمر المحب للمخاطرة (Risk-seeking) الذي يستمتع بالمخاطرة لذاتها.",
-     "هذا يصف المستثمر المحايد تجاه المخاطرة (Risk-neutral) الذي يهمه العائد المتوقع فقط."],
-  note:null }});
-
-QB.push({ id:"q10", sec:"risk", diff:"calc", correct:2,
-en:{ q:"A stock is purchased for $50. At the end of the year, it is worth $58 and pays a dividend of $2. What is the annual rate of return?",
-  o:["16%","18%","20%","22%"],
-  f:"rₜ = (Pₜ − Pₜ₋₁ + Cₜ) / Pₜ₋₁",
-  s:["Capital gain: $58 − $50 = $8.",
-     "Add the cash flow (dividend): $8 + $2 = $10 total gain.",
-     "Divide by the beginning price: $10 / $50 = 0.20 = 20%."],
-  why:"The total return has two sources: the capital gain (price change) and the cash income (dividend). Both are measured relative to the initial investment of $50.",
-  w:["16% counts only the capital gain ($8 / $50) and forgets the $2 dividend.",
-     "18% comes from an arithmetic slip in combining the gain and the dividend.",
-     "",
-     "22% overstates the gain (e.g., counting the dividend twice)."],
-  note:null },
-ar:{ q:"اشترى مستثمر سهمًا بسعر 50 دولارًا. وفي نهاية العام بلغت قيمته 58 دولارًا ووزّع أرباحًا قدرها 2 دولار. ما معدل العائد السنوي؟",
-  o:["16%","18%","20%","22%"],
-  f:"rₜ = (Pₜ − Pₜ₋₁ + Cₜ) ÷ Pₜ₋₁",
-  s:["الربح الرأسمالي: 58 − 50 = 8 دولارات.",
-     "نضيف التدفق النقدي (التوزيعات): 8 + 2 = 10 دولارات إجمالي الربح.",
-     "نقسم على سعر بداية الفترة: 10 ÷ 50 = 0.20 = 20%."],
-  why:"للعائد الكلي مصدران: الربح الرأسمالي (تغير السعر) والدخل النقدي (التوزيعات)، وكلاهما يُقاس نسبةً إلى الاستثمار الأولي البالغ 50 دولارًا.",
-  w:["16% تحسب الربح الرأسمالي فقط (8 ÷ 50) وتنسى توزيعات الـ 2 دولار.",
-     "18% ناتجة عن خطأ حسابي في جمع الربح مع التوزيعات.",
-     "",
-     "22% تبالغ في الربح (مثل احتساب التوزيعات مرتين)."],
-  note:null }});
-
-QB.push({ id:"q11", sec:"risk", diff:"calc", correct:2,
-en:{ q:"Asset X has a 30% probability of 20% return, 50% probability of 10% return, and 20% probability of −5% return. What is the expected return?",
-  o:["8%","9%","10%","11%"],
-  f:"r̄ = Σ (rⱼ × Prⱼ)",
-  s:["Multiply each return by its probability: (0.30 × 20%) = 6%;  (0.50 × 10%) = 5%;  (0.20 × −5%) = −1%.",
-     "Sum the products: 6% + 5% − 1% = 10%."],
-  why:"The expected return is the probability-weighted average of all possible outcomes. Note the third outcome is negative — its contribution (−1%) reduces the average. Probabilities must always sum to 1 (0.30 + 0.50 + 0.20 = 1 ✓).",
-  w:["8% results from dropping or mis-weighting one of the outcomes.",
-     "9% typically comes from forgetting the negative sign is applied with the wrong weight.",
-     "",
-     "11% usually comes from adding the −5% branch as +1% instead of −1%."],
-  note:null },
-ar:{ q:"للأصل X احتمال 30% لتحقيق عائد 20%، واحتمال 50% لعائد 10%، واحتمال 20% لعائد −5%. ما العائد المتوقع؟",
-  o:["8%","9%","10%","11%"],
-  f:"r̄ = Σ (rⱼ × Prⱼ)",
-  s:["اضرب كل عائد في احتماله: (0.30 × 20%) = 6%؛  (0.50 × 10%) = 5%؛  (0.20 × −5%) = −1%.",
-     "اجمع النواتج: 6% + 5% − 1% = 10%."],
-  why:"العائد المتوقع هو المتوسط المرجح بالاحتمالات لكل النتائج الممكنة. لاحظ أن النتيجة الثالثة سالبة، فمساهمتها (−1%) تخفض المتوسط. ويجب أن مجموع الاحتمالات يساوي 1 دائمًا (0.30 + 0.50 + 0.20 = 1 ✓).",
-  w:["8% تنتج عن إسقاط أحد النواتج أو خطأ في أوزانه.",
-     "9% تأتي عادةً من خطأ في تطبيق إشارة السالب مع الوزن.",
-     "",
-     "11% تأتي غالبًا من جمع فرع −5% كأنه +1% بدلًا من −1%."],
-  note:null }});
-
-QB.push({ id:"q12", sec:"risk", diff:"calc", correct:1,
-en:{ q:"Asset A has returns of 10% (prob 0.25), 15% (prob 0.50), and 20% (prob 0.25). What is the standard deviation?",
-  o:["2.50%","3.54%","4.00%","5.00%"],
-  f:"r̄ = Σ rⱼ × Prⱼ        σ = √[ Σ (rⱼ − r̄)² × Prⱼ ]",
-  s:["Expected return: r̄ = (0.25 × 10%) + (0.50 × 15%) + (0.25 × 20%) = 2.5% + 7.5% + 5% = 15%.",
-     "Squared deviations × probabilities: (10 − 15)² × 0.25 = 6.25;  (15 − 15)² × 0.50 = 0;  (20 − 15)² × 0.25 = 6.25.",
-     "Variance: σ² = 6.25 + 0 + 6.25 = 12.5.",
-     "Standard deviation: σ = √12.5 = 3.54%."],
-  why:"Standard deviation measures the dispersion of returns around the expected value. The symmetric 10%/20% outcomes around the 15% mean make this a quick calculation: each tail contributes (5)² × 0.25 = 6.25 to the variance of 12.5.",
-  w:["2.50% is half of one squared deviation — the probabilities were misapplied.",
-     "",
-     "4.00% results from mis-weighting the deviations (e.g., treating them as 4 and 4).",
-     "5.00% is half the range ((20% − 10%) / 2) — a completely different risk measure."],
-  note:"The revision slide's solution line contains a typo “(0.20 × 25%)”; the correct terms are exactly as computed in step 1 above, and they still give r̄ = 15%." },
-ar:{ q:"للأصل A عوائد: 10% (باحتمال 0.25)، و15% (باحتمال 0.50)، و20% (باحتمال 0.25). ما الانحراف المعياري؟",
-  o:["2.50%","3.54%","4.00%","5.00%"],
-  f:"r̄ = Σ rⱼ × Prⱼ        σ = √[ Σ (rⱼ − r̄)² × Prⱼ ]",
-  s:["العائد المتوقع: r̄ = (0.25 × 10%) + (0.50 × 15%) + (0.25 × 20%) = 2.5% + 7.5% + 5% = 15%.",
-     "مربعات الانحرافات × الاحتمالات: (10 − 15)² × 0.25 = 6.25؛  (15 − 15)² × 0.50 = 0؛  (20 − 15)² × 0.25 = 6.25.",
-     "التباين: σ² = 6.25 + 0 + 6.25 = 12.5.",
-     "الانحراف المعياري: σ = √12.5 = 3.54%."],
-  why:"يقيس الانحراف المعياري تشتت العوائد حول القيمة المتوقعة. ولأن الناتجين 10% و20% متماثلان حول المتوسط 15%، يصبح الحساب سريعًا: كل طرف يساهم بمقدار (5)² × 0.25 = 6.25 في التباين البالغ 12.5.",
-  w:["2.50% تساوي نصف أحد مربعات الانحراف — أي أن الاحتمالات طُبقت بشكل خاطئ.",
-     "",
-     "4.00% تنتج عن أوزان خاطئة للانحرافات.",
-     "5.00% تساوي نصف المدى ((20% − 10%) ÷ 2) — وهو مقياس مختلف تمامًا للمخاطرة."],
-  note:"يوجد خطأ مطبعي في شريحة المراجعة «(0.20 × 25%)»؛ والحدود الصحيحة هي كما في الخطوة 1 أعلاه، وتعطي بالفعل r̄ = 15%." }});
-
-QB.push({ id:"q13", sec:"risk", diff:"calc", correct:0,
-en:{ q:"Asset A has expected return 15% and standard deviation 3.54%. What is the coefficient of variation?",
-  o:["0.236","0.836%","5.36%","27.6%"],
-  f:"CV = σ / r̄",
-  s:["CV = 3.54% / 15% = 0.236."],
-  why:"The coefficient of variation measures risk per unit of expected return, which lets you compare assets with different expected returns. It is a pure ratio — no % sign — here 0.236 units of standard deviation per unit of return.",
-  w:["",
-     "0.836% is not σ/r̄ nor r̄/σ — it comes from an unrelated subtraction/misreading (and CV carries no % sign).",
-     "5.36% looks like a distorted inversion; the true inverse r̄/σ ≈ 4.24 (and would still be unitless).",
-     "27.6% has no basis in the CV formula — a pure distractor."],
-  note:"Exam tip: CV is unitless. Any answer written with a % sign is a red flag." },
-ar:{ q:"لأصلٍ ما عائد متوقع 15% وانحراف معياري 3.54%. ما معامل التغير (CV)؟",
-  o:["0.236","0.836%","5.36%","27.6%"],
-  f:"CV = σ ÷ r̄",
-  s:["CV = 3.54% ÷ 15% = 0.236."],
-  why:"يقيس معامل التغير المخاطرة لكل وحدة من العائد المتوقع، مما يسمح بمقارنة أصول ذات عوائد متوقعة مختلفة. وهو نسبة صريحة بدون علامة % — أي هنا 0.236 وحدة انحراف معياري لكل وحدة عائد.",
-  w:["",
-     "0.836% لا تساوي σ÷r̄ ولا r̄÷σ — فهي ناتجة عن طرح أو قراءة خاطئة (كما أن CV بلا علامة %).",
-     "5.36% تبدو كقلب مشوّه للنسبة؛ فالقلب الحقيقي r̄÷σ ≈ 4.24 (ويبقى بلا وحدة).",
-     "27.6% لا أساس لها في قانون CV — إجابة للإلهاء فقط."],
-  note:"نصيحة امتحان: معامل التغير بلا وحدات. أي إجابة مكتوبة بعلامة % فهي مؤشر خطأ." }});
-
-QB.push({ id:"q14", sec:"risk", diff:"calc", correct:1,
-en:{ q:"An investor owns 200 shares of Stock A at $30 (= $6,000) and 100 shares of Stock B at $40 (= $4,000). Total portfolio = $10,000. If Stock A returns 12% and Stock B returns 18%, what is the portfolio return?",
-  o:["13.2%","14.4%","15.0%","16.2%"],
-  f:"rₚ = Σ (wⱼ × rⱼ)        wⱼ = Valueⱼ / Total value",
-  s:["Weight of A: $6,000 / $10,000 = 0.60.   Weight of B: $4,000 / $10,000 = 0.40.",
-     "Portfolio return: rₚ = (0.60 × 12%) + (0.40 × 18%) = 7.2% + 7.2% = 14.4%."],
-  why:"A portfolio's return is the weighted average of its assets' returns, where the weights are each asset's share of the portfolio's total DOLLAR value (not the share count).",
-  w:["13.2% comes from using incorrect weights (e.g., weighting by the wrong values).",
-     "",
-     "15.0% is the simple average (12% + 18%) / 2 — it ignores that 60% of the money is in the lower-return stock.",
-     "16.2% comes from reversing the weights (giving more weight to Stock B than its value justifies)."],
-  note:null },
-ar:{ q:"يمتلك مستثمر 200 سهم من السهم A بسعر 30 دولارًا (= 6,000 دولار) و100 سهم من السهم B بسعر 40 دولارًا (= 4,000 دولار)، بإجمالي محفظة 10,000 دولار. إذا حقق A عائد 12% وB عائد 18%، فما عائد المحفظة؟",
-  o:["13.2%","14.4%","15.0%","16.2%"],
-  f:"rₚ = Σ (wⱼ × rⱼ)        wⱼ = قيمة الأصل ÷ القيمة الكلية",
-  s:["وزن A: 6,000 ÷ 10,000 = 0.60.   وزن B: 4,000 ÷ 10,000 = 0.40.",
-     "عائد المحفظة: rₚ = (0.60 × 12%) + (0.40 × 18%) = 7.2% + 7.2% = 14.4%."],
-  why:"عائد المحفظة هو المتوسط المرجح لعوائد أصولها، حيث الأوزان هي حصة كل أصل من القيمة الدولارية الكلية للمحفظة (وليس من عدد الأسهم).",
-  w:["13.2% ناتجة عن استخدام أوزان خاطئة.",
-     "",
-     "15.0% هي المتوسط البسيط (12% + 18%) ÷ 2 — وتتجاهل أن 60% من الأموال في السهم الأقل عائدًا.",
-     "16.2% ناتجة عن عكس الأوزان (إعطاء السهم B وزنًا أكبر مما تستحق قيمته)."],
-  note:null }});
-
-QB.push({ id:"q15", sec:"risk", diff:"calc", correct:1,
-en:{ q:"Portfolio V has: Asset 1 (w = 0.20, b = 1.80), Asset 2 (w = 0.30, b = 1.20), Asset 3 (w = 0.50, b = 0.90). What is the portfolio beta?",
-  o:["1.10","1.17","1.30","1.25"],
-  f:"bₚ = Σ (wⱼ × bⱼ)",
-  s:["(0.20 × 1.80) = 0.36",
-     "(0.30 × 1.20) = 0.36",
-     "(0.50 × 0.90) = 0.45",
-     "Portfolio beta: 0.36 + 0.36 + 0.45 = 1.17."],
-  why:"Portfolio beta is simply the weighted average of the individual betas. A beta of 1.17 > 1 means the portfolio is slightly more volatile than the market — it is expected to move 1.17% for every 1% move in the market.",
-  w:["1.10 understates the weighted average — a multiplication slip.",
-     "",
-     "1.30 is the simple average of the three betas (1.80 + 1.20 + 0.90) / 3 — it ignores the weights.",
-     "1.25 comes from mis-weighting the assets (e.g., swapping weights between assets)."],
-  note:null },
-ar:{ q:"تتكون المحفظة V من: أصل 1 (الوزن 0.20، بيتا 1.80)، وأصل 2 (الوزن 0.30، بيتا 1.20)، وأصل 3 (الوزن 0.50، بيتا 0.90). ما بيتا المحفظة؟",
-  o:["1.10","1.17","1.30","1.25"],
-  f:"bₚ = Σ (wⱼ × bⱼ)",
-  s:["(0.20 × 1.80) = 0.36",
-     "(0.30 × 1.20) = 0.36",
-     "(0.50 × 0.90) = 0.45",
-     "بيتا المحفظة: 0.36 + 0.36 + 0.45 = 1.17."],
-  why:"بيتا المحفظة هي ببساطة المتوسط المرجح لقيم بيتا الفردية. وبيتا 1.17 الأكبر من 1 تعني أن المحفظة أكثر تقلبًا قليلًا من السوق — أي يُتوقع أن تتحرك 1.17% مقابل كل 1% يتحركها السوق.",
-  w:["1.10 أقل من المتوسط المرجح — ناتجة عن خطأ في الضرب.",
-     "",
-     "1.30 هي المتوسط البسيط لقيم بيتا الثلاث (1.80 + 1.20 + 0.90) ÷ 3 — وتتجاهل الأوزان.",
-     "1.25 ناتجة عن أوزان خاطئة (مثل تبديل الأوزان بين الأصول)."],
-  note:null }});
-
-QB.push({ id:"q16", sec:"risk", diff:"calc", correct:1,
-en:{ q:"Portfolio P has: Asset 1 (w = 0.25, b = 1.60), Asset 2 (w = 0.35, b = 1.10), Asset 3 (w = 0.40, b = 0.75). What is the portfolio beta?",
-  o:["1.05","1.10","1.15","1.20"],
-  f:"bₚ = Σ (wⱼ × bⱼ)",
-  s:["(0.25 × 1.60) = 0.400",
-     "(0.35 × 1.10) = 0.385",
-     "(0.40 × 0.75) = 0.300",
-     "Sum: 0.400 + 0.385 + 0.300 = 1.085 ≈ 1.10 (closest option)."],
-  why:"Weighted-average beta again. The exact value is 1.085; among the four options, 1.10 is the nearest, so B is the intended answer. The portfolio's risk is essentially market-level risk (β ≈ 1).",
-  w:["1.05 is below the true 1.085 — a rounding/multiplication error.",
-     "",
-     "1.15 is the simple average of the betas (1.60 + 1.10 + 0.75) / 3 = 1.15 — the classic weights-ignored trap.",
-     "1.20 overstates the weighted average."],
-  note:"Always verify the weights sum to 1 first: 0.25 + 0.35 + 0.40 = 1.00 ✓" },
-ar:{ q:"تتكون المحفظة P من: أصل 1 (الوزن 0.25، بيتا 1.60)، وأصل 2 (الوزن 0.35، بيتا 1.10)، وأصل 3 (الوزن 0.40، بيتا 0.75). ما بيتا المحفظة؟",
-  o:["1.05","1.10","1.15","1.20"],
-  f:"bₚ = Σ (wⱼ × bⱼ)",
-  s:["(0.25 × 1.60) = 0.400",
-     "(0.35 × 1.10) = 0.385",
-     "(0.40 × 0.75) = 0.300",
-     "المجموع: 0.400 + 0.385 + 0.300 = 1.085 ≈ 1.10 (أقرب اختيار)."],
-  why:"مرة أخرى متوسط بيتا المرجح. القيمة الدقيقة هي 1.085، وأقرب الاختيارات الأربعة لها هو 1.10، لذا فالإجابة المطلوبة هي B. ومخاطرة المحفظة تعادل مخاطرة السوق تقريبًا (β ≈ 1).",
-  w:["1.05 أقل من القيمة الحقيقية 1.085 — خطأ تقريب أو ضرب.",
-     "",
-     "1.15 هي المتوسط البسيط لقيم بيتا (1.60 + 1.10 + 0.75) ÷ 3 = 1.15 — الفخ الكلاسيكي بتجاهل الأوزان.",
-     "1.20 أكبر من المتوسط المرجح الصحيح."],
-  note:"تحقق أولًا أن مجموع الأوزان = 1: ‏0.25 + 0.35 + 0.40 = 1.00 ✓" }});
+QB.push({
+ "id": "q01",
+ "sec": "equity",
+ "diff": "concept",
+ "correct": 1,
+ "en": {
+  "q": "Which of the following is a characteristic of preferred stock?",
+  "o": [
+   "Voting rights on board elections",
+   "Dividend preference over common stock",
+   "Residual ownership in the corporation",
+   "Right to residual assets before creditors"
+  ],
+  "f": null,
+  "s": [],
+  "why": "Preferred stock is a hybrid security. Its defining feature is dividend preference: preferred shareholders must receive their (usually fixed) dividend before any dividend can be paid to common shareholders. They give up most voting rights in exchange for that priority.",
+  "w": [
+   "Voting on board elections belongs to common shareholders. Preferred shareholders generally do not vote, except in special situations (e.g., when dividends are in arrears).",
+   "",
+   "Residual ownership is the essence of common stock — common holders claim what is left after everyone else is paid. Preferred holders get a fixed, prior claim on dividends, not the residual.",
+   "In liquidation, creditors are always paid first. Preferred shareholders rank after all creditors and only ahead of common shareholders."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "أي مما يلي يُعد من خصائص الأسهم الممتازة؟",
+  "o": [
+   "حق التصويت في انتخاب مجلس الإدارة",
+   "أولوية في توزيعات الأرباح على الأسهم العادية",
+   "ملكية متبقية في الشركة",
+   "الحق في الأصول المتبقية قبل الدائنين"
+  ],
+  "f": null,
+  "s": [],
+  "why": "السهم الممتاز أداة هجينة بين السند والسهم العادي. وأهم خصائصه هي أولوية التوزيع: يجب أن يحصل حملة الأسهم الممتازة على توزيعاتهم (الثابتة عادةً) قبل توزيع أي أرباح على حملة الأسهم العادية، وذلك مقابل تنازلهم عن حق التصويت في الغالب.",
+  "w": [
+   "التصويت في انتخاب مجلس الإدارة من حقوق المساهمين العاديين. حملة الأسهم الممتازة لا يصوّتون عادةً إلا في حالات استثنائية (مثل تراكم توزيعات غير مدفوعة).",
+   "",
+   "الملكية المتبقية هي جوهر السهم العادي، فصاحبه يحصل على ما يتبقى بعد سداد الجميع. أما السهم الممتاز فله حق ثابت ذو أولوية في التوزيعات وليس في المتبقي.",
+   "عند التصفية يُسدد للدائنين أولًا دائمًا، ويأتي حملة الأسهم الممتازة بعد جميع الدائنين وقبل حملة الأسهم العادية فقط."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q23",
+ "sec": "structure",
+ "diff": "concept",
+ "correct": 1,
+ "en": {
+  "q": "According to M&M Proposition I without taxes:",
+  "o": [
+   "Firm value depends on capital structure",
+   "Firm value is independent of capital structure",
+   "Debt always increases firm value",
+   "Equity always increases firm value"
+  ],
+  "f": "M&M Proposition I (no taxes):  V_L = V_U",
+  "s": [],
+  "why": "In a world without taxes (and with perfect markets), Modigliani & Miller proved that how a firm splits its financing between debt and equity does NOT change its total value. Value is created by the firm's assets and their cash flows — financing is just slicing the same “pie” differently.",
+  "w": [
+   "This is the exact opposite of M&M I: the proposition says value does NOT depend on capital structure.",
+   "",
+   "Debt adds value only when taxes exist (the interest tax shield, M&M 1963). Without taxes, leverage is value-neutral.",
+   "Neither debt nor equity “adds” value in the no-tax world — V_L = V_U regardless of the mix."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "وفقًا لقضية M&M الأولى في غياب الضرائب:",
+  "o": [
+   "قيمة الشركة تعتمد على هيكل رأس المال",
+   "قيمة الشركة مستقلة عن هيكل رأس المال",
+   "الدين يزيد قيمة الشركة دائمًا",
+   "حقوق الملكية تزيد قيمة الشركة دائمًا"
+  ],
+  "f": "قضية M&M الأولى (بدون ضرائب):  V_L = V_U",
+  "s": [],
+  "why": "في عالم بلا ضرائب (ومع كمال الأسواق)، أثبت موديجلياني وميلر أن طريقة تقسيم الشركة لتمويلها بين الدين وحقوق الملكية لا تُغيّر قيمتها الكلية. فالقيمة تولدها أصول الشركة وتدفقاتها النقدية، أما التمويل فهو مجرد تقطيع مختلف لنفس «الفطيرة».",
+  "w": [
+   "هذا عكس قضية M&M الأولى تمامًا: فالقضية تقول إن القيمة لا تعتمد على هيكل رأس المال.",
+   "",
+   "الدين يضيف قيمة فقط في وجود الضرائب (الدرع الضريبي للفوائد، M&M 1963). أما بدون ضرائب فالرافعة المالية محايدة للقيمة.",
+   "لا الدين ولا حقوق الملكية «يضيفان» قيمة في عالم بلا ضرائب — فالقيمة V_L = V_U أيًا كان المزيج."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q03",
+ "sec": "equity",
+ "diff": "concept",
+ "correct": 1,
+ "en": {
+  "q": "The ex-dividend date is:",
+  "o": [
+   "The date the dividend is paid",
+   "2 business days before the record date",
+   "The date the dividend is declared",
+   "2 business days after the record date"
+  ],
+  "f": null,
+  "s": [],
+  "why": "Because a share trade settles in 2 business days (T+2 convention in the textbook), the ex-dividend date is set 2 business days before the record date. Whoever buys the stock on or after the ex-dividend date will NOT be on the books by the record date, so the seller keeps the declared dividend.",
+  "w": [
+   "That is the payment date — the last date in the dividend timeline.",
+   "",
+   "That is the declaration date — when the board formally announces the dividend.",
+   "The ex-dividend date comes before the record date, not after it."
+  ],
+  "note": "Remember the order: Declaration → Ex-dividend (−2 business days) → Record → Payment."
+ },
+ "ar": {
+  "q": "تاريخ تداول السهم دون أرباح (Ex-Dividend Date) هو:",
+  "o": [
+   "التاريخ الذي تُدفع فيه التوزيعات",
+   "يومان عمل قبل تاريخ السجل (Record Date)",
+   "التاريخ الذي يُعلن فيه عن التوزيعات",
+   "يومان عمل بعد تاريخ السجل"
+  ],
+  "f": null,
+  "s": [],
+  "why": "نظرًا لأن تسوية صفقة الأسهم تستغرق يومي عمل (وفق قاعدة T+2 في الكتاب)، يُحدد تاريخ Ex-dividend قبل تاريخ السجل بيومي عمل. فمن يشتري السهم في تاريخ Ex-dividend أو بعده لن تُنقل ملكيته إلى سجلات الشركة قبل تاريخ السجل، وبالتالي يحتفظ البائع بالتوزيعة المعلَنة.",
+  "w": [
+   "هذا هو تاريخ الدفع (Payment Date)، وهو آخر تواريخ العملية.",
+   "",
+   "هذا هو تاريخ الإعلان (Declaration Date) حين يعلن مجلس الإدارة التوزيع رسميًا.",
+   "تاريخ Ex-dividend يسبق تاريخ السجل ولا يأتي بعده."
+  ],
+  "note": "تذكر الترتيب: الإعلان ← Ex-dividend (قبله بيومي عمل) ← السجل ← الدفع."
+ }
+});
+QB.push({
+ "id": "q04",
+ "sec": "equity",
+ "diff": "concept",
+ "correct": 1,
+ "en": {
+  "q": "IPO underpricing represents:",
+  "o": [
+   "A gain to the issuing firm's original shareholders",
+   "A transfer of wealth from original shareholders to new investors",
+   "A cost borne entirely by the underwriter",
+   "A regulatory requirement"
+  ],
+  "f": null,
+  "s": [],
+  "why": "Underpricing means the offer price is set below the price at which the stock actually trades on day one. New investors instantly capture that difference (“money left on the table”), while the original shareholders sold part of the company for less than the market was willing to pay — a direct wealth transfer from old owners to new investors.",
+  "w": [
+   "The opposite: original shareholders lose, because the company raised less capital than the market valued it at.",
+   "",
+   "The underwriter earns its contractual spread either way; underpricing is a cost borne by the issuer's original owners, not the underwriter.",
+   "Regulators never require underpricing — it is a market/issuing outcome, often used to make the deal attractive."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "التسعير بأقل من القيمة في الطرح العام الأولي (IPO Underpricing) يمثل:",
+  "o": [
+   "مكسبًا للمساهمين الأصليين في الشركة المصدرة",
+   "نقل ثروة من المساهمين الأصليين إلى المستثمرين الجدد",
+   "تكلفة يتحملها متعهد التغطية بالكامل",
+   "متطلبًا تنظيميًا إلزاميًا"
+  ],
+  "f": null,
+  "s": [],
+  "why": "التسعير المنخفض يعني تحديد سعر الطرح أقل من السعر الذي يتداول به السهم فعليًا في أول يوم. فيقتنص المستثمرون الجدد هذا الفرق فورًا («الأموال المتروكة على الطاولة»)، بينما يكون المساهمون الأصليون قد باعوا جزءًا من الشركة بأقل مما كان السوق مستعدًا لدفعه — أي أنه نقل مباشر للثروة من الملاك القدامى إلى المستثمرين الجدد.",
+  "w": [
+   "العكس هو الصحيح: المساهمون الأصليون يخسرون، لأن الشركة جمعت أموالًا أقل من القيمة التي قدّرها السوق بها.",
+   "",
+   "متعهد التغطية يحصل على عمولته التعاقدية في كل الأحوال؛ وتكلفة التسعير المنخفض يتحملها الملاك الأصليون للمُصدِر وليس متعهد التغطية.",
+   "لا تلزم الجهات التنظيمية أبدًا بالتسعير المنخفض — فهو نتيجة سوقية عند الإصدار، تُستخدم أحيانًا لجعل الطرح جذابًا."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q09",
+ "sec": "risk",
+ "diff": "concept",
+ "correct": 1,
+ "en": {
+  "q": "A risk-averse investor is one who:",
+  "o": [
+   "Chooses the investment with the higher return regardless of risk",
+   "Requires an increased return as compensation for an increase in risk",
+   "Prefers investments with greater risk even if they have lower expected returns",
+   "Is indifferent to risk"
+  ],
+  "f": null,
+  "s": [],
+  "why": "Risk aversion is the standard assumption in finance: investors dislike risk, so they will only accept more risk if they are compensated with a higher expected return (a risk premium). Given two investments with the same expected return, a risk-averse investor always picks the less risky one.",
+  "w": [
+   "That is return-chasing without any risk consideration — the opposite of risk-averse behavior.",
+   "",
+   "That describes a risk-seeking (risk-preferring) investor, who enjoys risk for its own sake.",
+   "That describes a risk-neutral investor, who cares only about expected return and ignores risk entirely."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "المستثمر المتجنب للمخاطرة (Risk-averse) هو الذي:",
+  "o": [
+   "يختار الاستثمار الأعلى عائدًا بغض النظر عن المخاطرة",
+   "يشترط عائدًا أعلى كتعويض عن أي زيادة في المخاطرة",
+   "يفضل الاستثمارات الأعلى مخاطرة حتى لو كانت عوائدها المتوقعة أقل",
+   "لا يهتم بالمخاطرة إطلاقًا"
+  ],
+  "f": null,
+  "s": [],
+  "why": "تجنب المخاطرة هو الافتراض الأساسي في التمويل: المستثمرون يكرهون المخاطرة، لذلك لا يقبلون المزيد منها إلا بتعويض في صورة عائد متوقع أعلى (علاوة مخاطرة). وعند تساوي العائد المتوقع لاستثمارين، يختار المستثمر المتجنب للمخاطرة دائمًا الأقل خطرًا.",
+  "w": [
+   "هذا مطاردة للعائد دون أي اعتبار للمخاطرة — وهو عكس سلوك متجنب المخاطرة.",
+   "",
+   "هذا يصف المستثمر المحب للمخاطرة (Risk-seeking) الذي يستمتع بالمخاطرة لذاتها.",
+   "هذا يصف المستثمر المحايد تجاه المخاطرة (Risk-neutral) الذي يهمه العائد المتوقع فقط."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q02",
+ "sec": "equity",
+ "diff": "concept",
+ "correct": 1,
+ "en": {
+  "q": "The cumulative feature of preferred stock means that:",
+  "o": [
+   "Preferred dividends increase each year",
+   "Omitted dividends accumulate and must be paid before common dividends",
+   "Preferred shareholders can vote if dividends are paid",
+   "Preferred stock can be converted to common stock"
+  ],
+  "f": null,
+  "s": [],
+  "why": "Under the cumulative feature, any preferred dividends skipped in a given year accumulate as “dividends in arrears”. The firm must pay all arrears plus the current year's preferred dividend before common shareholders can receive a single dollar.",
+  "w": [
+   "That describes a growing-dividend policy. Cumulative does not mean increasing — the dividend is typically fixed.",
+   "",
+   "Voting rights are unrelated to the cumulative feature; preferred holders generally still do not vote.",
+   "That describes the convertible feature, not the cumulative one."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "خاصية التراكم (Cumulative) في الأسهم الممتازة تعني أن:",
+  "o": [
+   "توزيعات الأسهم الممتازة تتزايد كل عام",
+   "التوزيعات غير المدفوعة تتراكم ويجب سدادها قبل أي توزيعات للأسهم العادية",
+   "يحق لحملة الأسهم الممتازة التصويت إذا دُفعت التوزيعات",
+   "يمكن تحويل السهم الممتاز إلى سهم عادي"
+  ],
+  "f": null,
+  "s": [],
+  "why": "بموجب خاصية التراكم، أي توزيعات ممتازة لم تُدفع في سنة ما تتراكم كمستحقات متأخرة (Dividends in arrears)، ويلزم أن تسدد الشركة كل المتأخرات إضافة إلى توزيع السنة الحالية قبل أن يحصل المساهمون العاديون على أي توزيع.",
+  "w": [
+   "هذا يصف سياسة توزيعات متنامية. فالتراكم لا يعني الزيادة؛ إذ تكون التوزيعات ثابتة عادةً.",
+   "",
+   "حق التصويت لا علاقة له بخاصية التراكم؛ فحملة الأسهم الممتازة لا يصوّتون في الغالب.",
+   "هذا يصف خاصية القابلية للتحويل (Convertible) وليس خاصية التراكم."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q17",
+ "sec": "capm",
+ "diff": "concept",
+ "correct": 2,
+ "en": {
+  "q": "Which of the following statements about the Security Market Line (SML) is correct?",
+  "o": [
+   "The SML slope equals the risk-free rate",
+   "The SML Y-intercept is the market return",
+   "The SML Y-intercept is the risk-free rate and the slope is the market risk premium",
+   "A higher beta always means a lower required return"
+  ],
+  "f": "SML:  rⱼ = R_F + bⱼ × (rₘ − R_F)     →  y-intercept = R_F ,  slope = rₘ − R_F",
+  "s": [],
+  "why": "The SML is the graph of the CAPM equation with beta on the x-axis. At β = 0 the required return is exactly the risk-free rate (the y-intercept), and for each extra unit of beta the required return rises by the market risk premium (rₘ − R_F) — that is the slope.",
+  "w": [
+   "The slope is the market risk premium (rₘ − R_F), not the risk-free rate.",
+   "The y-intercept is R_F. The market return rₘ is the point ON the line at β = 1, not the intercept.",
+   "",
+   "The opposite: the SML slopes upward, so a higher beta (more nondiversifiable risk) always means a HIGHER required return."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "أي العبارات التالية عن خط سوق الأوراق المالية (SML) صحيحة؟",
+  "o": [
+   "ميل خط SML يساوي معدل العائد الخالي من المخاطر",
+   "القاطع الرأسي لخط SML هو عائد السوق",
+   "القاطع الرأسي لخط SML هو المعدل الخالي من المخاطر والميل هو علاوة مخاطر السوق",
+   "بيتا الأعلى تعني دائمًا عائدًا مطلوبًا أقل"
+  ],
+  "f": "SML:  rⱼ = R_F + bⱼ × (rₘ − R_F)   →  القاطع الرأسي = R_F ، الميل = rₘ − R_F",
+  "s": [],
+  "why": "خط SML هو التمثيل البياني لمعادلة CAPM مع بيتا على المحور الأفقي. فعند β = 0 يكون العائد المطلوب مساويًا تمامًا للمعدل الخالي من المخاطر (القاطع الرأسي)، ومع كل وحدة إضافية من بيتا يرتفع العائد المطلوب بمقدار علاوة مخاطر السوق (rₘ − R_F) — وهذا هو الميل.",
+  "w": [
+   "الميل هو علاوة مخاطر السوق (rₘ − R_F) وليس المعدل الخالي من المخاطر.",
+   "القاطع الرأسي هو R_F. أما عائد السوق rₘ فهو نقطة على الخط عند β = 1 وليس القاطع.",
+   "",
+   "العكس هو الصحيح: الخط صاعد، فبيتا الأعلى (مخاطرة غير قابلة للتنويع أكبر) تعني دائمًا عائدًا مطلوبًا أعلى."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q37",
+ "sec": "dividends",
+ "diff": "concept",
+ "correct": 3,
+ "en": {
+  "q": "A firm following a constant-payout-ratio dividend policy will:",
+  "o": [
+   "Pay a fixed dollar amount each period",
+   "Always pay extra dividends when earnings are high",
+   "Never reduce dividends",
+   "Pay a fixed percentage of positive earnings each period"
+  ],
+  "f": "DPS = Payout ratio × positive EPS      (if EPS ≤ 0 → DPS = 0)",
+  "s": [],
+  "why": "Under a constant-payout-ratio policy the firm commits to a fixed PERCENTAGE of earnings (e.g., always 40%), so the dollar dividend fluctuates with EPS every period — and if the firm posts a loss, the dividend drops to zero.",
+  "w": [
+   "A fixed dollar amount each period is the REGULAR dividend policy.",
+   "Paying an extra dividend in good years describes the LOW-REGULAR-AND-EXTRA policy.",
+   "“Never reduce” is a feature of the regular policy; under constant payout the dividend automatically falls (even to zero) when earnings fall.",
+   ""
+  ],
+  "note": "The three cash-dividend policies: constant-payout-ratio (fixed % of earnings), regular (fixed $ amount), and low-regular-and-extra (small fixed $ + bonus in good years)."
+ },
+ "ar": {
+  "q": "الشركة التي تتبع سياسة نسبة التوزيع الثابتة (Constant-Payout-Ratio) ستقوم بـ:",
+  "o": [
+   "دفع مبلغ دولاري ثابت كل فترة",
+   "دفع توزيعات إضافية دائمًا عندما ترتفع الأرباح",
+   "عدم تخفيض التوزيعات أبدًا",
+   "دفع نسبة ثابتة من الأرباح الموجبة كل فترة"
+  ],
+  "f": "DPS = نسبة التوزيع × EPS الموجب      (إذا كان EPS ≤ 0 ← فإن DPS = 0)",
+  "s": [],
+  "why": "بموجب سياسة نسبة التوزيع الثابتة تلتزم الشركة بنسبة مئوية ثابتة من الأرباح (مثل 40% دائمًا)، لذا يتذبذب مبلغ التوزيع بالدولار مع EPS كل فترة — وإذا حققت الشركة خسارة تنخفض التوزيعات إلى صفر.",
+  "w": [
+   "دفع مبلغ دولاري ثابت كل فترة هو سياسة التوزيع المنتظم (Regular).",
+   "دفع توزيع إضافي في السنوات الجيدة يصف سياسة «المنخفض المنتظم + الإضافي».",
+   "«عدم التخفيض أبدًا» من سمات السياسة المنتظمة؛ أما في نسبة التوزيع الثابتة فالتوزيع ينخفض تلقائيًا (وحتى الصفر) حين تنخفض الأرباح.",
+   ""
+  ],
+  "note": "سياسات التوزيع النقدي الثلاث: نسبة توزيع ثابتة (نسبة % من الأرباح)، ومنتظمة (مبلغ $ ثابت)، ومنخفض-منتظم-وإضافي (مبلغ ثابت صغير + مكافأة في السنوات الجيدة)."
+ }
+});
+QB.push({
+ "id": "q10",
+ "sec": "risk",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "A stock is purchased for $50. At the end of the year, it is worth $58 and pays a dividend of $2. What is the annual rate of return?",
+  "o": [
+   "16%",
+   "18%",
+   "20%",
+   "22%"
+  ],
+  "f": "rₜ = (Pₜ − Pₜ₋₁ + Cₜ) / Pₜ₋₁",
+  "s": [
+   "Capital gain: $58 − $50 = $8.",
+   "Add the cash flow (dividend): $8 + $2 = $10 total gain.",
+   "Divide by the beginning price: $10 / $50 = 0.20 = 20%."
+  ],
+  "why": "The total return has two sources: the capital gain (price change) and the cash income (dividend). Both are measured relative to the initial investment of $50.",
+  "w": [
+   "16% counts only the capital gain ($8 / $50) and forgets the $2 dividend.",
+   "18% comes from an arithmetic slip in combining the gain and the dividend.",
+   "",
+   "22% overstates the gain (e.g., counting the dividend twice)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "اشترى مستثمر سهمًا بسعر 50 دولارًا. وفي نهاية العام بلغت قيمته 58 دولارًا ووزّع أرباحًا قدرها 2 دولار. ما معدل العائد السنوي؟",
+  "o": [
+   "16%",
+   "18%",
+   "20%",
+   "22%"
+  ],
+  "f": "rₜ = (Pₜ − Pₜ₋₁ + Cₜ) ÷ Pₜ₋₁",
+  "s": [
+   "الربح الرأسمالي: 58 − 50 = 8 دولارات.",
+   "نضيف التدفق النقدي (التوزيعات): 8 + 2 = 10 دولارات إجمالي الربح.",
+   "نقسم على سعر بداية الفترة: 10 ÷ 50 = 0.20 = 20%."
+  ],
+  "why": "للعائد الكلي مصدران: الربح الرأسمالي (تغير السعر) والدخل النقدي (التوزيعات)، وكلاهما يُقاس نسبةً إلى الاستثمار الأولي البالغ 50 دولارًا.",
+  "w": [
+   "16% تحسب الربح الرأسمالي فقط (8 ÷ 50) وتنسى توزيعات الـ 2 دولار.",
+   "18% ناتجة عن خطأ حسابي في جمع الربح مع التوزيعات.",
+   "",
+   "22% تبالغ في الربح (مثل احتساب التوزيعات مرتين)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q11",
+ "sec": "risk",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "Asset X has a 30% probability of 20% return, 50% probability of 10% return, and 20% probability of −5% return. What is the expected return?",
+  "o": [
+   "8%",
+   "9%",
+   "10%",
+   "11%"
+  ],
+  "f": "r̄ = Σ (rⱼ × Prⱼ)",
+  "s": [
+   "Multiply each return by its probability: (0.30 × 20%) = 6%;  (0.50 × 10%) = 5%;  (0.20 × −5%) = −1%.",
+   "Sum the products: 6% + 5% − 1% = 10%."
+  ],
+  "why": "The expected return is the probability-weighted average of all possible outcomes. Note the third outcome is negative — its contribution (−1%) reduces the average. Probabilities must always sum to 1 (0.30 + 0.50 + 0.20 = 1 ✓).",
+  "w": [
+   "8% results from dropping or mis-weighting one of the outcomes.",
+   "9% typically comes from forgetting the negative sign is applied with the wrong weight.",
+   "",
+   "11% usually comes from adding the −5% branch as +1% instead of −1%."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "للأصل X احتمال 30% لتحقيق عائد 20%، واحتمال 50% لعائد 10%، واحتمال 20% لعائد −5%. ما العائد المتوقع؟",
+  "o": [
+   "8%",
+   "9%",
+   "10%",
+   "11%"
+  ],
+  "f": "r̄ = Σ (rⱼ × Prⱼ)",
+  "s": [
+   "اضرب كل عائد في احتماله: (0.30 × 20%) = 6%؛  (0.50 × 10%) = 5%؛  (0.20 × −5%) = −1%.",
+   "اجمع النواتج: 6% + 5% − 1% = 10%."
+  ],
+  "why": "العائد المتوقع هو المتوسط المرجح بالاحتمالات لكل النتائج الممكنة. لاحظ أن النتيجة الثالثة سالبة، فمساهمتها (−1%) تخفض المتوسط. ويجب أن مجموع الاحتمالات يساوي 1 دائمًا (0.30 + 0.50 + 0.20 = 1 ✓).",
+  "w": [
+   "8% تنتج عن إسقاط أحد النواتج أو خطأ في أوزانه.",
+   "9% تأتي عادةً من خطأ في تطبيق إشارة السالب مع الوزن.",
+   "",
+   "11% تأتي غالبًا من جمع فرع −5% كأنه +1% بدلًا من −1%."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q12",
+ "sec": "risk",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "Asset A has returns of 10% (prob 0.25), 15% (prob 0.50), and 20% (prob 0.25). What is the standard deviation?",
+  "o": [
+   "2.50%",
+   "3.54%",
+   "4.00%",
+   "5.00%"
+  ],
+  "f": "r̄ = Σ rⱼ × Prⱼ        σ = √[ Σ (rⱼ − r̄)² × Prⱼ ]",
+  "s": [
+   "Expected return: r̄ = (0.25 × 10%) + (0.50 × 15%) + (0.25 × 20%) = 2.5% + 7.5% + 5% = 15%.",
+   "Squared deviations × probabilities: (10 − 15)² × 0.25 = 6.25;  (15 − 15)² × 0.50 = 0;  (20 − 15)² × 0.25 = 6.25.",
+   "Variance: σ² = 6.25 + 0 + 6.25 = 12.5.",
+   "Standard deviation: σ = √12.5 = 3.54%."
+  ],
+  "why": "Standard deviation measures the dispersion of returns around the expected value. The symmetric 10%/20% outcomes around the 15% mean make this a quick calculation: each tail contributes (5)² × 0.25 = 6.25 to the variance of 12.5.",
+  "w": [
+   "2.50% is half of one squared deviation — the probabilities were misapplied.",
+   "",
+   "4.00% results from mis-weighting the deviations (e.g., treating them as 4 and 4).",
+   "5.00% is half the range ((20% − 10%) / 2) — a completely different risk measure."
+  ],
+  "note": "The revision slide's solution line contains a typo “(0.20 × 25%)”; the correct terms are exactly as computed in step 1 above, and they still give r̄ = 15%."
+ },
+ "ar": {
+  "q": "للأصل A عوائد: 10% (باحتمال 0.25)، و15% (باحتمال 0.50)، و20% (باحتمال 0.25). ما الانحراف المعياري؟",
+  "o": [
+   "2.50%",
+   "3.54%",
+   "4.00%",
+   "5.00%"
+  ],
+  "f": "r̄ = Σ rⱼ × Prⱼ        σ = √[ Σ (rⱼ − r̄)² × Prⱼ ]",
+  "s": [
+   "العائد المتوقع: r̄ = (0.25 × 10%) + (0.50 × 15%) + (0.25 × 20%) = 2.5% + 7.5% + 5% = 15%.",
+   "مربعات الانحرافات × الاحتمالات: (10 − 15)² × 0.25 = 6.25؛  (15 − 15)² × 0.50 = 0؛  (20 − 15)² × 0.25 = 6.25.",
+   "التباين: σ² = 6.25 + 0 + 6.25 = 12.5.",
+   "الانحراف المعياري: σ = √12.5 = 3.54%."
+  ],
+  "why": "يقيس الانحراف المعياري تشتت العوائد حول القيمة المتوقعة. ولأن الناتجين 10% و20% متماثلان حول المتوسط 15%، يصبح الحساب سريعًا: كل طرف يساهم بمقدار (5)² × 0.25 = 6.25 في التباين البالغ 12.5.",
+  "w": [
+   "2.50% تساوي نصف أحد مربعات الانحراف — أي أن الاحتمالات طُبقت بشكل خاطئ.",
+   "",
+   "4.00% تنتج عن أوزان خاطئة للانحرافات.",
+   "5.00% تساوي نصف المدى ((20% − 10%) ÷ 2) — وهو مقياس مختلف تمامًا للمخاطرة."
+  ],
+  "note": "يوجد خطأ مطبعي في شريحة المراجعة «(0.20 × 25%)»؛ والحدود الصحيحة هي كما في الخطوة 1 أعلاه، وتعطي بالفعل r̄ = 15%."
+ }
+});
+QB.push({
+ "id": "q13",
+ "sec": "risk",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "Asset A has expected return 15% and standard deviation 3.54%. What is the coefficient of variation?",
+  "o": [
+   "0.236",
+   "0.836%",
+   "5.36%",
+   "27.6%"
+  ],
+  "f": "CV = σ / r̄",
+  "s": [
+   "CV = 3.54% / 15% = 0.236."
+  ],
+  "why": "The coefficient of variation measures risk per unit of expected return, which lets you compare assets with different expected returns. It is a pure ratio — no % sign — here 0.236 units of standard deviation per unit of return.",
+  "w": [
+   "",
+   "0.836% is not σ/r̄ nor r̄/σ — it comes from an unrelated subtraction/misreading (and CV carries no % sign).",
+   "5.36% looks like a distorted inversion; the true inverse r̄/σ ≈ 4.24 (and would still be unitless).",
+   "27.6% has no basis in the CV formula — a pure distractor."
+  ],
+  "note": "Exam tip: CV is unitless. Any answer written with a % sign is a red flag."
+ },
+ "ar": {
+  "q": "لأصلٍ ما عائد متوقع 15% وانحراف معياري 3.54%. ما معامل التغير (CV)؟",
+  "o": [
+   "0.236",
+   "0.836%",
+   "5.36%",
+   "27.6%"
+  ],
+  "f": "CV = σ ÷ r̄",
+  "s": [
+   "CV = 3.54% ÷ 15% = 0.236."
+  ],
+  "why": "يقيس معامل التغير المخاطرة لكل وحدة من العائد المتوقع، مما يسمح بمقارنة أصول ذات عوائد متوقعة مختلفة. وهو نسبة صريحة بدون علامة % — أي هنا 0.236 وحدة انحراف معياري لكل وحدة عائد.",
+  "w": [
+   "",
+   "0.836% لا تساوي σ÷r̄ ولا r̄÷σ — فهي ناتجة عن طرح أو قراءة خاطئة (كما أن CV بلا علامة %).",
+   "5.36% تبدو كقلب مشوّه للنسبة؛ فالقلب الحقيقي r̄÷σ ≈ 4.24 (ويبقى بلا وحدة).",
+   "27.6% لا أساس لها في قانون CV — إجابة للإلهاء فقط."
+  ],
+  "note": "نصيحة امتحان: معامل التغير بلا وحدات. أي إجابة مكتوبة بعلامة % فهي مؤشر خطأ."
+ }
+});
+QB.push({
+ "id": "q14",
+ "sec": "risk",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "An investor owns 200 shares of Stock A at $30 (= $6,000) and 100 shares of Stock B at $40 (= $4,000). Total portfolio = $10,000. If Stock A returns 12% and Stock B returns 18%, what is the portfolio return?",
+  "o": [
+   "13.2%",
+   "14.4%",
+   "15.0%",
+   "16.2%"
+  ],
+  "f": "rₚ = Σ (wⱼ × rⱼ)        wⱼ = Valueⱼ / Total value",
+  "s": [
+   "Weight of A: $6,000 / $10,000 = 0.60.   Weight of B: $4,000 / $10,000 = 0.40.",
+   "Portfolio return: rₚ = (0.60 × 12%) + (0.40 × 18%) = 7.2% + 7.2% = 14.4%."
+  ],
+  "why": "A portfolio's return is the weighted average of its assets' returns, where the weights are each asset's share of the portfolio's total DOLLAR value (not the share count).",
+  "w": [
+   "13.2% comes from using incorrect weights (e.g., weighting by the wrong values).",
+   "",
+   "15.0% is the simple average (12% + 18%) / 2 — it ignores that 60% of the money is in the lower-return stock.",
+   "16.2% comes from reversing the weights (giving more weight to Stock B than its value justifies)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "يمتلك مستثمر 200 سهم من السهم A بسعر 30 دولارًا (= 6,000 دولار) و100 سهم من السهم B بسعر 40 دولارًا (= 4,000 دولار)، بإجمالي محفظة 10,000 دولار. إذا حقق A عائد 12% وB عائد 18%، فما عائد المحفظة؟",
+  "o": [
+   "13.2%",
+   "14.4%",
+   "15.0%",
+   "16.2%"
+  ],
+  "f": "rₚ = Σ (wⱼ × rⱼ)        wⱼ = قيمة الأصل ÷ القيمة الكلية",
+  "s": [
+   "وزن A: 6,000 ÷ 10,000 = 0.60.   وزن B: 4,000 ÷ 10,000 = 0.40.",
+   "عائد المحفظة: rₚ = (0.60 × 12%) + (0.40 × 18%) = 7.2% + 7.2% = 14.4%."
+  ],
+  "why": "عائد المحفظة هو المتوسط المرجح لعوائد أصولها، حيث الأوزان هي حصة كل أصل من القيمة الدولارية الكلية للمحفظة (وليس من عدد الأسهم).",
+  "w": [
+   "13.2% ناتجة عن استخدام أوزان خاطئة.",
+   "",
+   "15.0% هي المتوسط البسيط (12% + 18%) ÷ 2 — وتتجاهل أن 60% من الأموال في السهم الأقل عائدًا.",
+   "16.2% ناتجة عن عكس الأوزان (إعطاء السهم B وزنًا أكبر مما تستحق قيمته)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q15",
+ "sec": "risk",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "Portfolio V has: Asset 1 (w = 0.20, b = 1.80), Asset 2 (w = 0.30, b = 1.20), Asset 3 (w = 0.50, b = 0.90). What is the portfolio beta?",
+  "o": [
+   "1.10",
+   "1.17",
+   "1.30",
+   "1.25"
+  ],
+  "f": "bₚ = Σ (wⱼ × bⱼ)",
+  "s": [
+   "(0.20 × 1.80) = 0.36",
+   "(0.30 × 1.20) = 0.36",
+   "(0.50 × 0.90) = 0.45",
+   "Portfolio beta: 0.36 + 0.36 + 0.45 = 1.17."
+  ],
+  "why": "Portfolio beta is simply the weighted average of the individual betas. A beta of 1.17 > 1 means the portfolio is slightly more volatile than the market — it is expected to move 1.17% for every 1% move in the market.",
+  "w": [
+   "1.10 understates the weighted average — a multiplication slip.",
+   "",
+   "1.30 is the simple average of the three betas (1.80 + 1.20 + 0.90) / 3 — it ignores the weights.",
+   "1.25 comes from mis-weighting the assets (e.g., swapping weights between assets)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "تتكون المحفظة V من: أصل 1 (الوزن 0.20، بيتا 1.80)، وأصل 2 (الوزن 0.30، بيتا 1.20)، وأصل 3 (الوزن 0.50، بيتا 0.90). ما بيتا المحفظة؟",
+  "o": [
+   "1.10",
+   "1.17",
+   "1.30",
+   "1.25"
+  ],
+  "f": "bₚ = Σ (wⱼ × bⱼ)",
+  "s": [
+   "(0.20 × 1.80) = 0.36",
+   "(0.30 × 1.20) = 0.36",
+   "(0.50 × 0.90) = 0.45",
+   "بيتا المحفظة: 0.36 + 0.36 + 0.45 = 1.17."
+  ],
+  "why": "بيتا المحفظة هي ببساطة المتوسط المرجح لقيم بيتا الفردية. وبيتا 1.17 الأكبر من 1 تعني أن المحفظة أكثر تقلبًا قليلًا من السوق — أي يُتوقع أن تتحرك 1.17% مقابل كل 1% يتحركها السوق.",
+  "w": [
+   "1.10 أقل من المتوسط المرجح — ناتجة عن خطأ في الضرب.",
+   "",
+   "1.30 هي المتوسط البسيط لقيم بيتا الثلاث (1.80 + 1.20 + 0.90) ÷ 3 — وتتجاهل الأوزان.",
+   "1.25 ناتجة عن أوزان خاطئة (مثل تبديل الأوزان بين الأصول)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q16",
+ "sec": "risk",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "Portfolio P has: Asset 1 (w = 0.25, b = 1.60), Asset 2 (w = 0.35, b = 1.10), Asset 3 (w = 0.40, b = 0.75). What is the portfolio beta?",
+  "o": [
+   "1.05",
+   "1.10",
+   "1.15",
+   "1.20"
+  ],
+  "f": "bₚ = Σ (wⱼ × bⱼ)",
+  "s": [
+   "(0.25 × 1.60) = 0.400",
+   "(0.35 × 1.10) = 0.385",
+   "(0.40 × 0.75) = 0.300",
+   "Sum: 0.400 + 0.385 + 0.300 = 1.085 ≈ 1.10 (closest option)."
+  ],
+  "why": "Weighted-average beta again. The exact value is 1.085; among the four options, 1.10 is the nearest, so B is the intended answer. The portfolio's risk is essentially market-level risk (β ≈ 1).",
+  "w": [
+   "1.05 is below the true 1.085 — a rounding/multiplication error.",
+   "",
+   "1.15 is the simple average of the betas (1.60 + 1.10 + 0.75) / 3 = 1.15 — the classic weights-ignored trap.",
+   "1.20 overstates the weighted average."
+  ],
+  "note": "Always verify the weights sum to 1 first: 0.25 + 0.35 + 0.40 = 1.00 ✓"
+ },
+ "ar": {
+  "q": "تتكون المحفظة P من: أصل 1 (الوزن 0.25، بيتا 1.60)، وأصل 2 (الوزن 0.35، بيتا 1.10)، وأصل 3 (الوزن 0.40، بيتا 0.75). ما بيتا المحفظة؟",
+  "o": [
+   "1.05",
+   "1.10",
+   "1.15",
+   "1.20"
+  ],
+  "f": "bₚ = Σ (wⱼ × bⱼ)",
+  "s": [
+   "(0.25 × 1.60) = 0.400",
+   "(0.35 × 1.10) = 0.385",
+   "(0.40 × 0.75) = 0.300",
+   "المجموع: 0.400 + 0.385 + 0.300 = 1.085 ≈ 1.10 (أقرب اختيار)."
+  ],
+  "why": "مرة أخرى متوسط بيتا المرجح. القيمة الدقيقة هي 1.085، وأقرب الاختيارات الأربعة لها هو 1.10، لذا فالإجابة المطلوبة هي B. ومخاطرة المحفظة تعادل مخاطرة السوق تقريبًا (β ≈ 1).",
+  "w": [
+   "1.05 أقل من القيمة الحقيقية 1.085 — خطأ تقريب أو ضرب.",
+   "",
+   "1.15 هي المتوسط البسيط لقيم بيتا (1.60 + 1.10 + 0.75) ÷ 3 = 1.15 — الفخ الكلاسيكي بتجاهل الأوزان.",
+   "1.20 أكبر من المتوسط المرجح الصحيح."
+  ],
+  "note": "تحقق أولًا أن مجموع الأوزان = 1: ‏0.25 + 0.35 + 0.40 = 1.00 ✓"
+ }
+});
 
 </script>
 <script>
 /* ============================================================
-   Question bank — Part 2
-   Section C: CAPM & the SML (q17–q22)
-   Section D: Capital Structure & Leverage (q23–q36)
+   Question bank — Part 2 (PPTX file order positions 16–30)
+   Array order follows the official "Midterm 1 revision" slide order.
+   ids stay stable (q01–q44); the sec field still drives topic grouping.
    ============================================================ */
 "use strict";
 window.QB = window.QB || [];
 
-/* ================= Section C — CAPM & the SML ================= */
-
-QB.push({ id:"q17", sec:"capm", diff:"concept", correct:2,
-en:{ q:"Which of the following statements about the Security Market Line (SML) is correct?",
-  o:["The SML slope equals the risk-free rate","The SML Y-intercept is the market return","The SML Y-intercept is the risk-free rate and the slope is the market risk premium","A higher beta always means a lower required return"],
-  f:"SML:  rⱼ = R_F + bⱼ × (rₘ − R_F)     →  y-intercept = R_F ,  slope = rₘ − R_F",
-  s:[],
-  why:"The SML is the graph of the CAPM equation with beta on the x-axis. At β = 0 the required return is exactly the risk-free rate (the y-intercept), and for each extra unit of beta the required return rises by the market risk premium (rₘ − R_F) — that is the slope.",
-  w:["The slope is the market risk premium (rₘ − R_F), not the risk-free rate.",
-     "The y-intercept is R_F. The market return rₘ is the point ON the line at β = 1, not the intercept.",
-     "",
-     "The opposite: the SML slopes upward, so a higher beta (more nondiversifiable risk) always means a HIGHER required return."],
-  note:null },
-ar:{ q:"أي العبارات التالية عن خط سوق الأوراق المالية (SML) صحيحة؟",
-  o:["ميل خط SML يساوي معدل العائد الخالي من المخاطر","القاطع الرأسي لخط SML هو عائد السوق","القاطع الرأسي لخط SML هو المعدل الخالي من المخاطر والميل هو علاوة مخاطر السوق","بيتا الأعلى تعني دائمًا عائدًا مطلوبًا أقل"],
-  f:"SML:  rⱼ = R_F + bⱼ × (rₘ − R_F)   →  القاطع الرأسي = R_F ، الميل = rₘ − R_F",
-  s:[],
-  why:"خط SML هو التمثيل البياني لمعادلة CAPM مع بيتا على المحور الأفقي. فعند β = 0 يكون العائد المطلوب مساويًا تمامًا للمعدل الخالي من المخاطر (القاطع الرأسي)، ومع كل وحدة إضافية من بيتا يرتفع العائد المطلوب بمقدار علاوة مخاطر السوق (rₘ − R_F) — وهذا هو الميل.",
-  w:["الميل هو علاوة مخاطر السوق (rₘ − R_F) وليس المعدل الخالي من المخاطر.",
-     "القاطع الرأسي هو R_F. أما عائد السوق rₘ فهو نقطة على الخط عند β = 1 وليس القاطع.",
-     "",
-     "العكس هو الصحيح: الخط صاعد، فبيتا الأعلى (مخاطرة غير قابلة للتنويع أكبر) تعني دائمًا عائدًا مطلوبًا أعلى."],
-  note:null }});
-
-QB.push({ id:"q18", sec:"capm", diff:"calc", correct:1,
-en:{ q:"Asset Z has a beta of 1.3. The risk-free rate is 5%, and the market return is 10%. What is the required return using CAPM?",
-  o:["10.5%","11.5%","12.0%","13.0%"],
-  f:"rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]",
-  s:["Market risk premium: rₘ − R_F = 10% − 5% = 5%.",
-     "Risk premium for Z: 1.3 × 5% = 6.5%.",
-     "Required return: r_Z = 5% + 6.5% = 11.5%."],
-  why:"CAPM prices only nondiversifiable (systematic) risk, measured by beta. Investors get the risk-free rate for free, plus 1.3 times the market risk premium for bearing 30% more systematic risk than the market.",
-  w:["10.5% = 5% + 1.1 × 5% — wrong beta applied to the premium.",
-     "",
-     "12.0% comes from mis-applying the premium (e.g., 1.4 × 5% + 5%).",
-     "13.0% typically comes from using rₘ instead of the premium (rₘ − R_F), or doubling 6.5%."],
-  note:null },
-ar:{ q:"لأصل Z بيتا قدرها 1.3. المعدل الخالي من المخاطر 5% وعائد السوق 10%. ما العائد المطلوب وفق نموذج CAPM؟",
-  o:["10.5%","11.5%","12.0%","13.0%"],
-  f:"rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]",
-  s:["علاوة مخاطر السوق: rₘ − R_F = 10% − 5% = 5%.",
-     "علاوة المخاطرة للأصل Z: ‏1.3 × 5% = 6.5%.",
-     "العائد المطلوب: r_Z = 5% + 6.5% = 11.5%."],
-  why:"لا يسعّر نموذج CAPM سوى المخاطرة غير القابلة للتنويع (المنهجية) التي تقيسها بيتا. يحصل المستثمر على المعدل الخالي من المخاطر، مضافًا إليه 1.3 ضعف علاوة مخاطر السوق مقابل تحمّل مخاطرة منهجية تزيد 30% عن السوق.",
-  w:["10.5% = 5% + 1.1 × 5% — بيتا خاطئة طُبقت على العلاوة.",
-     "",
-     "12.0% ناتجة عن تطبيق خاطئ للعلاوة (مثل 1.4 × 5% + 5%).",
-     "13.0% تأتي عادةً من استخدام rₘ بدلًا من العلاوة (rₘ − R_F)."],
-  note:null }});
-
-QB.push({ id:"q19", sec:"capm", diff:"calc", correct:2,
-en:{ q:"Asset B has a beta of 1.8. The risk-free rate is 6%, and the market return is 12%. What is the required return using CAPM?",
-  o:["14.8%","15.6%","16.8%","17.2%"],
-  f:"rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]",
-  s:["Market risk premium: 12% − 6% = 6%.",
-     "Risk premium for B: 1.8 × 6% = 10.8%.",
-     "Required return: r_B = 6% + 10.8% = 16.8%."],
-  why:"A beta of 1.8 means the asset is 80% riskier than the market in systematic terms, so its risk premium is 1.8 × the market premium: 10.8% on top of the 6% risk-free rate.",
-  w:["14.8% ≈ 6% + 1.47 × 6% — an understated premium.",
-     "15.6% = 6% + 1.6 × 6% — using beta 1.6 instead of 1.8.",
-     "",
-     "17.2% comes from a slightly overstated premium (e.g., 1.87 × 6% + 6%)."],
-  note:null },
-ar:{ q:"لأصل B بيتا قدرها 1.8. المعدل الخالي من المخاطر 6% وعائد السوق 12%. ما العائد المطلوب وفق CAPM؟",
-  o:["14.8%","15.6%","16.8%","17.2%"],
-  f:"rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]",
-  s:["علاوة مخاطر السوق: 12% − 6% = 6%.",
-     "علاوة المخاطرة للأصل B: ‏1.8 × 6% = 10.8%.",
-     "العائد المطلوب: r_B = 6% + 10.8% = 16.8%."],
-  why:"بيتا 1.8 تعني أن الأصل أخطر من السوق بنسبة 80% من حيث المخاطرة المنهجية، لذا تكون علاوة مخاطره 1.8 ضعف علاوة السوق: أي 10.8% فوق المعدل الخالي من المخاطر البالغ 6%.",
-  w:["14.8% ≈ 6% + 1.47 × 6% — علاوة أقل من الصحيح.",
-     "15.6% = 6% + 1.6 × 6% — استخدام بيتا 1.6 بدلًا من 1.8.",
-     "",
-     "17.2% ناتجة عن علاوة أعلى قليلًا من الصحيح."],
-  note:null }});
-
-QB.push({ id:"q20", sec:"capm", diff:"calc", correct:3,
-en:{ q:"Original: R_F = 6%, rₘ = 12%, b = 1.4. If inflation increases by 1%, what is the new required return?",
-  o:["12.4%","13.4%","14.4%","15.4%"],
-  f:"rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]   with new R_F and new rₘ",
-  s:["Inflation raises BOTH rates by the same 1%: new R_F = 7%, new rₘ = 13%.",
-     "The market risk premium is unchanged: 13% − 7% = 6%.",
-     "New required return: r = 7% + [1.4 × 6%] = 7% + 8.4% = 15.4%."],
-  why:"Expected inflation is embedded in both the risk-free rate and the market return, so a 1% inflation rise shifts the whole SML up in parallel: the intercept rises by 1% while the slope (premium) stays at 6%. The required return rises from 14.4% to 15.4%.",
-  w:["12.4% and 13.4% are below even the ORIGINAL required return — they subtract instead of adding the inflation effect.",
-     "13.4% could also come from applying +1% only to part of the formula.",
-     "14.4% is the original required return (6% + 1.4 × 6%) — it ignores inflation entirely.",
-     ""],
-  note:null },
-ar:{ q:"في البداية: R_F = 6%، وrₘ = 12%، وبيتا = 1.4. إذا زاد التضخم 1%، فكم يصبح العائد المطلوب الجديد؟",
-  o:["12.4%","13.4%","14.4%","15.4%"],
-  f:"rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]   باستخدام R_F وrₘ الجديدين",
-  s:["التضخم يرفع المعدلين معًا بنفس المقدار 1%: ‏R_F الجديد = 7%، وrₘ الجديد = 13%.",
-     "علاوة مخاطر السوق لم تتغير: 13% − 7% = 6%.",
-     "العائد المطلوب الجديد: r = 7% + [1.4 × 6%] = 7% + 8.4% = 15.4%."],
-  why:"التضخم المتوقع مُضمَّن في كل من المعدل الخالي من المخاطر وعائد السوق، لذا فإن زيادة التضخم 1% تُزيح خط SML كله لأعلى إزاحة متوازية: يرتفع القاطع 1% بينما يبقى الميل (العلاوة) 6%. فيرتفع العائد المطلوب من 14.4% إلى 15.4%.",
-  w:["12.4% و13.4% أقل حتى من العائد المطلوب الأصلي — أي أنها طرحت أثر التضخم بدل أن تضيفه.",
-     "13.4% قد تنتج أيضًا عن إضافة 1% لجزء من القانون فقط.",
-     "14.4% هي العائد المطلوب الأصلي (6% + 1.4 × 6%) — أي تجاهل التضخم كليًا.",
-     ""],
-  note:null }});
-
-QB.push({ id:"q21", sec:"capm", diff:"calc", correct:0,
-en:{ q:"Original SML has R_F = 4%, rₘ = 10%. Inflation expectations increase by 2%. What happens to the SML?",
-  o:["Parallel upward shift","Parallel downward shift","SML steepens","SML flattens"],
-  f:"New R_F = 4% + 2% = 6%     New rₘ = 10% + 2% = 12%     Slope = rₘ − R_F",
-  s:["Old slope: 10% − 4% = 6%.   New slope: 12% − 6% = 6% → slope UNCHANGED.",
-     "Intercept rises from 4% to 6%.",
-     "Same slope + higher intercept = the entire line shifts up in parallel by 2%."],
-  why:"Inflation lifts the risk-free rate and the market return by the same amount, so the market risk premium (the slope) does not change — only the starting level does. Graphically the SML slides straight up by the inflation increase.",
-  w:["",
-     "Downward would mean inflation FELL, not rose.",
-     "Steepening happens when investors become MORE risk-averse (the premium rₘ − R_F grows), not from inflation.",
-     "Flattening happens when R_F rises while rₘ stays put (the premium shrinks) — that is the next question!"],
-  note:null },
-ar:{ q:"خط SML الأصلي: R_F = 4% وrₘ = 10%. زادت توقعات التضخم 2%. ماذا يحدث للخط؟",
-  o:["إزاحة متوازية لأعلى","إزاحة متوازية لأسفل","يزداد ميل الخط (أكثر انحدارًا)","يقل ميل الخط (أكثر تسطحًا)"],
-  f:"R_F الجديد = 4% + 2% = 6%     rₘ الجديد = 10% + 2% = 12%     الميل = rₘ − R_F",
-  s:["الميل القديم: 10% − 4% = 6%.   الميل الجديد: 12% − 6% = 6% ← الميل لم يتغير.",
-     "القاطع الرأسي يرتفع من 4% إلى 6%.",
-     "ميل ثابت + قاطع أعلى = إزاحة الخط كله لأعلى إزاحة متوازية بمقدار 2%."],
-  why:"التضخم يرفع المعدل الخالي من المخاطر وعائد السوق بنفس المقدار، فلا تتغير علاوة مخاطر السوق (الميل) — يتغير مستوى البداية فقط. وبيانيًا ينزلق خط SML رأسيًا لأعلى بمقدار زيادة التضخم.",
-  w:["",
-     "الإزاحة لأسفل تعني أن التضخم انخفض وليس ارتفع.",
-     "زيادة الانحدار تحدث حين يصبح المستثمرون أكثر نفورًا من المخاطرة (تزداد العلاوة rₘ − R_F)، وليس بسبب التضخم.",
-     "التسطح يحدث إذا ارتفع R_F وبقي rₘ ثابتًا (فتنكمش العلاوة) — وهذا هو السؤال التالي!"],
-  note:null }});
-
-QB.push({ id:"q22", sec:"capm", diff:"calc", correct:2,
-en:{ q:"Original SML has R_F = 5%, rₘ = 11%. R_F increases to 8% while rₘ remains 11%. What happens to the SML?",
-  o:["Parallel upward shift","Parallel downward shift","Intercept rises, SML flattens","Intercept falls, SML steepens"],
-  f:"Slope = rₘ − R_F     Intercept = R_F",
-  s:["Old slope: 11% − 5% = 6%.   New slope: 11% − 8% = 3%.",
-     "Intercept rises from 5% to 8%.",
-     "Higher intercept + smaller slope → the line pivots up at the y-axis and becomes FLATTER."],
-  why:"Because only the risk-free rate moved, the market risk premium shrank from 6% to 3%. The SML still starts higher (8%), but each unit of beta now adds less required return, so the line rotates/flattens — it is not a parallel shift.",
-  w:["A parallel shift requires the premium (slope) to stay the same — here it fell from 6% to 3%.",
-     "Nothing moves downward: the intercept RISES from 5% to 8%.",
-     "",
-     "The intercept rises (not falls), and the line flattens (not steepens) — both halves of this statement are backwards."],
-  note:null },
-ar:{ q:"خط SML الأصلي: R_F = 5% وrₘ = 11%. ارتفع R_F إلى 8% بينما بقي rₘ عند 11%. ماذا يحدث للخط؟",
-  o:["إزاحة متوازية لأعلى","إزاحة متوازية لأسفل","يرتفع القاطع ويقل ميل الخط (يتسطح)","ينخفض القاطع ويزداد ميل الخط (ينحدر)"],
-  f:"الميل = rₘ − R_F     القاطع الرأسي = R_F",
-  s:["الميل القديم: 11% − 5% = 6%.   الميل الجديد: 11% − 8% = 3%.",
-     "القاطع الرأسي يرتفع من 5% إلى 8%.",
-     "قاطع أعلى + ميل أصغر ← يدور الخط لأعلى حول المحور الرأسي ويصبح أكثر تسطحًا."],
-  why:"لأن المعدل الخالي من المخاطر وحده هو الذي تغير، انكمشت علاوة مخاطر السوق من 6% إلى 3%. فما زال الخط يبدأ من نقطة أعلى (8%)، لكن كل وحدة بيتا تضيف الآن عائدًا مطلوبًا أقل، فيقل انحدار الخط — وليست إزاحة متوازية.",
-  w:["الإزاحة المتوازية تشترط ثبات العلاوة (الميل) — وهنا انخفضت من 6% إلى 3%.",
-     "لا شيء يتحرك لأسفل: القاطع يرتفع من 5% إلى 8%.",
-     "",
-     "القاطع يرتفع (لا ينخفض) والخط يتسطح (لا ينحدر) — أي أن شقيّ العبارة معكوسان."],
-  note:null }});
-
-/* ================= Section D — Capital Structure & Leverage ================= */
-
-QB.push({ id:"q23", sec:"structure", diff:"concept", correct:1,
-en:{ q:"According to M&M Proposition I without taxes:",
-  o:["Firm value depends on capital structure","Firm value is independent of capital structure","Debt always increases firm value","Equity always increases firm value"],
-  f:"M&M Proposition I (no taxes):  V_L = V_U",
-  s:[],
-  why:"In a world without taxes (and with perfect markets), Modigliani & Miller proved that how a firm splits its financing between debt and equity does NOT change its total value. Value is created by the firm's assets and their cash flows — financing is just slicing the same “pie” differently.",
-  w:["This is the exact opposite of M&M I: the proposition says value does NOT depend on capital structure.",
-     "",
-     "Debt adds value only when taxes exist (the interest tax shield, M&M 1963). Without taxes, leverage is value-neutral.",
-     "Neither debt nor equity “adds” value in the no-tax world — V_L = V_U regardless of the mix."],
-  note:null },
-ar:{ q:"وفقًا لقضية M&M الأولى في غياب الضرائب:",
-  o:["قيمة الشركة تعتمد على هيكل رأس المال","قيمة الشركة مستقلة عن هيكل رأس المال","الدين يزيد قيمة الشركة دائمًا","حقوق الملكية تزيد قيمة الشركة دائمًا"],
-  f:"قضية M&M الأولى (بدون ضرائب):  V_L = V_U",
-  s:[],
-  why:"في عالم بلا ضرائب (ومع كمال الأسواق)، أثبت موديجلياني وميلر أن طريقة تقسيم الشركة لتمويلها بين الدين وحقوق الملكية لا تُغيّر قيمتها الكلية. فالقيمة تولدها أصول الشركة وتدفقاتها النقدية، أما التمويل فهو مجرد تقطيع مختلف لنفس «الفطيرة».",
-  w:["هذا عكس قضية M&M الأولى تمامًا: فالقضية تقول إن القيمة لا تعتمد على هيكل رأس المال.",
-     "",
-     "الدين يضيف قيمة فقط في وجود الضرائب (الدرع الضريبي للفوائد، M&M 1963). أما بدون ضرائب فالرافعة المالية محايدة للقيمة.",
-     "لا الدين ولا حقوق الملكية «يضيفان» قيمة في عالم بلا ضرائب — فالقيمة V_L = V_U أيًا كان المزيج."],
-  note:null }});
-
-QB.push({ id:"q24", sec:"structure", diff:"calc", correct:1,
-en:{ q:"A firm has an expected EBIT of $500,000 per year forever. The unlevered cost of equity is 10%. What is the value of the unlevered firm?",
-  o:["$4,000,000","$5,000,000","$6,000,000","$50,000,000"],
-  f:"V_U = EBIT / K_eu      (perpetuity)",
-  s:["An all-equity firm's cash flow to owners is EBIT (no interest, no taxes in the base M&M setting).",
-     "Capitalize it as a perpetuity: V_U = $500,000 / 0.10 = $5,000,000."],
-  why:"A perpetual stream of $500,000 discounted at 10% is worth 10 times the annual flow: $5M. This is the benchmark unlevered value V_U that M&M Proposition I says leverage cannot change (without taxes).",
-  w:["$4,000,000 implies discounting at 12.5% — wrong rate.",
-     "",
-     "$6,000,000 implies discounting at ≈8.3% — wrong rate.",
-     "$50,000,000 comes from dividing by 0.01 (or multiplying by 100) — a decimal-place error."],
-  note:null },
-ar:{ q:"تحقق شركة EBIT متوقعًا قدره 500,000 دولار سنويًا إلى الأبد، وتكلفة حقوق الملكية لها بدون رافعة 10%. ما قيمة الشركة غير الممولة بالدين (Unlevered)؟",
-  o:["4,000,000 دولار","5,000,000 دولار","6,000,000 دولار","50,000,000 دولار"],
-  f:"V_U = EBIT ÷ K_eu      (دفق دائم Perpetuity)",
-  s:["التدفق النقدي لملاك شركة ممولة بالكامل بحقوق الملكية هو EBIT (لا فوائد ولا ضرائب في إطار M&M الأساسي).",
-     "نقوم برسملة التدفق كدفق دائم: V_U = 500,000 ÷ 0.10 = 5,000,000 دولار."],
-  why:"التدفق الدائم البالغ 500,000 دولار المخصوم بمعدل 10% تساوي قيمته 10 أمثال التدفق السنوي: أي 5 ملايين دولار. وهذه هي القيمة المرجعية V_U التي تقول قضية M&M الأولى إن الرافعة المالية لا تستطيع تغييرها (في غياب الضرائب).",
-  w:["4,000,000 دولار تفترض خصمًا بمعدل 12.5% — معدل خاطئ.",
-     "",
-     "6,000,000 دولار تفترض خصمًا بمعدل 8.3% تقريبًا — معدل خاطئ.",
-     "50,000,000 دولار ناتجة عن القسمة على 0.01 (أو الضرب في 100) — خطأ في الفاصلة العشرية."],
-  note:null }});
-
-QB.push({ id:"q25", sec:"structure", diff:"concept", correct:1,
-en:{ q:"Company X is an all-equity firm with a value of $8,000,000. According to M&M Proposition I (No Taxes), if the company issues $2,000,000 in debt, what will be the value of the levered firm?",
-  o:["$6,000,000","$8,000,000","$10,000,000","$12,000,000"],
-  f:"M&M I (no taxes):  V_L = V_U",
-  s:["V_U = $8,000,000 (given).",
-     "Without taxes there is no interest tax shield, so leverage adds nothing: V_L = V_U = $8,000,000.",
-     "(The debt merely replaces $2M of equity: E = $8M − $2M = $6M, but D + E still = $8M.)"],
-  why:"M&M Proposition I without taxes says capital structure is irrelevant: issuing debt does not create or destroy value. The firm is still worth $8M — the pie is just sliced into $2M debt + $6M equity instead of $8M equity.",
-  w:["$6,000,000 is only the EQUITY value after recapitalization (V_L − D), not the firm value.",
-     "",
-     "$10,000,000 wrongly ADDS the debt to firm value (V_U + D) — debt financing is not free money.",
-     "$12,000,000 has no basis in M&M — a pure distractor."],
-  note:null },
-ar:{ q:"شركة X ممولة بالكامل بحقوق الملكية وقيمتها 8,000,000 دولار. وفقًا لقضية M&M الأولى (بدون ضرائب)، إذا أصدرت الشركة دينًا بقيمة 2,000,000 دولار، فما قيمة الشركة الممولة بالدين (Levered)؟",
-  o:["6,000,000 دولار","8,000,000 دولار","10,000,000 دولار","12,000,000 دولار"],
-  f:"M&M الأولى (بدون ضرائب):  V_L = V_U",
-  s:["V_U = 8,000,000 دولار (معطاة).",
-     "بدون ضرائب لا يوجد درع ضريبي للفوائد، لذا لا تضيف الرافعة شيئًا: V_L = V_U = 8,000,000 دولار.",
-     "(الدين يستبدل ببساطة 2 مليون من حقوق الملكية: E = 8 − 2 = 6 ملايين، لكن D + E تظل = 8 ملايين.)"],
-  why:"تقول قضية M&M الأولى بدون ضرائب إن هيكل رأس المال غير مؤثر: إصدار الدين لا يخلق قيمة ولا يعدمها. فما زالت الشركة تساوي 8 ملايين دولار — الفطيرة نفسها قُطعت إلى 2 مليون دين + 6 ملايين حقوق ملكية بدلًا من 8 ملايين حقوق ملكية فقط.",
-  w:["6,000,000 دولار هي قيمة حقوق الملكية فقط بعد إعادة الهيكلة (V_L − D) وليست قيمة الشركة.",
-     "",
-     "10,000,000 دولار تضيف الدين خطأً إلى قيمة الشركة (V_U + D) — فالتمويل بالدين ليس أموالًا مجانية.",
-     "12,000,000 دولار لا أساس لها في M&M — إجابة للإلهاء."],
-  note:null }});
-
-QB.push({ id:"q26", sec:"structure", diff:"calc", correct:1,
-en:{ q:"An unlevered firm has a cost of equity of 12%. It issues debt at 6% and achieves a debt-to-equity ratio of 0.5. What is the levered cost of equity? (No taxes)",
-  o:["12%","15%","18%","21%"],
-  f:"M&M II (no taxes):  K_e = K_eu + (K_eu − K_d) × (D/E)",
-  s:["Spread between equity and debt costs: K_eu − K_d = 12% − 6% = 6%.",
-     "Leverage premium: 6% × 0.5 = 3%.",
-     "Levered cost of equity: K_e = 12% + 3% = 15%."],
-  why:"M&M Proposition II: as a firm borrows, equity becomes riskier (shareholders sit behind debt holders), so they demand a premium proportional to D/E. Note that cheap debt does NOT lower WACC here — the rising K_e exactly offsets it (WACC stays at 12%).",
-  w:["12% ignores the financial-risk premium entirely — leverage always raises K_e.",
-     "",
-     "18% would need (K_eu − K_d) × 1.0 — i.e., D/E = 1, not 0.5.",
-     "21% would come from adding 12% + 9%×1 or similar mis-application of the formula."],
-  note:null },
-ar:{ q:"شركة بدون رافعة مالية تكلفة حقوق الملكية لها 12%. أصدرت دينًا بتكلفة 6% وحققت نسبة دين إلى حقوق ملكية 0.5. ما تكلفة حقوق الملكية في وجود الرافعة؟ (بدون ضرائب)",
-  o:["12%","15%","18%","21%"],
-  f:"M&M الثانية (بدون ضرائب):  K_e = K_eu + (K_eu − K_d) × (D/E)",
-  s:["الفرق بين تكلفة حقوق الملكية وتكلفة الدين: K_eu − K_d = 12% − 6% = 6%.",
-     "علاوة الرافعة: 6% × 0.5 = 3%.",
-     "تكلفة حقوق الملكية مع الرافعة: K_e = 12% + 3% = 15%."],
-  why:"قضية M&M الثانية: كلما اقترضت الشركة زادت مخاطرة حقوق الملكية (لأن المساهمين في المرتبة الأخيرة بعد حملة الدين)، فيطالبون بعلاوة تتناسب مع D/E. لاحظ أن الدين الرخيص لا يخفض WACC هنا — فارتفاع K_e يعادله بالضبط (ويبقى WACC عند 12%).",
-  w:["12% تتجاهل علاوة المخاطرة المالية تمامًا — فالرافعة ترفع K_e دائمًا.",
-     "",
-     "18% تتطلب (K_eu − K_d) × 1.0 — أي D/E = 1 وليس 0.5.",
-     "21% ناتجة عن تطبيق خاطئ للقانون (مثل 12% + 9%×1)."],
-  note:null }});
-
-QB.push({ id:"q27", sec:"structure", diff:"calc", correct:1,
-en:{ q:"A firm has equity of $6,000,000 and debt of $4,000,000. The cost of equity is 15% and the cost of debt is 8%. The tax rate is 30%. Calculate the WACC.",
-  o:["10.24%","11.24%","12.24%","13.24%"],
-  f:"WACC = (E/V) × K_e + (D/V) × K_d × (1 − T_c)",
-  s:["Total capital: V = $6M + $4M = $10,000,000.",
-     "Weights: E/V = 0.6 ,  D/V = 0.4.",
-     "Equity component: 0.6 × 15% = 9.00%.",
-     "Debt component (after tax): 0.4 × 8% × (1 − 0.30) = 0.4 × 5.6% = 2.24%.",
-     "WACC = 9.00% + 2.24% = 11.24%."],
-  why:"Interest is tax-deductible, so the true (after-tax) cost of debt is only K_d × (1 − T_c) = 5.6%. WACC blends the after-tax cost of each capital source using market-value weights.",
-  w:["10.24% understates the equity component (e.g., also tax-adjusting equity, which is wrong — equity gets no tax shield).",
-     "",
-     "12.24% = 9% + 3.2% forgets the tax shield on debt (uses 0.4 × 8% = 3.2% instead of 2.24%).",
-     "13.24% comes from wrong weights or ignoring the tax adjustment on a larger debt component."],
-  note:null },
-ar:{ q:"لدى شركة حقوق ملكية بقيمة 6,000,000 دولار وديون بقيمة 4,000,000 دولار. تكلفة حقوق الملكية 15% وتكلفة الدين 8% ومعدل الضريبة 30%. احسب متوسط التكلفة المرجح لرأس المال WACC.",
-  o:["10.24%","11.24%","12.24%","13.24%"],
-  f:"WACC = (E/V) × K_e + (D/V) × K_d × (1 − T_c)",
-  s:["رأس المال الكلي: V = 6 + 4 = 10,000,000 دولار.",
-     "الأوزان: E/V = 0.6 ، وD/V = 0.4.",
-     "مكوّن حقوق الملكية: 0.6 × 15% = 9.00%.",
-     "مكوّن الدين (بعد الضريبة): 0.4 × 8% × (1 − 0.30) = 0.4 × 5.6% = 2.24%.",
-     "WACC = 9.00% + 2.24% = 11.24%."],
-  why:"الفوائد تُخصم من الوعاء الضريبي، لذا فإن التكلفة الحقيقية (بعد الضريبة) للدين هي K_d × (1 − T_c) = 5.6% فقط. ويخلط WACC التكلفة بعد الضريبة لكل مصدر من مصادر رأس المال باستخدام أوزان القيمة السوقية.",
-  w:["10.24% تقلل مكوّن حقوق الملكية (مثل خصم الضريبة من تكلفة حقوق الملكية أيضًا — وهذا خطأ فلا يوجد درع ضريبي لها).",
-     "",
-     "12.24% = 9% + 3.2% تنسى الدرع الضريبي على الدين (تستخدم 0.4 × 8% = 3.2% بدل 2.24%).",
-     "13.24% ناتجة عن أوزان خاطئة أو تجاهل التعديل الضريبي مع مكوّن دين أكبر."],
-  note:null }});
-
-QB.push({ id:"q28", sec:"structure", diff:"calc", correct:2,
-en:{ q:"A firm has an unlevered cost of equity of 18%. It plans to issue debt at 9% and achieve a D/E ratio of 0.8. The corporate tax rate is 25%. What is the new levered cost of equity?",
-  o:["21.40%","22.40%","23.40%","24.40%"],
-  f:"M&M II (with taxes):  K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
-  s:["Tax factor: (1 − T_c) = 1 − 0.25 = 0.75.",
-     "Cost spread: K_eu − K_d = 18% − 9% = 9%.",
-     "Leverage premium: 0.75 × 9% × 0.8 = 5.4%.",
-     "K_e = 18% + 5.4% = 23.40%."],
-  why:"With corporate taxes, the financial-risk premium is multiplied by (1 − T_c) because the tax shield softens the impact of leverage — that is why the with-tax K_e (23.40%) is lower than the no-tax K_e would be (18% + 9%×0.8 = 25.2%).",
-  w:["21.40% equals 18% + 0.75 × 9% × 0.5 — i.e., it corresponds to D/E = 0.5, not the 0.8 stated in the question (see note).",
-     "22.40% does not match the formula for any consistent input combination.",
-     "",
-     "24.40% overstates the leverage premium."],
-  note:"⚠️ The revision slide's answer key marks A (21.40%), but with D/E = 0.8 as written in the question the formula gives 23.40% (C). The value 21.40% only results if D/E = 0.5 (18% + 0.75 × 9% × 0.5 = 21.375% ≈ 21.4%). Double-check this one with your instructor — the calculation above follows exactly the same formula used in the parallel Nile Corp question (slide 16)." },
-ar:{ q:"لدى شركة تكلفة حقوق ملكية بدون رافعة 18%. وتخطط لإصدار دين بتكلفة 9% وتحقيق نسبة D/E قدرها 0.8. معدل ضريبة الشركات 25%. ما تكلفة حقوق الملكية الجديدة في وجود الرافعة؟",
-  o:["21.40%","22.40%","23.40%","24.40%"],
-  f:"M&M الثانية (مع الضرائب):  K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
-  s:["معامل الضريبة: (1 − T_c) = 1 − 0.25 = 0.75.",
-     "فرق التكلفة: K_eu − K_d = 18% − 9% = 9%.",
-     "علاوة الرافعة: 0.75 × 9% × 0.8 = 5.4%.",
-     "K_e = 18% + 5.4% = 23.40%."],
-  why:"في وجود ضرائب الشركات، تُضرب علاوة المخاطرة المالية في (1 − T_c) لأن الدرع الضريبي يخفف أثر الرافعة — ولهذا تكون K_e مع الضريبة (23.40%) أقل مما ستكون بدونه (18% + 9%×0.8 = 25.2%).",
-  w:["21.40% تساوي 18% + 0.75 × 9% × 0.5 — أي أنها تناظر D/E = 0.5 وليس 0.8 المذكورة في السؤال (انظر التنبيه).",
-     "22.40% لا تنتج عن القانون بأي مدخلات متناسقة.",
-     "",
-     "24.40% تبالغ في علاوة الرافعة."],
-  note:"⚠️ مفتاح إجابات شريحة المراجعة يشير إلى A ‏(21.40%)، لكن مع D/E = 0.8 كما هو مكتوب في السؤال فإن القانون يعطي 23.40% ‏(C). والقيمة 21.40% لا تنتج إلا إذا كانت D/E = 0.5 ‏(18% + 0.75 × 9% × 0.5 = 21.375% ≈ 21.4%). راجع هذا السؤال مع أستاذة المادة — فالحل أعلاه يتبع نفس القانون المستخدم في سؤال Nile Corp المماثل (شريحة 16)." }});
-
-QB.push({ id:"q29", sec:"structure", diff:"calc", correct:1,
-en:{ q:"Delta Corp is currently unlevered with a value of $20,000,000. The company decides to issue $6,000,000 in perpetual debt. The corporate tax rate is 25%. According to M&M Proposition I with taxes, what is the value of the levered firm?",
-  o:["$20,000,000","$21,500,000","$23,500,000","$26,000,000"],
-  f:"M&M I (with taxes):  V_L = V_U + T_c × D",
-  s:["Interest tax shield: T_c × D = 0.25 × $6,000,000 = $1,500,000.",
-     "Levered value: V_L = $20,000,000 + $1,500,000 = $21,500,000."],
-  why:"With taxes, debt creates value: the interest payments are tax-deductible, and for perpetual debt the present value of that permanent tax saving is exactly T_c × D = $1.5M. So the levered firm is worth $21.5M.",
-  w:["$20,000,000 is the no-tax answer (V_L = V_U) — it ignores the tax shield.",
-     "",
-     "$23,500,000 double-counts part of the shield or adds a wrong amount.",
-     "$26,000,000 wrongly adds the full debt amount to firm value (V_U + D)."],
-  note:null },
-ar:{ q:"شركة Delta حاليًا بدون رافعة وقيمتها 20,000,000 دولار، وقررت إصدار دين دائم بقيمة 6,000,000 دولار. معدل ضريبة الشركات 25%. وفقًا لقضية M&M الأولى في وجود الضرائب، ما قيمة الشركة الممولة بالدين؟",
-  o:["20,000,000 دولار","21,500,000 دولار","23,500,000 دولار","26,000,000 دولار"],
-  f:"M&M الأولى (مع الضرائب):  V_L = V_U + T_c × D",
-  s:["الدرع الضريبي للفوائد: T_c × D = 0.25 × 6,000,000 = 1,500,000 دولار.",
-     "القيمة مع الرافعة: V_L = 20,000,000 + 1,500,000 = 21,500,000 دولار."],
-  why:"في وجود الضرائب يخلق الدين قيمة: فمدفوعات الفوائد تُخصم من الوعاء الضريبي، وبالنسبة للدين الدائم تكون القيمة الحالية لهذا التوفير الضريبي المستمر هي T_c × D = 1.5 مليون دولار بالضبط. لذا تصبح قيمة الشركة الممولة بالدين 21.5 مليون دولار.",
-  w:["20,000,000 دولار هي إجابة حالة غياب الضرائب (V_L = V_U) — فهي تتجاهل الدرع الضريبي.",
-     "",
-     "23,500,000 دولار تحسب جزءًا من الدرع مرتين أو تضيف مبلغًا خاطئًا.",
-     "26,000,000 دولار تضيف خطأً كامل مبلغ الدين إلى قيمة الشركة (V_U + D)."],
-  note:null }});
-
-QB.push({ id:"q30", sec:"structure", diff:"calc", correct:0,
-en:{ q:"Nile Corp currently has an unlevered cost of equity of 14%. It plans to issue debt at 7% and achieve a D/E ratio of 0.8. The corporate tax rate is 30%. What will be the new levered cost of equity?",
-  o:["17.92%","18.92%","19.92%","20.92%"],
-  f:"M&M II (with taxes):  K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
-  s:["Tax factor: 1 − 0.30 = 0.70.",
-     "Cost spread: 14% − 7% = 7%.",
-     "Premium: 0.70 × 7% × 0.8 = 3.92%.",
-     "K_e = 14% + 3.92% = 17.92%."],
-  why:"Same with-tax M&M II mechanics: the leverage premium is shrunk by (1 − T_c) because the tax deductibility of interest cushions shareholders' added financial risk. Result: 17.92%.",
-  w:["",
-     "18.92% = 14% + 0.7 × 7% × 1.0 — uses D/E = 1 instead of 0.8.",
-     "19.92% comes from mis-applying the tax factor (e.g., partial adjustment of the spread).",
-     "20.92% ≈ the NO-tax answer plus a bit (no-tax K_e would be 14% + 7% × 0.8 = 19.6%) — forgetting (1 − T_c) entirely lands near 19.6–20.9%."],
-  note:null },
-ar:{ q:"لدى شركة Nile حاليًا تكلفة حقوق ملكية بدون رافعة 14%. وتخطط لإصدار دين بتكلفة 7% وتحقيق نسبة D/E قدرها 0.8. معدل ضريبة الشركات 30%. ما تكلفة حقوق الملكية الجديدة في وجود الرافعة؟",
-  o:["17.92%","18.92%","19.92%","20.92%"],
-  f:"M&M الثانية (مع الضرائب):  K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
-  s:["معامل الضريبة: 1 − 0.30 = 0.70.",
-     "فرق التكلفة: 14% − 7% = 7%.",
-     "العلاوة: 0.70 × 7% × 0.8 = 3.92%.",
-     "K_e = 14% + 3.92% = 17.92%."],
-  why:"نفس ميكانيكية M&M الثانية مع الضرائب: تنكمش علاوة الرافعة بمقدار (1 − T_c) لأن قابلية خصم الفوائد ضريبيًا تخفف المخاطرة المالية الإضافية على المساهمين. والنتيجة: 17.92%.",
-  w:["",
-     "18.92% = 14% + 0.7 × 7% × 1.0 — تستخدم D/E = 1 بدلًا من 0.8.",
-     "19.92% ناتجة عن تطبيق خاطئ لمعامل الضريبة.",
-     "20.92% ≈ إجابة حالة غياب الضرائب تقريبًا (فبدون ضرائب تكون K_e = 14% + 7% × 0.8 = 19.6%) — أي نسيان (1 − T_c) كليًا."],
-  note:null }});
-
-QB.push({ id:"q31", sec:"structure", diff:"calc", correct:1,
-en:{ q:"An unlevered firm has a value of $15,000,000. The corporate tax rate is 30%. The firm issues $4,000,000 in debt. Calculate the value of the levered firm.",
-  o:["$15,000,000","$16,200,000","$19,000,000","$27,000,000"],
-  f:"V_L = V_U + T_c × D",
-  s:["Tax shield: 0.30 × $4,000,000 = $1,200,000.",
-     "V_L = $15,000,000 + $1,200,000 = $16,200,000."],
-  why:"M&M I with taxes: the levered firm is worth the unlevered value plus the present value of the interest tax shield (T_c × D for perpetual debt) = $1.2M.",
-  w:["$15,000,000 ignores the tax shield — that is the no-tax M&M answer.",
-     "",
-     "$19,000,000 wrongly adds the entire debt ($15M + $4M) to firm value.",
-     "$27,000,000 has no basis in M&M — a pure distractor."],
-  note:null },
-ar:{ q:"لدى شركة بدون رافعة قيمة قدرها 15,000,000 دولار، ومعدل ضريبة الشركات 30%. وأصدرت الشركة دينًا بقيمة 4,000,000 دولار. احسب قيمة الشركة الممولة بالدين.",
-  o:["15,000,000 دولار","16,200,000 دولار","19,000,000 دولار","27,000,000 دولار"],
-  f:"V_L = V_U + T_c × D",
-  s:["الدرع الضريبي: 0.30 × 4,000,000 = 1,200,000 دولار.",
-     "V_L = 15,000,000 + 1,200,000 = 16,200,000 دولار."],
-  why:"قضية M&M الأولى مع الضرائب: قيمة الشركة الممولة بالدين تساوي قيمتها بدون رافعة مضافًا إليها القيمة الحالية للدرع الضريبي للفوائد (T_c × D للدين الدائم) = 1.2 مليون دولار.",
-  w:["15,000,000 دولار تتجاهل الدرع الضريبي — وهذه هي إجابة M&M بدون ضرائب.",
-     "",
-     "19,000,000 دولار تضيف خطأً كامل الدين (15 + 4 ملايين) إلى قيمة الشركة.",
-     "27,000,000 دولار لا أساس لها في M&M — إجابة للإلهاء."],
-  note:null }});
-
-QB.push({ id:"q32", sec:"structure", diff:"calc", correct:1,
-en:{ q:"A firm has an unlevered cost of equity of 12%, cost of debt of 6%, tax rate of 30%, and D/E ratio of 0.5. Calculate the levered cost of equity.",
-  o:["12%","14.1%","15.1%","16.1%"],
-  f:"K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
-  s:["Spread: 12% − 6% = 6%.",
-     "Tax factor × spread × leverage: 0.70 × 6% × 0.5 = 2.1%.",
-     "K_e = 12% + 2.1% = 14.1%."],
-  why:"The with-tax M&M II premium here is only 2.1 percentage points — modest leverage (D/E = 0.5) and the 30% tax shield keep the cost of equity close to its unlevered level.",
-  w:["12% ignores the leverage premium completely.",
-     "",
-     "15.1% ≈ the no-tax answer (12% + 6% × 0.5 = 15%) — it forgets the (1 − T_c) factor.",
-     "16.1% overstates the premium (e.g., forgetting both the tax factor and using a bigger spread)."],
-  note:null },
-ar:{ q:"لدى شركة تكلفة حقوق ملكية بدون رافعة 12%، وتكلفة دين 6%، ومعدل ضريبة 30%، ونسبة D/E قدرها 0.5. احسب تكلفة حقوق الملكية في وجود الرافعة.",
-  o:["12%","14.1%","15.1%","16.1%"],
-  f:"K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
-  s:["الفرق: 12% − 6% = 6%.",
-     "معامل الضريبة × الفرق × الرافعة: 0.70 × 6% × 0.5 = 2.1%.",
-     "K_e = 12% + 2.1% = 14.1%."],
-  why:"علاوة M&M الثانية مع الضرائب هنا هي 2.1 نقطة مئوية فقط — فالرافعة المعتدلة (D/E = 0.5) مع الدرع الضريبي 30% تُبقي تكلفة حقوق الملكية قريبة من مستواها بدون رافعة.",
-  w:["12% تتجاهل علاوة الرافعة تمامًا.",
-     "",
-     "15.1% ≈ إجابة حالة غياب الضرائب (12% + 6% × 0.5 = 15%) — أي نسيان معامل (1 − T_c).",
-     "16.1% تبالغ في العلاوة (مثل نسيان معامل الضريبة مع استخدام فرق أكبر)."],
-  note:null }});
-
-QB.push({ id:"q33", sec:"structure", diff:"calc", correct:0,
-en:{ q:"A firm has V_U = $25,000,000, debt of $5,000,000, and tax rate of 30%. The present value of financial distress costs is $1,500,000. Calculate the levered firm value.",
-  o:["$25,000,000","$25,500,000","$26,500,000","$28,000,000"],
-  f:"Trade-off theory:  V_L = V_U + T_c × D − PV(Financial distress costs)",
-  s:["Tax shield benefit: 0.30 × $5,000,000 = +$1,500,000.",
-     "Distress cost: −$1,500,000.",
-     "V_L = $25,000,000 + $1,500,000 − $1,500,000 = $25,000,000."],
-  why:"Trade-off theory balances the tax shield benefit against bankruptcy/distress costs. Here they exactly cancel, so leverage adds nothing: V_L = V_U = $25M. This is the intuition behind why firms use moderate — not extreme — debt levels.",
-  w:["",
-     "$25,500,000 nets only part of the two effects.",
-     "$26,500,000 = V_U + T_c×D — it forgets to SUBTRACT the distress costs (pure M&M with taxes).",
-     "$28,000,000 ADDS the distress costs instead of subtracting them (25 + 1.5 + 1.5)."],
-  note:null },
-ar:{ q:"لدى شركة V_U = 25,000,000 دولار، وديون 5,000,000 دولار، ومعدل ضريبة 30%. والقيمة الحالية لتكاليف الضائقة المالية 1,500,000 دولار. احسب قيمة الشركة في وجود الرافعة.",
-  o:["25,000,000 دولار","25,500,000 دولار","26,500,000 دولار","28,000,000 دولار"],
-  f:"نظرية المفاضلة:  V_L = V_U + T_c × D − القيمة الحالية لتكاليف الضائقة المالية",
-  s:["منفعة الدرع الضريبي: 0.30 × 5,000,000 = +1,500,000 دولار.",
-     "تكلفة الضائقة المالية: −1,500,000 دولار.",
-     "V_L = 25,000,000 + 1,500,000 − 1,500,000 = 25,000,000 دولار."],
-  why:"توازن نظرية المفاضلة بين منفعة الدرع الضريبي وتكاليف الإفلاس/الضائقة المالية. وهنا يلغي أحدهما الآخر تمامًا، فلا تضيف الرافعة شيئًا: V_L = V_U = 25 مليون دولار. وهذه هي الفكرة الكامنة وراء استخدام الشركات مستويات دين معتدلة وليست متطرفة.",
-  w:["",
-     "25,500,000 دولار تخصم جزءًا فقط من الأثرين.",
-     "26,500,000 دولار = V_U + T_c×D — أي نسيت طرح تكاليف الضائقة (M&M مع الضرائب فقط).",
-     "28,000,000 دولار تجمع تكاليف الضائقة بدل طرحها (25 + 1.5 + 1.5)."],
-  note:null }});
-
-QB.push({ id:"q34", sec:"structure", diff:"calc", correct:1,
-en:{ q:"A company has EBIT of $500,000 and interest expense of $100,000. If the tax rate is 40% and shares outstanding are 100,000, what is EPS?",
-  o:["$2.00","$2.40","$3.00","$3.60"],
-  f:"EPS = (EBIT − I) × (1 − T) / Number of shares",
-  s:["Earnings before tax: $500,000 − $100,000 = $400,000.",
-     "After tax: $400,000 × (1 − 0.40) = $240,000.",
-     "EPS = $240,000 / 100,000 shares = $2.40."],
-  why:"Order matters: subtract interest FIRST (it is tax-deductible), then tax the remainder, then divide by shares. That tax-deductibility of interest is exactly why leverage can magnify EPS.",
-  w:["$2.00 taxes EBIT first and then subtracts interest: (500,000 × 0.6 − 100,000) / 100,000 — wrong order; interest must be deducted before tax.",
-     "",
-     "$3.00 ignores interest entirely: 500,000 × 0.6 / 100,000 = $3.00.",
-     "$3.60 applies a wrong tax treatment (e.g., adding back the interest tax saving twice)."],
-  note:null },
-ar:{ q:"لدى شركة EBIT قدره 500,000 دولار ومصروف فوائد 100,000 دولار. إذا كان معدل الضريبة 40% وعدد الأسهم القائمة 100,000 سهم، فما ربحية السهم EPS؟",
-  o:["2.00 دولار","2.40 دولار","3.00 دولار","3.60 دولار"],
-  f:"EPS = (EBIT − I) × (1 − T) ÷ عدد الأسهم",
-  s:["الأرباح قبل الضريبة: 500,000 − 100,000 = 400,000 دولار.",
-     "بعد الضريبة: 400,000 × (1 − 0.40) = 240,000 دولار.",
-     "EPS = 240,000 ÷ 100,000 سهم = 2.40 دولار."],
-  why:"الترتيب مهم: تُخصم الفوائد أولًا (لأنها تُخصم من الوعاء الضريبي)، ثم تُحسب الضريبة على الباقي، ثم يُقسم الناتج على عدد الأسهم. وقابلية خصم الفوائد ضريبيًا هي بالضبط سبب قدرة الرافعة المالية على تضخيم EPS.",
-  w:["2.00 دولار تحسب الضريبة على EBIT أولًا ثم تخصم الفوائد: (500,000 × 0.6 − 100,000) ÷ 100,000 — ترتيب خاطئ؛ فالفوائد تُخصم قبل الضريبة.",
-     "",
-     "3.00 دولار تتجاهل الفوائد تمامًا: 500,000 × 0.6 ÷ 100,000 = 3.00.",
-     "3.60 دولار تطبق معالجة ضريبية خاطئة (مثل إضافة توفير الفوائد الضريبي مرتين)."],
-  note:null }});
-
-QB.push({ id:"q35", sec:"structure", diff:"calc", correct:1,
-en:{ q:"A firm has an expected EPS of $3.00. The required return on equity is 12%. Calculate the estimated share value using the zero-growth model.",
-  o:["$20.00","$25.00","$30.00","$36.00"],
-  f:"Zero-growth model:  P₀ = EPS / rₛ",
-  s:["P₀ = $3.00 / 0.12 = $25.00."],
-  why:"With no growth, the share is a perpetuity of earnings: its value is the annual EPS capitalized at the required return (3 / 0.12 = 25). This is the “share value approach” used to rank alternative capital structures.",
-  w:["$20.00 = 3.00 / 0.15 — uses a wrong required return.",
-     "",
-     "$30.00 = 3.00 / 0.10 — uses a wrong required return.",
-     "$36.00 = 3.00 × 12 — MULTIPLIES instead of dividing by the required return."],
-  note:null },
-ar:{ q:"لدى شركة EPS متوقع 3.00 دولار والعائد المطلوب على حقوق الملكية 12%. احسب القيمة التقديرية للسهم باستخدام نموذج النمو الصفري.",
-  o:["20.00 دولار","25.00 دولار","30.00 دولار","36.00 دولار"],
-  f:"نموذج النمو الصفري:  P₀ = EPS ÷ rₛ",
-  s:["P₀ = 3.00 ÷ 0.12 = 25.00 دولار."],
-  why:"في غياب النمو، يكون السهم بمثابة دفق دائم من الأرباح: قيمته هي EPS السنوي مرسمَلًا عند العائد المطلوب (3 ÷ 0.12 = 25). وهذا هو «مدخل قيمة السهم» المستخدم لترتيب هياكل رأس المال البديلة.",
-  w:["20.00 دولار = 3.00 ÷ 0.15 — تستخدم عائدًا مطلوبًا خاطئًا.",
-     "",
-     "30.00 دولار = 3.00 ÷ 0.10 — تستخدم عائدًا مطلوبًا خاطئًا.",
-     "36.00 دولار = 3.00 × 12 — تضرب في العائد المطلوب بدل القسمة عليه."],
-  note:null }});
-
-QB.push({ id:"q36", sec:"structure", diff:"calc", correct:2,
-en:{ q:"A firm is considering two financing plans. Plan A (Debt): Interest = $200,000, Shares = 100,000. Plan B (Equity): Interest = $0, Shares = 150,000. Tax rate = 40%. What is the EBIT-EPS indifference point?",
-  o:["$400,000","$500,000","$600,000","$700,000"],
-  f:"(EBIT − I₁)(1 − T) / Shares₁ = (EBIT − I₂)(1 − T) / Shares₂",
-  s:["Set the two EPS equal: (EBIT − 200,000)(0.60) / 100,000 = (EBIT − 0)(0.60) / 150,000.",
-     "The (1 − T) = 0.60 factor appears on both sides, so it cancels: (EBIT − 200,000) / 100,000 = EBIT / 150,000.",
-     "Cross-multiply: 150,000 × (EBIT − 200,000) = 100,000 × EBIT.  Divide both sides by 1,000:  150·EBIT − 30,000,000 = 100·EBIT.",
-     "Solve: 50·EBIT = 30,000,000  →  EBIT = $600,000.",
-     "Check: Plan A EPS = (600,000 − 200,000) × 0.6 / 100,000 = $2.40 ;  Plan B EPS = 600,000 × 0.6 / 150,000 = $2.40 ✓"],
-  why:"The indifference point is the EBIT level where both financing plans produce the same EPS. Above $600,000 the debt plan wins (financial leverage magnifies EPS); below it, the equity plan is safer and better.",
-  w:["$400,000 and $500,000 come from cross-multiplication slips or forgetting to scale the interest term.",
-     "$500,000 also results from dividing 30,000,000 by the wrong coefficient (60 instead of 50).",
-     "",
-     "$700,000 comes from adding the interest instead of subtracting it in the setup."],
-  note:null },
-ar:{ q:"تدرس شركة خطتي تمويل: الخطة A (دين): الفوائد = 200,000 دولار، وعدد الأسهم = 100,000. والخطة B (حقوق ملكية): الفوائد = 0، وعدد الأسهم = 150,000. معدل الضريبة = 40%. ما نقطة تساوي EBIT-EPS؟",
-  o:["400,000 دولار","500,000 دولار","600,000 دولار","700,000 دولار"],
-  f:"(EBIT − I₁)(1 − T) ÷ الأسهم₁ = (EBIT − I₂)(1 − T) ÷ الأسهم₂",
-  s:["نساوي الـ EPS للخطةين: (EBIT − 200,000)(0.60) ÷ 100,000 = (EBIT − 0)(0.60) ÷ 150,000.",
-     "المعامل (1 − T) = 0.60 موجود في الطرفين فيُختصر: (EBIT − 200,000) ÷ 100,000 = EBIT ÷ 150,000.",
-     "نضرب تبادليًا: 150,000 × (EBIT − 200,000) = 100,000 × EBIT، وبقسمة الطرفين على 1,000: ‏150·EBIT − 30,000,000 = 100·EBIT.",
-     "نحل: 50·EBIT = 30,000,000 ← أي EBIT = 600,000 دولار.",
-     "التحقق: EPS للخطة A = (600,000 − 200,000) × 0.6 ÷ 100,000 = 2.40 دولار؛ وللخطة B = 600,000 × 0.6 ÷ 150,000 = 2.40 دولار ✓"],
-  why:"نقطة التساوي هي مستوى EBIT الذي تحقق عنده خطتا التمويل نفس الـ EPS. فأعلى من 600,000 دولار تفوز خطة الدين (لأن الرافعة المالية تضخم EPS)، وأدنى منها تكون خطة حقوق الملكية أكثر أمانًا وأفضل.",
-  w:["400,000 و500,000 دولار تنتجان عن أخطاء في الضرب التبادلي أو نسيان ضبط حد الفوائد.",
-     "500,000 دولار تنتج أيضًا عن قسمة 30,000,000 على معامل خاطئ (60 بدلًا من 50).",
-     "",
-     "700,000 دولار تنتج عن جمع الفوائد بدل طرحها في بداية الحل."],
-  note:null }});
+QB.push({
+ "id": "q18",
+ "sec": "capm",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "Asset Z has a beta of 1.3. The risk-free rate is 5%, and the market return is 10%. What is the required return using CAPM?",
+  "o": [
+   "10.5%",
+   "11.5%",
+   "12.0%",
+   "13.0%"
+  ],
+  "f": "rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]",
+  "s": [
+   "Market risk premium: rₘ − R_F = 10% − 5% = 5%.",
+   "Risk premium for Z: 1.3 × 5% = 6.5%.",
+   "Required return: r_Z = 5% + 6.5% = 11.5%."
+  ],
+  "why": "CAPM prices only nondiversifiable (systematic) risk, measured by beta. Investors get the risk-free rate for free, plus 1.3 times the market risk premium for bearing 30% more systematic risk than the market.",
+  "w": [
+   "10.5% = 5% + 1.1 × 5% — wrong beta applied to the premium.",
+   "",
+   "12.0% comes from mis-applying the premium (e.g., 1.4 × 5% + 5%).",
+   "13.0% typically comes from using rₘ instead of the premium (rₘ − R_F), or doubling 6.5%."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لأصل Z بيتا قدرها 1.3. المعدل الخالي من المخاطر 5% وعائد السوق 10%. ما العائد المطلوب وفق نموذج CAPM؟",
+  "o": [
+   "10.5%",
+   "11.5%",
+   "12.0%",
+   "13.0%"
+  ],
+  "f": "rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]",
+  "s": [
+   "علاوة مخاطر السوق: rₘ − R_F = 10% − 5% = 5%.",
+   "علاوة المخاطرة للأصل Z: ‏1.3 × 5% = 6.5%.",
+   "العائد المطلوب: r_Z = 5% + 6.5% = 11.5%."
+  ],
+  "why": "لا يسعّر نموذج CAPM سوى المخاطرة غير القابلة للتنويع (المنهجية) التي تقيسها بيتا. يحصل المستثمر على المعدل الخالي من المخاطر، مضافًا إليه 1.3 ضعف علاوة مخاطر السوق مقابل تحمّل مخاطرة منهجية تزيد 30% عن السوق.",
+  "w": [
+   "10.5% = 5% + 1.1 × 5% — بيتا خاطئة طُبقت على العلاوة.",
+   "",
+   "12.0% ناتجة عن تطبيق خاطئ للعلاوة (مثل 1.4 × 5% + 5%).",
+   "13.0% تأتي عادةً من استخدام rₘ بدلًا من العلاوة (rₘ − R_F)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q19",
+ "sec": "capm",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "Asset B has a beta of 1.8. The risk-free rate is 6%, and the market return is 12%. What is the required return using CAPM?",
+  "o": [
+   "14.8%",
+   "15.6%",
+   "16.8%",
+   "17.2%"
+  ],
+  "f": "rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]",
+  "s": [
+   "Market risk premium: 12% − 6% = 6%.",
+   "Risk premium for B: 1.8 × 6% = 10.8%.",
+   "Required return: r_B = 6% + 10.8% = 16.8%."
+  ],
+  "why": "A beta of 1.8 means the asset is 80% riskier than the market in systematic terms, so its risk premium is 1.8 × the market premium: 10.8% on top of the 6% risk-free rate.",
+  "w": [
+   "14.8% ≈ 6% + 1.47 × 6% — an understated premium.",
+   "15.6% = 6% + 1.6 × 6% — using beta 1.6 instead of 1.8.",
+   "",
+   "17.2% comes from a slightly overstated premium (e.g., 1.87 × 6% + 6%)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لأصل B بيتا قدرها 1.8. المعدل الخالي من المخاطر 6% وعائد السوق 12%. ما العائد المطلوب وفق CAPM؟",
+  "o": [
+   "14.8%",
+   "15.6%",
+   "16.8%",
+   "17.2%"
+  ],
+  "f": "rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]",
+  "s": [
+   "علاوة مخاطر السوق: 12% − 6% = 6%.",
+   "علاوة المخاطرة للأصل B: ‏1.8 × 6% = 10.8%.",
+   "العائد المطلوب: r_B = 6% + 10.8% = 16.8%."
+  ],
+  "why": "بيتا 1.8 تعني أن الأصل أخطر من السوق بنسبة 80% من حيث المخاطرة المنهجية، لذا تكون علاوة مخاطره 1.8 ضعف علاوة السوق: أي 10.8% فوق المعدل الخالي من المخاطر البالغ 6%.",
+  "w": [
+   "14.8% ≈ 6% + 1.47 × 6% — علاوة أقل من الصحيح.",
+   "15.6% = 6% + 1.6 × 6% — استخدام بيتا 1.6 بدلًا من 1.8.",
+   "",
+   "17.2% ناتجة عن علاوة أعلى قليلًا من الصحيح."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q20",
+ "sec": "capm",
+ "diff": "calc",
+ "correct": 3,
+ "en": {
+  "q": "Original: R_F = 6%, rₘ = 12%, b = 1.4. If inflation increases by 1%, what is the new required return?",
+  "o": [
+   "12.4%",
+   "13.4%",
+   "14.4%",
+   "15.4%"
+  ],
+  "f": "rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]   with new R_F and new rₘ",
+  "s": [
+   "Inflation raises BOTH rates by the same 1%: new R_F = 7%, new rₘ = 13%.",
+   "The market risk premium is unchanged: 13% − 7% = 6%.",
+   "New required return: r = 7% + [1.4 × 6%] = 7% + 8.4% = 15.4%."
+  ],
+  "why": "Expected inflation is embedded in both the risk-free rate and the market return, so a 1% inflation rise shifts the whole SML up in parallel: the intercept rises by 1% while the slope (premium) stays at 6%. The required return rises from 14.4% to 15.4%.",
+  "w": [
+   "12.4% and 13.4% are below even the ORIGINAL required return — they subtract instead of adding the inflation effect.",
+   "13.4% could also come from applying +1% only to part of the formula.",
+   "14.4% is the original required return (6% + 1.4 × 6%) — it ignores inflation entirely.",
+   ""
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "في البداية: R_F = 6%، وrₘ = 12%، وبيتا = 1.4. إذا زاد التضخم 1%، فكم يصبح العائد المطلوب الجديد؟",
+  "o": [
+   "12.4%",
+   "13.4%",
+   "14.4%",
+   "15.4%"
+  ],
+  "f": "rⱼ = R_F + [ bⱼ × (rₘ − R_F) ]   باستخدام R_F وrₘ الجديدين",
+  "s": [
+   "التضخم يرفع المعدلين معًا بنفس المقدار 1%: ‏R_F الجديد = 7%، وrₘ الجديد = 13%.",
+   "علاوة مخاطر السوق لم تتغير: 13% − 7% = 6%.",
+   "العائد المطلوب الجديد: r = 7% + [1.4 × 6%] = 7% + 8.4% = 15.4%."
+  ],
+  "why": "التضخم المتوقع مُضمَّن في كل من المعدل الخالي من المخاطر وعائد السوق، لذا فإن زيادة التضخم 1% تُزيح خط SML كله لأعلى إزاحة متوازية: يرتفع القاطع 1% بينما يبقى الميل (العلاوة) 6%. فيرتفع العائد المطلوب من 14.4% إلى 15.4%.",
+  "w": [
+   "12.4% و13.4% أقل حتى من العائد المطلوب الأصلي — أي أنها طرحت أثر التضخم بدل أن تضيفه.",
+   "13.4% قد تنتج أيضًا عن إضافة 1% لجزء من القانون فقط.",
+   "14.4% هي العائد المطلوب الأصلي (6% + 1.4 × 6%) — أي تجاهل التضخم كليًا.",
+   ""
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q21",
+ "sec": "capm",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "Original SML has R_F = 4%, rₘ = 10%. Inflation expectations increase by 2%. What happens to the SML?",
+  "o": [
+   "Parallel upward shift",
+   "Parallel downward shift",
+   "SML steepens",
+   "SML flattens"
+  ],
+  "f": "New R_F = 4% + 2% = 6%     New rₘ = 10% + 2% = 12%     Slope = rₘ − R_F",
+  "s": [
+   "Old slope: 10% − 4% = 6%.   New slope: 12% − 6% = 6% → slope UNCHANGED.",
+   "Intercept rises from 4% to 6%.",
+   "Same slope + higher intercept = the entire line shifts up in parallel by 2%."
+  ],
+  "why": "Inflation lifts the risk-free rate and the market return by the same amount, so the market risk premium (the slope) does not change — only the starting level does. Graphically the SML slides straight up by the inflation increase.",
+  "w": [
+   "",
+   "Downward would mean inflation FELL, not rose.",
+   "Steepening happens when investors become MORE risk-averse (the premium rₘ − R_F grows), not from inflation.",
+   "Flattening happens when R_F rises while rₘ stays put (the premium shrinks) — that is the next question!"
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "خط SML الأصلي: R_F = 4% وrₘ = 10%. زادت توقعات التضخم 2%. ماذا يحدث للخط؟",
+  "o": [
+   "إزاحة متوازية لأعلى",
+   "إزاحة متوازية لأسفل",
+   "يزداد ميل الخط (أكثر انحدارًا)",
+   "يقل ميل الخط (أكثر تسطحًا)"
+  ],
+  "f": "R_F الجديد = 4% + 2% = 6%     rₘ الجديد = 10% + 2% = 12%     الميل = rₘ − R_F",
+  "s": [
+   "الميل القديم: 10% − 4% = 6%.   الميل الجديد: 12% − 6% = 6% ← الميل لم يتغير.",
+   "القاطع الرأسي يرتفع من 4% إلى 6%.",
+   "ميل ثابت + قاطع أعلى = إزاحة الخط كله لأعلى إزاحة متوازية بمقدار 2%."
+  ],
+  "why": "التضخم يرفع المعدل الخالي من المخاطر وعائد السوق بنفس المقدار، فلا تتغير علاوة مخاطر السوق (الميل) — يتغير مستوى البداية فقط. وبيانيًا ينزلق خط SML رأسيًا لأعلى بمقدار زيادة التضخم.",
+  "w": [
+   "",
+   "الإزاحة لأسفل تعني أن التضخم انخفض وليس ارتفع.",
+   "زيادة الانحدار تحدث حين يصبح المستثمرون أكثر نفورًا من المخاطرة (تزداد العلاوة rₘ − R_F)، وليس بسبب التضخم.",
+   "التسطح يحدث إذا ارتفع R_F وبقي rₘ ثابتًا (فتنكمش العلاوة) — وهذا هو السؤال التالي!"
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q22",
+ "sec": "capm",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "Original SML has R_F = 5%, rₘ = 11%. R_F increases to 8% while rₘ remains 11%. What happens to the SML?",
+  "o": [
+   "Parallel upward shift",
+   "Parallel downward shift",
+   "Intercept rises, SML flattens",
+   "Intercept falls, SML steepens"
+  ],
+  "f": "Slope = rₘ − R_F     Intercept = R_F",
+  "s": [
+   "Old slope: 11% − 5% = 6%.   New slope: 11% − 8% = 3%.",
+   "Intercept rises from 5% to 8%.",
+   "Higher intercept + smaller slope → the line pivots up at the y-axis and becomes FLATTER."
+  ],
+  "why": "Because only the risk-free rate moved, the market risk premium shrank from 6% to 3%. The SML still starts higher (8%), but each unit of beta now adds less required return, so the line rotates/flattens — it is not a parallel shift.",
+  "w": [
+   "A parallel shift requires the premium (slope) to stay the same — here it fell from 6% to 3%.",
+   "Nothing moves downward: the intercept RISES from 5% to 8%.",
+   "",
+   "The intercept rises (not falls), and the line flattens (not steepens) — both halves of this statement are backwards."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "خط SML الأصلي: R_F = 5% وrₘ = 11%. ارتفع R_F إلى 8% بينما بقي rₘ عند 11%. ماذا يحدث للخط؟",
+  "o": [
+   "إزاحة متوازية لأعلى",
+   "إزاحة متوازية لأسفل",
+   "يرتفع القاطع ويقل ميل الخط (يتسطح)",
+   "ينخفض القاطع ويزداد ميل الخط (ينحدر)"
+  ],
+  "f": "الميل = rₘ − R_F     القاطع الرأسي = R_F",
+  "s": [
+   "الميل القديم: 11% − 5% = 6%.   الميل الجديد: 11% − 8% = 3%.",
+   "القاطع الرأسي يرتفع من 5% إلى 8%.",
+   "قاطع أعلى + ميل أصغر ← يدور الخط لأعلى حول المحور الرأسي ويصبح أكثر تسطحًا."
+  ],
+  "why": "لأن المعدل الخالي من المخاطر وحده هو الذي تغير، انكمشت علاوة مخاطر السوق من 6% إلى 3%. فما زال الخط يبدأ من نقطة أعلى (8%)، لكن كل وحدة بيتا تضيف الآن عائدًا مطلوبًا أقل، فيقل انحدار الخط — وليست إزاحة متوازية.",
+  "w": [
+   "الإزاحة المتوازية تشترط ثبات العلاوة (الميل) — وهنا انخفضت من 6% إلى 3%.",
+   "لا شيء يتحرك لأسفل: القاطع يرتفع من 5% إلى 8%.",
+   "",
+   "القاطع يرتفع (لا ينخفض) والخط يتسطح (لا ينحدر) — أي أن شقيّ العبارة معكوسان."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q24",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "A firm has an expected EBIT of $500,000 per year forever. The unlevered cost of equity is 10%. What is the value of the unlevered firm?",
+  "o": [
+   "$4,000,000",
+   "$5,000,000",
+   "$6,000,000",
+   "$50,000,000"
+  ],
+  "f": "V_U = EBIT / K_eu      (perpetuity)",
+  "s": [
+   "An all-equity firm's cash flow to owners is EBIT (no interest, no taxes in the base M&M setting).",
+   "Capitalize it as a perpetuity: V_U = $500,000 / 0.10 = $5,000,000."
+  ],
+  "why": "A perpetual stream of $500,000 discounted at 10% is worth 10 times the annual flow: $5M. This is the benchmark unlevered value V_U that M&M Proposition I says leverage cannot change (without taxes).",
+  "w": [
+   "$4,000,000 implies discounting at 12.5% — wrong rate.",
+   "",
+   "$6,000,000 implies discounting at ≈8.3% — wrong rate.",
+   "$50,000,000 comes from dividing by 0.01 (or multiplying by 100) — a decimal-place error."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "تحقق شركة EBIT متوقعًا قدره 500,000 دولار سنويًا إلى الأبد، وتكلفة حقوق الملكية لها بدون رافعة 10%. ما قيمة الشركة غير الممولة بالدين (Unlevered)؟",
+  "o": [
+   "4,000,000 دولار",
+   "5,000,000 دولار",
+   "6,000,000 دولار",
+   "50,000,000 دولار"
+  ],
+  "f": "V_U = EBIT ÷ K_eu      (دفق دائم Perpetuity)",
+  "s": [
+   "التدفق النقدي لملاك شركة ممولة بالكامل بحقوق الملكية هو EBIT (لا فوائد ولا ضرائب في إطار M&M الأساسي).",
+   "نقوم برسملة التدفق كدفق دائم: V_U = 500,000 ÷ 0.10 = 5,000,000 دولار."
+  ],
+  "why": "التدفق الدائم البالغ 500,000 دولار المخصوم بمعدل 10% تساوي قيمته 10 أمثال التدفق السنوي: أي 5 ملايين دولار. وهذه هي القيمة المرجعية V_U التي تقول قضية M&M الأولى إن الرافعة المالية لا تستطيع تغييرها (في غياب الضرائب).",
+  "w": [
+   "4,000,000 دولار تفترض خصمًا بمعدل 12.5% — معدل خاطئ.",
+   "",
+   "6,000,000 دولار تفترض خصمًا بمعدل 8.3% تقريبًا — معدل خاطئ.",
+   "50,000,000 دولار ناتجة عن القسمة على 0.01 (أو الضرب في 100) — خطأ في الفاصلة العشرية."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q25",
+ "sec": "structure",
+ "diff": "concept",
+ "correct": 1,
+ "en": {
+  "q": "Company X is an all-equity firm with a value of $8,000,000. According to M&M Proposition I (No Taxes), if the company issues $2,000,000 in debt, what will be the value of the levered firm?",
+  "o": [
+   "$6,000,000",
+   "$8,000,000",
+   "$10,000,000",
+   "$12,000,000"
+  ],
+  "f": "M&M I (no taxes):  V_L = V_U",
+  "s": [
+   "V_U = $8,000,000 (given).",
+   "Without taxes there is no interest tax shield, so leverage adds nothing: V_L = V_U = $8,000,000.",
+   "(The debt merely replaces $2M of equity: E = $8M − $2M = $6M, but D + E still = $8M.)"
+  ],
+  "why": "M&M Proposition I without taxes says capital structure is irrelevant: issuing debt does not create or destroy value. The firm is still worth $8M — the pie is just sliced into $2M debt + $6M equity instead of $8M equity.",
+  "w": [
+   "$6,000,000 is only the EQUITY value after recapitalization (V_L − D), not the firm value.",
+   "",
+   "$10,000,000 wrongly ADDS the debt to firm value (V_U + D) — debt financing is not free money.",
+   "$12,000,000 has no basis in M&M — a pure distractor."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "شركة X ممولة بالكامل بحقوق الملكية وقيمتها 8,000,000 دولار. وفقًا لقضية M&M الأولى (بدون ضرائب)، إذا أصدرت الشركة دينًا بقيمة 2,000,000 دولار، فما قيمة الشركة الممولة بالدين (Levered)؟",
+  "o": [
+   "6,000,000 دولار",
+   "8,000,000 دولار",
+   "10,000,000 دولار",
+   "12,000,000 دولار"
+  ],
+  "f": "M&M الأولى (بدون ضرائب):  V_L = V_U",
+  "s": [
+   "V_U = 8,000,000 دولار (معطاة).",
+   "بدون ضرائب لا يوجد درع ضريبي للفوائد، لذا لا تضيف الرافعة شيئًا: V_L = V_U = 8,000,000 دولار.",
+   "(الدين يستبدل ببساطة 2 مليون من حقوق الملكية: E = 8 − 2 = 6 ملايين، لكن D + E تظل = 8 ملايين.)"
+  ],
+  "why": "تقول قضية M&M الأولى بدون ضرائب إن هيكل رأس المال غير مؤثر: إصدار الدين لا يخلق قيمة ولا يعدمها. فما زالت الشركة تساوي 8 ملايين دولار — الفطيرة نفسها قُطعت إلى 2 مليون دين + 6 ملايين حقوق ملكية بدلًا من 8 ملايين حقوق ملكية فقط.",
+  "w": [
+   "6,000,000 دولار هي قيمة حقوق الملكية فقط بعد إعادة الهيكلة (V_L − D) وليست قيمة الشركة.",
+   "",
+   "10,000,000 دولار تضيف الدين خطأً إلى قيمة الشركة (V_U + D) — فالتمويل بالدين ليس أموالًا مجانية.",
+   "12,000,000 دولار لا أساس لها في M&M — إجابة للإلهاء."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q26",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "An unlevered firm has a cost of equity of 12%. It issues debt at 6% and achieves a debt-to-equity ratio of 0.5. What is the levered cost of equity? (No taxes)",
+  "o": [
+   "12%",
+   "15%",
+   "18%",
+   "21%"
+  ],
+  "f": "M&M II (no taxes):  K_e = K_eu + (K_eu − K_d) × (D/E)",
+  "s": [
+   "Spread between equity and debt costs: K_eu − K_d = 12% − 6% = 6%.",
+   "Leverage premium: 6% × 0.5 = 3%.",
+   "Levered cost of equity: K_e = 12% + 3% = 15%."
+  ],
+  "why": "M&M Proposition II: as a firm borrows, equity becomes riskier (shareholders sit behind debt holders), so they demand a premium proportional to D/E. Note that cheap debt does NOT lower WACC here — the rising K_e exactly offsets it (WACC stays at 12%).",
+  "w": [
+   "12% ignores the financial-risk premium entirely — leverage always raises K_e.",
+   "",
+   "18% would need (K_eu − K_d) × 1.0 — i.e., D/E = 1, not 0.5.",
+   "21% would come from adding 12% + 9%×1 or similar mis-application of the formula."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "شركة بدون رافعة مالية تكلفة حقوق الملكية لها 12%. أصدرت دينًا بتكلفة 6% وحققت نسبة دين إلى حقوق ملكية 0.5. ما تكلفة حقوق الملكية في وجود الرافعة؟ (بدون ضرائب)",
+  "o": [
+   "12%",
+   "15%",
+   "18%",
+   "21%"
+  ],
+  "f": "M&M الثانية (بدون ضرائب):  K_e = K_eu + (K_eu − K_d) × (D/E)",
+  "s": [
+   "الفرق بين تكلفة حقوق الملكية وتكلفة الدين: K_eu − K_d = 12% − 6% = 6%.",
+   "علاوة الرافعة: 6% × 0.5 = 3%.",
+   "تكلفة حقوق الملكية مع الرافعة: K_e = 12% + 3% = 15%."
+  ],
+  "why": "قضية M&M الثانية: كلما اقترضت الشركة زادت مخاطرة حقوق الملكية (لأن المساهمين في المرتبة الأخيرة بعد حملة الدين)، فيطالبون بعلاوة تتناسب مع D/E. لاحظ أن الدين الرخيص لا يخفض WACC هنا — فارتفاع K_e يعادله بالضبط (ويبقى WACC عند 12%).",
+  "w": [
+   "12% تتجاهل علاوة المخاطرة المالية تمامًا — فالرافعة ترفع K_e دائمًا.",
+   "",
+   "18% تتطلب (K_eu − K_d) × 1.0 — أي D/E = 1 وليس 0.5.",
+   "21% ناتجة عن تطبيق خاطئ للقانون (مثل 12% + 9%×1)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q27",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "A firm has equity of $6,000,000 and debt of $4,000,000. The cost of equity is 15% and the cost of debt is 8%. The tax rate is 30%. Calculate the WACC.",
+  "o": [
+   "10.24%",
+   "11.24%",
+   "12.24%",
+   "13.24%"
+  ],
+  "f": "WACC = (E/V) × K_e + (D/V) × K_d × (1 − T_c)",
+  "s": [
+   "Total capital: V = $6M + $4M = $10,000,000.",
+   "Weights: E/V = 0.6 ,  D/V = 0.4.",
+   "Equity component: 0.6 × 15% = 9.00%.",
+   "Debt component (after tax): 0.4 × 8% × (1 − 0.30) = 0.4 × 5.6% = 2.24%.",
+   "WACC = 9.00% + 2.24% = 11.24%."
+  ],
+  "why": "Interest is tax-deductible, so the true (after-tax) cost of debt is only K_d × (1 − T_c) = 5.6%. WACC blends the after-tax cost of each capital source using market-value weights.",
+  "w": [
+   "10.24% understates the equity component (e.g., also tax-adjusting equity, which is wrong — equity gets no tax shield).",
+   "",
+   "12.24% = 9% + 3.2% forgets the tax shield on debt (uses 0.4 × 8% = 3.2% instead of 2.24%).",
+   "13.24% comes from wrong weights or ignoring the tax adjustment on a larger debt component."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لدى شركة حقوق ملكية بقيمة 6,000,000 دولار وديون بقيمة 4,000,000 دولار. تكلفة حقوق الملكية 15% وتكلفة الدين 8% ومعدل الضريبة 30%. احسب متوسط التكلفة المرجح لرأس المال WACC.",
+  "o": [
+   "10.24%",
+   "11.24%",
+   "12.24%",
+   "13.24%"
+  ],
+  "f": "WACC = (E/V) × K_e + (D/V) × K_d × (1 − T_c)",
+  "s": [
+   "رأس المال الكلي: V = 6 + 4 = 10,000,000 دولار.",
+   "الأوزان: E/V = 0.6 ، وD/V = 0.4.",
+   "مكوّن حقوق الملكية: 0.6 × 15% = 9.00%.",
+   "مكوّن الدين (بعد الضريبة): 0.4 × 8% × (1 − 0.30) = 0.4 × 5.6% = 2.24%.",
+   "WACC = 9.00% + 2.24% = 11.24%."
+  ],
+  "why": "الفوائد تُخصم من الوعاء الضريبي، لذا فإن التكلفة الحقيقية (بعد الضريبة) للدين هي K_d × (1 − T_c) = 5.6% فقط. ويخلط WACC التكلفة بعد الضريبة لكل مصدر من مصادر رأس المال باستخدام أوزان القيمة السوقية.",
+  "w": [
+   "10.24% تقلل مكوّن حقوق الملكية (مثل خصم الضريبة من تكلفة حقوق الملكية أيضًا — وهذا خطأ فلا يوجد درع ضريبي لها).",
+   "",
+   "12.24% = 9% + 3.2% تنسى الدرع الضريبي على الدين (تستخدم 0.4 × 8% = 3.2% بدل 2.24%).",
+   "13.24% ناتجة عن أوزان خاطئة أو تجاهل التعديل الضريبي مع مكوّن دين أكبر."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q28",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "A firm has an unlevered cost of equity of 18%. It plans to issue debt at 9% and achieve a D/E ratio of 0.8. The corporate tax rate is 25%. What is the new levered cost of equity?",
+  "o": [
+   "21.40%",
+   "22.40%",
+   "23.40%",
+   "24.40%"
+  ],
+  "f": "M&M II (with taxes):  K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
+  "s": [
+   "Tax factor: (1 − T_c) = 1 − 0.25 = 0.75.",
+   "Cost spread: K_eu − K_d = 18% − 9% = 9%.",
+   "Leverage premium: 0.75 × 9% × 0.8 = 5.4%.",
+   "K_e = 18% + 5.4% = 23.40%."
+  ],
+  "why": "With corporate taxes, the financial-risk premium is multiplied by (1 − T_c) because the tax shield softens the impact of leverage — that is why the with-tax K_e (23.40%) is lower than the no-tax K_e would be (18% + 9%×0.8 = 25.2%).",
+  "w": [
+   "21.40% equals 18% + 0.75 × 9% × 0.5 — i.e., it corresponds to D/E = 0.5, not the 0.8 stated in the question (see note).",
+   "22.40% does not match the formula for any consistent input combination.",
+   "",
+   "24.40% overstates the leverage premium."
+  ],
+  "note": "⚠️ The revision slide's answer key marks A (21.40%), but with D/E = 0.8 as written in the question the formula gives 23.40% (C). The value 21.40% only results if D/E = 0.5 (18% + 0.75 × 9% × 0.5 = 21.375% ≈ 21.4%). Double-check this one with your instructor — the calculation above follows exactly the same formula used in the parallel Nile Corp question (slide 16)."
+ },
+ "ar": {
+  "q": "لدى شركة تكلفة حقوق ملكية بدون رافعة 18%. وتخطط لإصدار دين بتكلفة 9% وتحقيق نسبة D/E قدرها 0.8. معدل ضريبة الشركات 25%. ما تكلفة حقوق الملكية الجديدة في وجود الرافعة؟",
+  "o": [
+   "21.40%",
+   "22.40%",
+   "23.40%",
+   "24.40%"
+  ],
+  "f": "M&M الثانية (مع الضرائب):  K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
+  "s": [
+   "معامل الضريبة: (1 − T_c) = 1 − 0.25 = 0.75.",
+   "فرق التكلفة: K_eu − K_d = 18% − 9% = 9%.",
+   "علاوة الرافعة: 0.75 × 9% × 0.8 = 5.4%.",
+   "K_e = 18% + 5.4% = 23.40%."
+  ],
+  "why": "في وجود ضرائب الشركات، تُضرب علاوة المخاطرة المالية في (1 − T_c) لأن الدرع الضريبي يخفف أثر الرافعة — ولهذا تكون K_e مع الضريبة (23.40%) أقل مما ستكون بدونه (18% + 9%×0.8 = 25.2%).",
+  "w": [
+   "21.40% تساوي 18% + 0.75 × 9% × 0.5 — أي أنها تناظر D/E = 0.5 وليس 0.8 المذكورة في السؤال (انظر التنبيه).",
+   "22.40% لا تنتج عن القانون بأي مدخلات متناسقة.",
+   "",
+   "24.40% تبالغ في علاوة الرافعة."
+  ],
+  "note": "⚠️ مفتاح إجابات شريحة المراجعة يشير إلى A ‏(21.40%)، لكن مع D/E = 0.8 كما هو مكتوب في السؤال فإن القانون يعطي 23.40% ‏(C). والقيمة 21.40% لا تنتج إلا إذا كانت D/E = 0.5 ‏(18% + 0.75 × 9% × 0.5 = 21.375% ≈ 21.4%). راجع هذا السؤال مع أستاذة المادة — فالحل أعلاه يتبع نفس القانون المستخدم في سؤال Nile Corp المماثل (شريحة 16)."
+ }
+});
+QB.push({
+ "id": "q29",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "Delta Corp is currently unlevered with a value of $20,000,000. The company decides to issue $6,000,000 in perpetual debt. The corporate tax rate is 25%. According to M&M Proposition I with taxes, what is the value of the levered firm?",
+  "o": [
+   "$20,000,000",
+   "$21,500,000",
+   "$23,500,000",
+   "$26,000,000"
+  ],
+  "f": "M&M I (with taxes):  V_L = V_U + T_c × D",
+  "s": [
+   "Interest tax shield: T_c × D = 0.25 × $6,000,000 = $1,500,000.",
+   "Levered value: V_L = $20,000,000 + $1,500,000 = $21,500,000."
+  ],
+  "why": "With taxes, debt creates value: the interest payments are tax-deductible, and for perpetual debt the present value of that permanent tax saving is exactly T_c × D = $1.5M. So the levered firm is worth $21.5M.",
+  "w": [
+   "$20,000,000 is the no-tax answer (V_L = V_U) — it ignores the tax shield.",
+   "",
+   "$23,500,000 double-counts part of the shield or adds a wrong amount.",
+   "$26,000,000 wrongly adds the full debt amount to firm value (V_U + D)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "شركة Delta حاليًا بدون رافعة وقيمتها 20,000,000 دولار، وقررت إصدار دين دائم بقيمة 6,000,000 دولار. معدل ضريبة الشركات 25%. وفقًا لقضية M&M الأولى في وجود الضرائب، ما قيمة الشركة الممولة بالدين؟",
+  "o": [
+   "20,000,000 دولار",
+   "21,500,000 دولار",
+   "23,500,000 دولار",
+   "26,000,000 دولار"
+  ],
+  "f": "M&M الأولى (مع الضرائب):  V_L = V_U + T_c × D",
+  "s": [
+   "الدرع الضريبي للفوائد: T_c × D = 0.25 × 6,000,000 = 1,500,000 دولار.",
+   "القيمة مع الرافعة: V_L = 20,000,000 + 1,500,000 = 21,500,000 دولار."
+  ],
+  "why": "في وجود الضرائب يخلق الدين قيمة: فمدفوعات الفوائد تُخصم من الوعاء الضريبي، وبالنسبة للدين الدائم تكون القيمة الحالية لهذا التوفير الضريبي المستمر هي T_c × D = 1.5 مليون دولار بالضبط. لذا تصبح قيمة الشركة الممولة بالدين 21.5 مليون دولار.",
+  "w": [
+   "20,000,000 دولار هي إجابة حالة غياب الضرائب (V_L = V_U) — فهي تتجاهل الدرع الضريبي.",
+   "",
+   "23,500,000 دولار تحسب جزءًا من الدرع مرتين أو تضيف مبلغًا خاطئًا.",
+   "26,000,000 دولار تضيف خطأً كامل مبلغ الدين إلى قيمة الشركة (V_U + D)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q30",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "Nile Corp currently has an unlevered cost of equity of 14%. It plans to issue debt at 7% and achieve a D/E ratio of 0.8. The corporate tax rate is 30%. What will be the new levered cost of equity?",
+  "o": [
+   "17.92%",
+   "18.92%",
+   "19.92%",
+   "20.92%"
+  ],
+  "f": "M&M II (with taxes):  K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
+  "s": [
+   "Tax factor: 1 − 0.30 = 0.70.",
+   "Cost spread: 14% − 7% = 7%.",
+   "Premium: 0.70 × 7% × 0.8 = 3.92%.",
+   "K_e = 14% + 3.92% = 17.92%."
+  ],
+  "why": "Same with-tax M&M II mechanics: the leverage premium is shrunk by (1 − T_c) because the tax deductibility of interest cushions shareholders' added financial risk. Result: 17.92%.",
+  "w": [
+   "",
+   "18.92% = 14% + 0.7 × 7% × 1.0 — uses D/E = 1 instead of 0.8.",
+   "19.92% comes from mis-applying the tax factor (e.g., partial adjustment of the spread).",
+   "20.92% ≈ the NO-tax answer plus a bit (no-tax K_e would be 14% + 7% × 0.8 = 19.6%) — forgetting (1 − T_c) entirely lands near 19.6–20.9%."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لدى شركة Nile حاليًا تكلفة حقوق ملكية بدون رافعة 14%. وتخطط لإصدار دين بتكلفة 7% وتحقيق نسبة D/E قدرها 0.8. معدل ضريبة الشركات 30%. ما تكلفة حقوق الملكية الجديدة في وجود الرافعة؟",
+  "o": [
+   "17.92%",
+   "18.92%",
+   "19.92%",
+   "20.92%"
+  ],
+  "f": "M&M الثانية (مع الضرائب):  K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
+  "s": [
+   "معامل الضريبة: 1 − 0.30 = 0.70.",
+   "فرق التكلفة: 14% − 7% = 7%.",
+   "العلاوة: 0.70 × 7% × 0.8 = 3.92%.",
+   "K_e = 14% + 3.92% = 17.92%."
+  ],
+  "why": "نفس ميكانيكية M&M الثانية مع الضرائب: تنكمش علاوة الرافعة بمقدار (1 − T_c) لأن قابلية خصم الفوائد ضريبيًا تخفف المخاطرة المالية الإضافية على المساهمين. والنتيجة: 17.92%.",
+  "w": [
+   "",
+   "18.92% = 14% + 0.7 × 7% × 1.0 — تستخدم D/E = 1 بدلًا من 0.8.",
+   "19.92% ناتجة عن تطبيق خاطئ لمعامل الضريبة.",
+   "20.92% ≈ إجابة حالة غياب الضرائب تقريبًا (فبدون ضرائب تكون K_e = 14% + 7% × 0.8 = 19.6%) — أي نسيان (1 − T_c) كليًا."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q31",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "An unlevered firm has a value of $15,000,000. The corporate tax rate is 30%. The firm issues $4,000,000 in debt. Calculate the value of the levered firm.",
+  "o": [
+   "$15,000,000",
+   "$16,200,000",
+   "$19,000,000",
+   "$27,000,000"
+  ],
+  "f": "V_L = V_U + T_c × D",
+  "s": [
+   "Tax shield: 0.30 × $4,000,000 = $1,200,000.",
+   "V_L = $15,000,000 + $1,200,000 = $16,200,000."
+  ],
+  "why": "M&M I with taxes: the levered firm is worth the unlevered value plus the present value of the interest tax shield (T_c × D for perpetual debt) = $1.2M.",
+  "w": [
+   "$15,000,000 ignores the tax shield — that is the no-tax M&M answer.",
+   "",
+   "$19,000,000 wrongly adds the entire debt ($15M + $4M) to firm value.",
+   "$27,000,000 has no basis in M&M — a pure distractor."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لدى شركة بدون رافعة قيمة قدرها 15,000,000 دولار، ومعدل ضريبة الشركات 30%. وأصدرت الشركة دينًا بقيمة 4,000,000 دولار. احسب قيمة الشركة الممولة بالدين.",
+  "o": [
+   "15,000,000 دولار",
+   "16,200,000 دولار",
+   "19,000,000 دولار",
+   "27,000,000 دولار"
+  ],
+  "f": "V_L = V_U + T_c × D",
+  "s": [
+   "الدرع الضريبي: 0.30 × 4,000,000 = 1,200,000 دولار.",
+   "V_L = 15,000,000 + 1,200,000 = 16,200,000 دولار."
+  ],
+  "why": "قضية M&M الأولى مع الضرائب: قيمة الشركة الممولة بالدين تساوي قيمتها بدون رافعة مضافًا إليها القيمة الحالية للدرع الضريبي للفوائد (T_c × D للدين الدائم) = 1.2 مليون دولار.",
+  "w": [
+   "15,000,000 دولار تتجاهل الدرع الضريبي — وهذه هي إجابة M&M بدون ضرائب.",
+   "",
+   "19,000,000 دولار تضيف خطأً كامل الدين (15 + 4 ملايين) إلى قيمة الشركة.",
+   "27,000,000 دولار لا أساس لها في M&M — إجابة للإلهاء."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q32",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "A firm has an unlevered cost of equity of 12%, cost of debt of 6%, tax rate of 30%, and D/E ratio of 0.5. Calculate the levered cost of equity.",
+  "o": [
+   "12%",
+   "14.1%",
+   "15.1%",
+   "16.1%"
+  ],
+  "f": "K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
+  "s": [
+   "Spread: 12% − 6% = 6%.",
+   "Tax factor × spread × leverage: 0.70 × 6% × 0.5 = 2.1%.",
+   "K_e = 12% + 2.1% = 14.1%."
+  ],
+  "why": "The with-tax M&M II premium here is only 2.1 percentage points — modest leverage (D/E = 0.5) and the 30% tax shield keep the cost of equity close to its unlevered level.",
+  "w": [
+   "12% ignores the leverage premium completely.",
+   "",
+   "15.1% ≈ the no-tax answer (12% + 6% × 0.5 = 15%) — it forgets the (1 − T_c) factor.",
+   "16.1% overstates the premium (e.g., forgetting both the tax factor and using a bigger spread)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لدى شركة تكلفة حقوق ملكية بدون رافعة 12%، وتكلفة دين 6%، ومعدل ضريبة 30%، ونسبة D/E قدرها 0.5. احسب تكلفة حقوق الملكية في وجود الرافعة.",
+  "o": [
+   "12%",
+   "14.1%",
+   "15.1%",
+   "16.1%"
+  ],
+  "f": "K_e = K_eu + (1 − T_c) × (K_eu − K_d) × (D/E)",
+  "s": [
+   "الفرق: 12% − 6% = 6%.",
+   "معامل الضريبة × الفرق × الرافعة: 0.70 × 6% × 0.5 = 2.1%.",
+   "K_e = 12% + 2.1% = 14.1%."
+  ],
+  "why": "علاوة M&M الثانية مع الضرائب هنا هي 2.1 نقطة مئوية فقط — فالرافعة المعتدلة (D/E = 0.5) مع الدرع الضريبي 30% تُبقي تكلفة حقوق الملكية قريبة من مستواها بدون رافعة.",
+  "w": [
+   "12% تتجاهل علاوة الرافعة تمامًا.",
+   "",
+   "15.1% ≈ إجابة حالة غياب الضرائب (12% + 6% × 0.5 = 15%) — أي نسيان معامل (1 − T_c).",
+   "16.1% تبالغ في العلاوة (مثل نسيان معامل الضريبة مع استخدام فرق أكبر)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q33",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "A firm has V_U = $25,000,000, debt of $5,000,000, and tax rate of 30%. The present value of financial distress costs is $1,500,000. Calculate the levered firm value.",
+  "o": [
+   "$25,000,000",
+   "$25,500,000",
+   "$26,500,000",
+   "$28,000,000"
+  ],
+  "f": "Trade-off theory:  V_L = V_U + T_c × D − PV(Financial distress costs)",
+  "s": [
+   "Tax shield benefit: 0.30 × $5,000,000 = +$1,500,000.",
+   "Distress cost: −$1,500,000.",
+   "V_L = $25,000,000 + $1,500,000 − $1,500,000 = $25,000,000."
+  ],
+  "why": "Trade-off theory balances the tax shield benefit against bankruptcy/distress costs. Here they exactly cancel, so leverage adds nothing: V_L = V_U = $25M. This is the intuition behind why firms use moderate — not extreme — debt levels.",
+  "w": [
+   "",
+   "$25,500,000 nets only part of the two effects.",
+   "$26,500,000 = V_U + T_c×D — it forgets to SUBTRACT the distress costs (pure M&M with taxes).",
+   "$28,000,000 ADDS the distress costs instead of subtracting them (25 + 1.5 + 1.5)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لدى شركة V_U = 25,000,000 دولار، وديون 5,000,000 دولار، ومعدل ضريبة 30%. والقيمة الحالية لتكاليف الضائقة المالية 1,500,000 دولار. احسب قيمة الشركة في وجود الرافعة.",
+  "o": [
+   "25,000,000 دولار",
+   "25,500,000 دولار",
+   "26,500,000 دولار",
+   "28,000,000 دولار"
+  ],
+  "f": "نظرية المفاضلة:  V_L = V_U + T_c × D − القيمة الحالية لتكاليف الضائقة المالية",
+  "s": [
+   "منفعة الدرع الضريبي: 0.30 × 5,000,000 = +1,500,000 دولار.",
+   "تكلفة الضائقة المالية: −1,500,000 دولار.",
+   "V_L = 25,000,000 + 1,500,000 − 1,500,000 = 25,000,000 دولار."
+  ],
+  "why": "توازن نظرية المفاضلة بين منفعة الدرع الضريبي وتكاليف الإفلاس/الضائقة المالية. وهنا يلغي أحدهما الآخر تمامًا، فلا تضيف الرافعة شيئًا: V_L = V_U = 25 مليون دولار. وهذه هي الفكرة الكامنة وراء استخدام الشركات مستويات دين معتدلة وليست متطرفة.",
+  "w": [
+   "",
+   "25,500,000 دولار تخصم جزءًا فقط من الأثرين.",
+   "26,500,000 دولار = V_U + T_c×D — أي نسيت طرح تكاليف الضائقة (M&M مع الضرائب فقط).",
+   "28,000,000 دولار تجمع تكاليف الضائقة بدل طرحها (25 + 1.5 + 1.5)."
+  ],
+  "note": null
+ }
+});
 
 </script>
 <script>
 /* ============================================================
-   Question bank — Part 3
-   Section E: Dividend & Payout Policy (q37–q44)
+   Question bank — Part 3 (PPTX file order positions 31–44)
+   Array order follows the official "Midterm 1 revision" slide order.
+   ids stay stable (q01–q44); the sec field still drives topic grouping.
    ============================================================ */
 "use strict";
 window.QB = window.QB || [];
 
-QB.push({ id:"q37", sec:"dividends", diff:"concept", correct:3,
-en:{ q:"A firm following a constant-payout-ratio dividend policy will:",
-  o:["Pay a fixed dollar amount each period","Always pay extra dividends when earnings are high","Never reduce dividends","Pay a fixed percentage of positive earnings each period"],
-  f:"DPS = Payout ratio × positive EPS      (if EPS ≤ 0 → DPS = 0)",
-  s:[],
-  why:"Under a constant-payout-ratio policy the firm commits to a fixed PERCENTAGE of earnings (e.g., always 40%), so the dollar dividend fluctuates with EPS every period — and if the firm posts a loss, the dividend drops to zero.",
-  w:["A fixed dollar amount each period is the REGULAR dividend policy.",
-     "Paying an extra dividend in good years describes the LOW-REGULAR-AND-EXTRA policy.",
-     "“Never reduce” is a feature of the regular policy; under constant payout the dividend automatically falls (even to zero) when earnings fall.",
-     ""],
-  note:"The three cash-dividend policies: constant-payout-ratio (fixed % of earnings), regular (fixed $ amount), and low-regular-and-extra (small fixed $ + bonus in good years)." },
-ar:{ q:"الشركة التي تتبع سياسة نسبة التوزيع الثابتة (Constant-Payout-Ratio) ستقوم بـ:",
-  o:["دفع مبلغ دولاري ثابت كل فترة","دفع توزيعات إضافية دائمًا عندما ترتفع الأرباح","عدم تخفيض التوزيعات أبدًا","دفع نسبة ثابتة من الأرباح الموجبة كل فترة"],
-  f:"DPS = نسبة التوزيع × EPS الموجب      (إذا كان EPS ≤ 0 ← فإن DPS = 0)",
-  s:[],
-  why:"بموجب سياسة نسبة التوزيع الثابتة تلتزم الشركة بنسبة مئوية ثابتة من الأرباح (مثل 40% دائمًا)، لذا يتذبذب مبلغ التوزيع بالدولار مع EPS كل فترة — وإذا حققت الشركة خسارة تنخفض التوزيعات إلى صفر.",
-  w:["دفع مبلغ دولاري ثابت كل فترة هو سياسة التوزيع المنتظم (Regular).",
-     "دفع توزيع إضافي في السنوات الجيدة يصف سياسة «المنخفض المنتظم + الإضافي».",
-     "«عدم التخفيض أبدًا» من سمات السياسة المنتظمة؛ أما في نسبة التوزيع الثابتة فالتوزيع ينخفض تلقائيًا (وحتى الصفر) حين تنخفض الأرباح.",
-     ""],
-  note:"سياسات التوزيع النقدي الثلاث: نسبة توزيع ثابتة (نسبة % من الأرباح)، ومنتظمة (مبلغ $ ثابت)، ومنخفض-منتظم-وإضافي (مبلغ ثابت صغير + مكافأة في السنوات الجيدة)." }});
-
-QB.push({ id:"q38", sec:"dividends", diff:"calc", correct:0,
-en:{ q:"Delta Inc. has 800,000 shares outstanding, and the market price is $75 per share. The firm declares a 15% stock dividend. What will be the new market price per share after the stock dividend?",
-  o:["$65.22","$63.75","$68.18","$60.00"],
-  f:"New shares = Old shares × Stock-dividend %\nNew price = Old price × (Old shares / Total new shares)",
-  s:["New shares issued: 800,000 × 0.15 = 120,000.",
-     "Total shares after: 800,000 + 120,000 = 920,000.",
-     "New price: $75 × (800,000 / 920,000) = $75 × 0.869565 = $65.22.",
-     "Sanity check — market value unchanged: 800,000 × $75 = $60M = 920,000 × $65.22 ✓"],
-  why:"A stock dividend creates no new value: total market capitalization stays at $60M, but it is now spread over 920,000 shares instead of 800,000, so the price per share falls proportionally (÷ 1.15).",
-  w:["",
-     "$63.75 = $75 × 0.85 — wrongly subtracting the 15% from the price (that is how you would treat a 15% value drop, not a share increase of 15%).",
-     "$68.18 = $75 / 1.10 — as if the stock dividend were only 10%.",
-     "$60.00 = $75 × 0.80 — treating it like a 20% reduction."],
-  note:"Dividing by (1 + 15%) = 1.15 is the quick way: 75 / 1.15 = 65.217 ≈ $65.22." },
-ar:{ q:"لدى شركة Delta Inc. ‏800,000 سهم قائم، وسعر السوق 75 دولارًا للسهم. أعلنت الشركة توزيع أسهم بنسبة 15%. ما سعر السوق الجديد للسهم بعد توزيع الأسهم؟",
-  o:["65.22 دولار","63.75 دولار","68.18 دولار","60.00 دولار"],
-  f:"الأسهم الجديدة = الأسهم القديمة × نسبة توزيع الأسهم\nالسعر الجديد = السعر القديم × (الأسهم القديمة ÷ إجمالي الأسهم الجديدة)",
-  s:["الأسهم الجديدة الصادرة: 800,000 × 0.15 = 120,000 سهم.",
-     "إجمالي الأسهم بعد التوزيع: 800,000 + 120,000 = 920,000 سهم.",
-     "السعر الجديد: 75 × (800,000 ÷ 920,000) = 75 × 0.869565 = 65.22 دولار.",
-     "تحقق منطقي — القيمة السوقية لم تتغير: 800,000 × 75 = 60 مليون = 920,000 × 65.22 ✓"],
-  why:"توزيعات الأسهم لا تخلق قيمة جديدة: فالقيمة السوقية الإجمالية تبقى 60 مليون دولار، لكنها أصبحت موزعة على 920,000 سهم بدلًا من 800,000، لذا ينخفض سعر السهم تناسبيًا (القسمة على 1.15).",
-  w:["",
-     "63.75 دولار = 75 × 0.85 — طرح خاطئ لنسبة 15% من السعر (فهكذا تُعالج خسارة قيمة 15% وليس زيادة أسهم 15%).",
-     "68.18 دولار = 75 ÷ 1.10 — كأن توزيع الأسهم كان 10% فقط.",
-     "60.00 دولار = 75 × 0.80 — كأنه تخفيض بنسبة 20%."],
-  note:"طريقة سريعة: القسمة على (1 + 15%) = 1.15، أي 75 ÷ 1.15 = 65.217 ≈ 65.22 دولار." }});
-
-QB.push({ id:"q39", sec:"dividends", diff:"calc", correct:2,
-en:{ q:"Omega Ltd. has $8,000,000 in cash and 400,000 shares outstanding. The current market price is $50 per share. The company decides to repurchase shares. How many shares can it buy back?",
-  o:["120,000","140,000","160,000","180,000"],
-  f:"Shares repurchased = Total cash / Repurchase price",
-  s:["Shares repurchased = $8,000,000 / $50 = 160,000 shares.",
-     "(Afterwards: shares outstanding = 400,000 − 160,000 = 240,000.)"],
-  why:"A share repurchase is a cash payout alternative to dividends: the firm spends its $8M cash to buy its own stock at the market price of $50, retiring 160,000 shares (40% of the company) from the market.",
-  w:["120,000 and 140,000 are too low — they imply paying more than $50 per share.",
-     "140,000 corresponds to ≈ $57 per share — wrong price used.",
-     "",
-     "180,000 implies buying at ≈ $44 per share — a price below the market price."],
-  note:"Effects of a buyback: fewer shares → higher EPS (earnings spread over fewer shares) and often a signal that management views the stock as undervalued." },
-ar:{ q:"لدى شركة Omega Ltd. ‏8,000,000 دولار نقدًا و400,000 سهم قائم، وسعر السوق الحالي 50 دولارًا للسهم. قررت الشركة إعادة شراء أسهمها. فكم سهمًا يمكنها شراؤه؟",
-  o:["120,000","140,000","160,000","180,000"],
-  f:"الأسهم المعاد شراؤها = إجمالي النقد ÷ سعر إعادة الشراء",
-  s:["الأسهم المعاد شراؤها = 8,000,000 ÷ 50 = 160,000 سهم.",
-     "(بعد العملية: الأسهم القائمة = 400,000 − 160,000 = 240,000 سهم.)"],
-  why:"إعادة شراء الأسهم بديل نقدي للتوزيعات: تنفق الشركة 8 ملايين دولار نقدًا لشراء أسهمها بسعر السوق 50 دولارًا، فتُسقط 160,000 سهم (40% من الشركة) من السوق.",
-  w:["120,000 و140,000 أقل من الصحيح — أي تفترض دفع أكثر من 50 دولارًا للسهم.",
-     "140,000 تناظر سعر ≈ 57 دولارًا للسهم — سعر خاطئ.",
-     "",
-     "180,000 تفترض الشراء بسعر ≈ 44 دولارًا — أي أقل من سعر السوق."],
-  note:"آثار إعادة الشراء: أسهم أقل ← EPS أعلى (الأرباح تتوزع على عدد أسهم أقل)، وغالبًا إشارة إلى أن الإدارة ترى السهم مقوَّمًا بأقل من قيمته." }});
-
-QB.push({ id:"q40", sec:"dividends", diff:"calc", correct:1,
-en:{ q:"A firm has a dividend policy of paying a $0.80 regular dividend. If EPS exceeds $2.50, it pays an extra dividend equal to 50% of EPS above $2.50. This year, EPS is $5.00. What is the total dividend per share?",
-  o:["$1.80","$2.05","$2.30","$2.55"],
-  f:"Extra dividend = Extra rate × (EPS − Threshold)\nTotal dividend = Regular + Extra",
-  s:["EPS $5.00 exceeds the $2.50 threshold → an extra dividend is paid.",
-     "Extra = 0.50 × ($5.00 − $2.50) = 0.50 × $2.50 = $1.25.",
-     "Total DPS = $0.80 + $1.25 = $2.05."],
-  why:"The low-regular-and-extra policy gives shareholders a dependable base dividend ($0.80) plus a bonus that only kicks in on the earnings ABOVE the threshold — here 50% of the $2.50 excess = $1.25.",
-  w:["$1.80 would imply an extra of only $1.00 — e.g., applying the 50% rate to the wrong base.",
-     "",
-     "$2.30 implies an extra of $1.50 = 0.50 × (5.00 − 2.00) — using a wrong threshold of $2.00.",
-     "$2.55 implies an extra of $1.75 — mis-applying the rate to most of EPS."],
-  note:"If EPS had been $2.50 or less, the extra would be $0 and total DPS would just be the regular $0.80." },
-ar:{ q:"تتبع شركة سياسة توزيع قدرها 0.80 دولار منتظم. وإذا تجاوز EPS مبلغ 2.50 دولار، تدفع توزيعًا إضافيًا يعادل 50% من EPS الزائد عن 2.50 دولار. هذا العام بلغ EPS مبلغ 5.00 دولار. فما إجمالي التوزيع للسهم؟",
-  o:["1.80 دولار","2.05 دولار","2.30 دولار","2.55 دولار"],
-  f:"التوزيع الإضافي = معدل الإضافي × (EPS − الحد الفاصل)\nإجمالي التوزيع = المنتظم + الإضافي",
-  s:["EPS البالغ 5.00 دولار تجاوز الحد الفاصل 2.50 دولار ← إذن يُدفع توزيع إضافي.",
-     "الإضافي = 0.50 × (5.00 − 2.50) = 0.50 × 2.50 = 1.25 دولار.",
-     "إجمالي DPS = 0.80 + 1.25 = 2.05 دولار."],
-  why:"تمنح سياسة «المنخفض المنتظم + الإضافي» المساهمين توزيعًا أساسيًا يمكن الاعتماد عليه (0.80 دولار) إضافةً إلى مكافأة تُدفع فقط على الأرباح التي تتجاوز الحد الفاصل — وهنا 50% من الزيادة البالغة 2.50 دولار = 1.25 دولار.",
-  w:["1.80 دولار تفترض إضافيًا قدره 1.00 دولار فقط — مثل تطبيق معدل 50% على أساس خاطئ.",
-     "",
-     "2.30 دولار تفترض إضافيًا قدره 1.50 دولار = 0.50 × (5.00 − 2.00) — أي استخدام حد فاصل خاطئ قدره 2.00 دولار.",
-     "2.55 دولار تفترض إضافيًا قدره 1.75 دولار — تطبيق خاطئ للمعدل على معظم EPS."],
-  note:"لو كان EPS يساوي 2.50 دولار أو أقل، لكان الإضافي صفرًا ولإجمالي التوزيع أن يبقى 0.80 دولار المنتظم فقط." }});
-
-QB.push({ id:"q41", sec:"dividends", diff:"calc", correct:2,
-en:{ q:"A firm has EPS = $5.00 and DPS = $2.00. What is the payout ratio?",
-  o:["20%","30%","40%","50%"],
-  f:"Payout ratio = DPS / EPS      (Retention ratio = 1 − Payout)",
-  s:["Payout = $2.00 / $5.00 = 0.40 = 40%."],
-  why:"The payout ratio is the fraction of each dollar earned that is distributed as cash dividends: the firm pays out 40 cents of every dollar of earnings (and retains 60% for reinvestment).",
-  w:["20% = 1.00/5.00 — wrong DPS used.",
-     "30% = 1.50/5.00 — wrong DPS used.",
-     "",
-     "50% would be $2.50/$5.00 — or the result of confusing DPS with half of EPS."],
-  note:"Companion measure: retention ratio = 1 − 0.40 = 60% — the share of earnings kept inside the firm." },
-ar:{ q:"لدى شركة EPS = 5.00 دولار وDPS = 2.00 دولار. فما نسبة التوزيع (Payout Ratio)؟",
-  o:["20%","30%","40%","50%"],
-  f:"نسبة التوزيع = DPS ÷ EPS      (ونسبة الاحتجاز = 1 − نسبة التوزيع)",
-  s:["نسبة التوزيع = 2.00 ÷ 5.00 = 0.40 = 40%."],
-  why:"نسبة التوزيع هي حصة كل دولار من الأرباح يُوزع نقدًا على المساهمين: فالشركة توزع 40 سنتًا من كل دولار أرباح (وتحتجز 60% لإعادة الاستثمار).",
-  w:["20% = 1.00÷5.00 — DPS خاطئ.",
-     "30% = 1.50÷5.00 — DPS خاطئ.",
-     "",
-     "50% تناظر 2.50÷5.00 — أو نتيجة خلط DPS بنصف EPS."],
-  note:"المقياس المرافق: نسبة الاحتجاز = 1 − 0.40 = 60% — وهي حصة الأرباح التي تبقى داخل الشركة." }});
-
-QB.push({ id:"q42", sec:"dividends", diff:"calc", correct:2,
-en:{ q:"Earnings = $6,000,000. Capital budget = $4,000,000. Target equity ratio = 50%. What is the residual dividend?",
-  o:["$2,000,000","$3,000,000","$4,000,000","$5,000,000"],
-  f:"Equity needed = Target equity ratio × Capital budget\nResidual dividend = max(0, Earnings − Equity needed)",
-  s:["Equity needed to fund the budget: 0.50 × $4,000,000 = $2,000,000.",
-     "Residual dividend = $6,000,000 − $2,000,000 = $4,000,000."],
-  why:"The residual policy puts investment FIRST: the firm funds the equity portion of its capital budget ($2M) out of earnings, and distributes whatever is left over ($4M) as dividends.",
-  w:["$2,000,000 is the equity needed for the budget — the amount RETAINED, not distributed.",
-     "$3,000,000 = 50% of earnings — that is constant-payout logic, not residual.",
-     "",
-     "$5,000,000 would result from retaining only $1M (e.g., funding just part of the equity need)."],
-  note:"Consequence of the residual policy: dividends fluctuate with investment opportunities — they can even be zero when the capital budget is large." },
-ar:{ q:"الأرباح = 6,000,000 دولار. الموازنة الرأسمالية = 4,000,000 دولار. نسبة حقوق الملكية المستهدفة = 50%. فما التوزيع المتبقي (Residual Dividend)؟",
-  o:["2,000,000 دولار","3,000,000 دولار","4,000,000 دولار","5,000,000 دولار"],
-  f:"حقوق الملكية المطلوبة = نسبة حقوق الملكية المستهدفة × الموازنة الرأسمالية\nالتوزيع المتبقي = max(0، الأرباح − حقوق الملكية المطلوبة)",
-  s:["حقوق الملكية اللازمة لتمويل الموازنة: 0.50 × 4,000,000 = 2,000,000 دولار.",
-     "التوزيع المتبقي = 6,000,000 − 2,000,000 = 4,000,000 دولار."],
-  why:"سياسة التوزيع المتبقي تعطي الأولوية للاستثمار: تموّل الشركة حصة حقوق الملكية من موازنتها الرأسمالية (2 مليون دولار) من الأرباح، ثم توزع ما يتبقى (4 ملايين دولار) كتوزيعات أرباح.",
-  w:["2,000,000 دولار هي حقوق الملكية المطلوبة للموازنة — أي المبلغ المحتَجَز وليس الموزَّع.",
-     "3,000,000 دولار = 50% من الأرباح — وهذا منطق نسبة التوزيع الثابتة وليس المتبقي.",
-     "",
-     "5,000,000 دولار تنتج عن احتجاز مليون واحد فقط (مثل تمويل جزء فقط من الحاجة لحقوق الملكية)."],
-  note:"نتيجة سياسة التوزيع المتبقي: تتذبذب التوزيعات مع فرص الاستثمار — وقد تصل إلى صفر عندما تكون الموازنة الرأسمالية كبيرة." }});
-
-QB.push({ id:"q43", sec:"dividends", diff:"calc", correct:3,
-en:{ q:"A company reports earnings per share (EPS) of $6.00 and pays dividends per share (DPS) of $1.80. What is the retention ratio?",
-  o:["30%","40%","60%","70%"],
-  f:"Payout = DPS / EPS      Retention = 1 − Payout",
-  s:["Payout ratio = $1.80 / $6.00 = 0.30 = 30%.",
-     "Retention ratio = 1 − 0.30 = 0.70 = 70%."],
-  why:"The retention ratio is the share of earnings kept in the business (reinvested) rather than paid out. The firm distributes 30% and retains 70% — that retained 70% is what funds future growth.",
-  w:["30% is the PAYOUT ratio — the classic trap: answer the question that was asked (retention), not its complement.",
-     "40% has no basis in the data.",
-     "60% would be the retention if DPS were $2.40 (payout 40%).",
-     ""],
-  note:null },
-ar:{ q:"أفصحت شركة عن ربحية سهم (EPS) قدرها 6.00 دولار وتوزيعات للسهم (DPS) قدرها 1.80 دولار. فما نسبة الاحتجاز (Retention Ratio)؟",
-  o:["30%","40%","60%","70%"],
-  f:"نسبة التوزيع = DPS ÷ EPS      نسبة الاحتجاز = 1 − نسبة التوزيع",
-  s:["نسبة التوزيع = 1.80 ÷ 6.00 = 0.30 = 30%.",
-     "نسبة الاحتجاز = 1 − 0.30 = 0.70 = 70%."],
-  why:"نسبة الاحتجاز هي حصة الأرباح التي تبقى في النشاط (يُعاد استثمارها) بدل توزيعها. فالشركة توزع 30% وتحتجز 70% — وهذا المحتَجَز هو ما يمول النمو المستقبلي.",
-  w:["30% هي نسبة التوزيع — وهذا هو الفخ الكلاسيكي: أجب عن السؤال المطلوب (الاحتجاز) وليس مكمّله.",
-     "40% لا أساس لها في المعطيات.",
-     "60% ستكون نسبة الاحتجاز لو كان DPS يساوي 2.40 دولار (توزيع 40%).",
-     ""],
-  note:null }});
-
-QB.push({ id:"q44", sec:"dividends", diff:"calc", correct:0,
-en:{ q:"A company reports EPS of $10.00 and DPS of $3.50. What are the payout ratio and retention ratio, respectively?",
-  o:["35% and 65%","65% and 35%","30% and 70%","70% and 30%"],
-  f:"Payout = DPS / EPS      Retention = 1 − Payout",
-  s:["Payout ratio = $3.50 / $10.00 = 0.35 = 35%.",
-     "Retention ratio = 1 − 0.35 = 0.65 = 65%."],
-  why:"Divide the dividend by the earnings for the payout ratio, then subtract from 1 for the retention. The two ratios always sum to 100%.",
-  w:["",
-     "65% and 35% reverses the order — the question asks for payout FIRST, then retention.",
-     "30% and 70% uses DPS = $3.00 instead of $3.50.",
-     "70% and 30% both uses the wrong DPS and reverses the order."],
-  note:null },
-ar:{ q:"أفصحت شركة عن EPS قدره 10.00 دولار وDPS قدره 3.50 دولار. فما نسبتا التوزيع والاحتجاز على الترتيب؟",
-  o:["35% و65%","65% و35%","30% و70%","70% و30%"],
-  f:"نسبة التوزيع = DPS ÷ EPS      نسبة الاحتجاز = 1 − نسبة التوزيع",
-  s:["نسبة التوزيع = 3.50 ÷ 10.00 = 0.35 = 35%.",
-     "نسبة الاحتجاز = 1 − 0.35 = 0.65 = 65%."],
-  why:"اقسم التوزيعات على الأرباح لتحصل على نسبة التوزيع، ثم اطرحها من 1 لتحصل على نسبة الاحتجاز. ومجموع النسبتين يساوي 100% دائمًا.",
-  w:["",
-     "65% و35% تعكسان الترتيب — فالسؤال يطلب نسبة التوزيع أولًا ثم الاحتجاز.",
-     "30% و70% تستخدمان DPS = 3.00 دولار بدلًا من 3.50 دولار.",
-     "70% و30% تستخدمان DPS خاطئًا وتعكسان الترتيب أيضًا."],
-  note:null }});
+QB.push({
+ "id": "q34",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "A company has EBIT of $500,000 and interest expense of $100,000. If the tax rate is 40% and shares outstanding are 100,000, what is EPS?",
+  "o": [
+   "$2.00",
+   "$2.40",
+   "$3.00",
+   "$3.60"
+  ],
+  "f": "EPS = (EBIT − I) × (1 − T) / Number of shares",
+  "s": [
+   "Earnings before tax: $500,000 − $100,000 = $400,000.",
+   "After tax: $400,000 × (1 − 0.40) = $240,000.",
+   "EPS = $240,000 / 100,000 shares = $2.40."
+  ],
+  "why": "Order matters: subtract interest FIRST (it is tax-deductible), then tax the remainder, then divide by shares. That tax-deductibility of interest is exactly why leverage can magnify EPS.",
+  "w": [
+   "$2.00 taxes EBIT first and then subtracts interest: (500,000 × 0.6 − 100,000) / 100,000 — wrong order; interest must be deducted before tax.",
+   "",
+   "$3.00 ignores interest entirely: 500,000 × 0.6 / 100,000 = $3.00.",
+   "$3.60 applies a wrong tax treatment (e.g., adding back the interest tax saving twice)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لدى شركة EBIT قدره 500,000 دولار ومصروف فوائد 100,000 دولار. إذا كان معدل الضريبة 40% وعدد الأسهم القائمة 100,000 سهم، فما ربحية السهم EPS؟",
+  "o": [
+   "2.00 دولار",
+   "2.40 دولار",
+   "3.00 دولار",
+   "3.60 دولار"
+  ],
+  "f": "EPS = (EBIT − I) × (1 − T) ÷ عدد الأسهم",
+  "s": [
+   "الأرباح قبل الضريبة: 500,000 − 100,000 = 400,000 دولار.",
+   "بعد الضريبة: 400,000 × (1 − 0.40) = 240,000 دولار.",
+   "EPS = 240,000 ÷ 100,000 سهم = 2.40 دولار."
+  ],
+  "why": "الترتيب مهم: تُخصم الفوائد أولًا (لأنها تُخصم من الوعاء الضريبي)، ثم تُحسب الضريبة على الباقي، ثم يُقسم الناتج على عدد الأسهم. وقابلية خصم الفوائد ضريبيًا هي بالضبط سبب قدرة الرافعة المالية على تضخيم EPS.",
+  "w": [
+   "2.00 دولار تحسب الضريبة على EBIT أولًا ثم تخصم الفوائد: (500,000 × 0.6 − 100,000) ÷ 100,000 — ترتيب خاطئ؛ فالفوائد تُخصم قبل الضريبة.",
+   "",
+   "3.00 دولار تتجاهل الفوائد تمامًا: 500,000 × 0.6 ÷ 100,000 = 3.00.",
+   "3.60 دولار تطبق معالجة ضريبية خاطئة (مثل إضافة توفير الفوائد الضريبي مرتين)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q35",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "A firm has an expected EPS of $3.00. The required return on equity is 12%. Calculate the estimated share value using the zero-growth model.",
+  "o": [
+   "$20.00",
+   "$25.00",
+   "$30.00",
+   "$36.00"
+  ],
+  "f": "Zero-growth model:  P₀ = EPS / rₛ",
+  "s": [
+   "P₀ = $3.00 / 0.12 = $25.00."
+  ],
+  "why": "With no growth, the share is a perpetuity of earnings: its value is the annual EPS capitalized at the required return (3 / 0.12 = 25). This is the “share value approach” used to rank alternative capital structures.",
+  "w": [
+   "$20.00 = 3.00 / 0.15 — uses a wrong required return.",
+   "",
+   "$30.00 = 3.00 / 0.10 — uses a wrong required return.",
+   "$36.00 = 3.00 × 12 — MULTIPLIES instead of dividing by the required return."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "لدى شركة EPS متوقع 3.00 دولار والعائد المطلوب على حقوق الملكية 12%. احسب القيمة التقديرية للسهم باستخدام نموذج النمو الصفري.",
+  "o": [
+   "20.00 دولار",
+   "25.00 دولار",
+   "30.00 دولار",
+   "36.00 دولار"
+  ],
+  "f": "نموذج النمو الصفري:  P₀ = EPS ÷ rₛ",
+  "s": [
+   "P₀ = 3.00 ÷ 0.12 = 25.00 دولار."
+  ],
+  "why": "في غياب النمو، يكون السهم بمثابة دفق دائم من الأرباح: قيمته هي EPS السنوي مرسمَلًا عند العائد المطلوب (3 ÷ 0.12 = 25). وهذا هو «مدخل قيمة السهم» المستخدم لترتيب هياكل رأس المال البديلة.",
+  "w": [
+   "20.00 دولار = 3.00 ÷ 0.15 — تستخدم عائدًا مطلوبًا خاطئًا.",
+   "",
+   "30.00 دولار = 3.00 ÷ 0.10 — تستخدم عائدًا مطلوبًا خاطئًا.",
+   "36.00 دولار = 3.00 × 12 — تضرب في العائد المطلوب بدل القسمة عليه."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q36",
+ "sec": "structure",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "A firm is considering two financing plans. Plan A (Debt): Interest = $200,000, Shares = 100,000. Plan B (Equity): Interest = $0, Shares = 150,000. Tax rate = 40%. What is the EBIT-EPS indifference point?",
+  "o": [
+   "$400,000",
+   "$500,000",
+   "$600,000",
+   "$700,000"
+  ],
+  "f": "(EBIT − I₁)(1 − T) / Shares₁ = (EBIT − I₂)(1 − T) / Shares₂",
+  "s": [
+   "Set the two EPS equal: (EBIT − 200,000)(0.60) / 100,000 = (EBIT − 0)(0.60) / 150,000.",
+   "The (1 − T) = 0.60 factor appears on both sides, so it cancels: (EBIT − 200,000) / 100,000 = EBIT / 150,000.",
+   "Cross-multiply: 150,000 × (EBIT − 200,000) = 100,000 × EBIT.  Divide both sides by 1,000:  150·EBIT − 30,000,000 = 100·EBIT.",
+   "Solve: 50·EBIT = 30,000,000  →  EBIT = $600,000.",
+   "Check: Plan A EPS = (600,000 − 200,000) × 0.6 / 100,000 = $2.40 ;  Plan B EPS = 600,000 × 0.6 / 150,000 = $2.40 ✓"
+  ],
+  "why": "The indifference point is the EBIT level where both financing plans produce the same EPS. Above $600,000 the debt plan wins (financial leverage magnifies EPS); below it, the equity plan is safer and better.",
+  "w": [
+   "$400,000 and $500,000 come from cross-multiplication slips or forgetting to scale the interest term.",
+   "$500,000 also results from dividing 30,000,000 by the wrong coefficient (60 instead of 50).",
+   "",
+   "$700,000 comes from adding the interest instead of subtracting it in the setup."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "تدرس شركة خطتي تمويل: الخطة A (دين): الفوائد = 200,000 دولار، وعدد الأسهم = 100,000. والخطة B (حقوق ملكية): الفوائد = 0، وعدد الأسهم = 150,000. معدل الضريبة = 40%. ما نقطة تساوي EBIT-EPS؟",
+  "o": [
+   "400,000 دولار",
+   "500,000 دولار",
+   "600,000 دولار",
+   "700,000 دولار"
+  ],
+  "f": "(EBIT − I₁)(1 − T) ÷ الأسهم₁ = (EBIT − I₂)(1 − T) ÷ الأسهم₂",
+  "s": [
+   "نساوي الـ EPS للخطةين: (EBIT − 200,000)(0.60) ÷ 100,000 = (EBIT − 0)(0.60) ÷ 150,000.",
+   "المعامل (1 − T) = 0.60 موجود في الطرفين فيُختصر: (EBIT − 200,000) ÷ 100,000 = EBIT ÷ 150,000.",
+   "نضرب تبادليًا: 150,000 × (EBIT − 200,000) = 100,000 × EBIT، وبقسمة الطرفين على 1,000: ‏150·EBIT − 30,000,000 = 100·EBIT.",
+   "نحل: 50·EBIT = 30,000,000 ← أي EBIT = 600,000 دولار.",
+   "التحقق: EPS للخطة A = (600,000 − 200,000) × 0.6 ÷ 100,000 = 2.40 دولار؛ وللخطة B = 600,000 × 0.6 ÷ 150,000 = 2.40 دولار ✓"
+  ],
+  "why": "نقطة التساوي هي مستوى EBIT الذي تحقق عنده خطتا التمويل نفس الـ EPS. فأعلى من 600,000 دولار تفوز خطة الدين (لأن الرافعة المالية تضخم EPS)، وأدنى منها تكون خطة حقوق الملكية أكثر أمانًا وأفضل.",
+  "w": [
+   "400,000 و500,000 دولار تنتجان عن أخطاء في الضرب التبادلي أو نسيان ضبط حد الفوائد.",
+   "500,000 دولار تنتج أيضًا عن قسمة 30,000,000 على معامل خاطئ (60 بدلًا من 50).",
+   "",
+   "700,000 دولار تنتج عن جمع الفوائد بدل طرحها في بداية الحل."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q38",
+ "sec": "dividends",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "Delta Inc. has 800,000 shares outstanding, and the market price is $75 per share. The firm declares a 15% stock dividend. What will be the new market price per share after the stock dividend?",
+  "o": [
+   "$65.22",
+   "$63.75",
+   "$68.18",
+   "$60.00"
+  ],
+  "f": "New shares = Old shares × Stock-dividend %\nNew price = Old price × (Old shares / Total new shares)",
+  "s": [
+   "New shares issued: 800,000 × 0.15 = 120,000.",
+   "Total shares after: 800,000 + 120,000 = 920,000.",
+   "New price: $75 × (800,000 / 920,000) = $75 × 0.869565 = $65.22.",
+   "Sanity check — market value unchanged: 800,000 × $75 = $60M = 920,000 × $65.22 ✓"
+  ],
+  "why": "A stock dividend creates no new value: total market capitalization stays at $60M, but it is now spread over 920,000 shares instead of 800,000, so the price per share falls proportionally (÷ 1.15).",
+  "w": [
+   "",
+   "$63.75 = $75 × 0.85 — wrongly subtracting the 15% from the price (that is how you would treat a 15% value drop, not a share increase of 15%).",
+   "$68.18 = $75 / 1.10 — as if the stock dividend were only 10%.",
+   "$60.00 = $75 × 0.80 — treating it like a 20% reduction."
+  ],
+  "note": "Dividing by (1 + 15%) = 1.15 is the quick way: 75 / 1.15 = 65.217 ≈ $65.22."
+ },
+ "ar": {
+  "q": "لدى شركة Delta Inc. ‏800,000 سهم قائم، وسعر السوق 75 دولارًا للسهم. أعلنت الشركة توزيع أسهم بنسبة 15%. ما سعر السوق الجديد للسهم بعد توزيع الأسهم؟",
+  "o": [
+   "65.22 دولار",
+   "63.75 دولار",
+   "68.18 دولار",
+   "60.00 دولار"
+  ],
+  "f": "الأسهم الجديدة = الأسهم القديمة × نسبة توزيع الأسهم\nالسعر الجديد = السعر القديم × (الأسهم القديمة ÷ إجمالي الأسهم الجديدة)",
+  "s": [
+   "الأسهم الجديدة الصادرة: 800,000 × 0.15 = 120,000 سهم.",
+   "إجمالي الأسهم بعد التوزيع: 800,000 + 120,000 = 920,000 سهم.",
+   "السعر الجديد: 75 × (800,000 ÷ 920,000) = 75 × 0.869565 = 65.22 دولار.",
+   "تحقق منطقي — القيمة السوقية لم تتغير: 800,000 × 75 = 60 مليون = 920,000 × 65.22 ✓"
+  ],
+  "why": "توزيعات الأسهم لا تخلق قيمة جديدة: فالقيمة السوقية الإجمالية تبقى 60 مليون دولار، لكنها أصبحت موزعة على 920,000 سهم بدلًا من 800,000، لذا ينخفض سعر السهم تناسبيًا (القسمة على 1.15).",
+  "w": [
+   "",
+   "63.75 دولار = 75 × 0.85 — طرح خاطئ لنسبة 15% من السعر (فهكذا تُعالج خسارة قيمة 15% وليس زيادة أسهم 15%).",
+   "68.18 دولار = 75 ÷ 1.10 — كأن توزيع الأسهم كان 10% فقط.",
+   "60.00 دولار = 75 × 0.80 — كأنه تخفيض بنسبة 20%."
+  ],
+  "note": "طريقة سريعة: القسمة على (1 + 15%) = 1.15، أي 75 ÷ 1.15 = 65.217 ≈ 65.22 دولار."
+ }
+});
+QB.push({
+ "id": "q39",
+ "sec": "dividends",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "Omega Ltd. has $8,000,000 in cash and 400,000 shares outstanding. The current market price is $50 per share. The company decides to repurchase shares. How many shares can it buy back?",
+  "o": [
+   "120,000",
+   "140,000",
+   "160,000",
+   "180,000"
+  ],
+  "f": "Shares repurchased = Total cash / Repurchase price",
+  "s": [
+   "Shares repurchased = $8,000,000 / $50 = 160,000 shares.",
+   "(Afterwards: shares outstanding = 400,000 − 160,000 = 240,000.)"
+  ],
+  "why": "A share repurchase is a cash payout alternative to dividends: the firm spends its $8M cash to buy its own stock at the market price of $50, retiring 160,000 shares (40% of the company) from the market.",
+  "w": [
+   "120,000 and 140,000 are too low — they imply paying more than $50 per share.",
+   "140,000 corresponds to ≈ $57 per share — wrong price used.",
+   "",
+   "180,000 implies buying at ≈ $44 per share — a price below the market price."
+  ],
+  "note": "Effects of a buyback: fewer shares → higher EPS (earnings spread over fewer shares) and often a signal that management views the stock as undervalued."
+ },
+ "ar": {
+  "q": "لدى شركة Omega Ltd. ‏8,000,000 دولار نقدًا و400,000 سهم قائم، وسعر السوق الحالي 50 دولارًا للسهم. قررت الشركة إعادة شراء أسهمها. فكم سهمًا يمكنها شراؤه؟",
+  "o": [
+   "120,000",
+   "140,000",
+   "160,000",
+   "180,000"
+  ],
+  "f": "الأسهم المعاد شراؤها = إجمالي النقد ÷ سعر إعادة الشراء",
+  "s": [
+   "الأسهم المعاد شراؤها = 8,000,000 ÷ 50 = 160,000 سهم.",
+   "(بعد العملية: الأسهم القائمة = 400,000 − 160,000 = 240,000 سهم.)"
+  ],
+  "why": "إعادة شراء الأسهم بديل نقدي للتوزيعات: تنفق الشركة 8 ملايين دولار نقدًا لشراء أسهمها بسعر السوق 50 دولارًا، فتُسقط 160,000 سهم (40% من الشركة) من السوق.",
+  "w": [
+   "120,000 و140,000 أقل من الصحيح — أي تفترض دفع أكثر من 50 دولارًا للسهم.",
+   "140,000 تناظر سعر ≈ 57 دولارًا للسهم — سعر خاطئ.",
+   "",
+   "180,000 تفترض الشراء بسعر ≈ 44 دولارًا — أي أقل من سعر السوق."
+  ],
+  "note": "آثار إعادة الشراء: أسهم أقل ← EPS أعلى (الأرباح تتوزع على عدد أسهم أقل)، وغالبًا إشارة إلى أن الإدارة ترى السهم مقوَّمًا بأقل من قيمته."
+ }
+});
+QB.push({
+ "id": "q05",
+ "sec": "equity",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "A company needs to raise $90,000,000 net for a new project. The underwriting spread is 5% of gross proceeds, and direct expenses (legal, accounting, printing) are $1,200,000. If the offer price is $40 per share, how many shares must be sold?",
+  "o": [
+   "2,400,000",
+   "2,400,632",
+   "2,401,579",
+   "2,402,500"
+  ],
+  "f": "Gross proceeds = (Net needed + Direct expenses) / (1 − Spread)\nShares to sell = Gross proceeds / Offer price",
+  "s": [
+   "Add the direct expenses to the net amount needed: $90,000,000 + $1,200,000 = $91,200,000.",
+   "Gross up for the 5% underwriting spread: $91,200,000 / (1 − 0.05) = $91,200,000 / 0.95 = $96,000,000.",
+   "Divide by the offer price: $96,000,000 / $40 = 2,400,000 shares.",
+   "Check: 2,400,000 × $40 = $96M gross → minus 5% spread ($4.8M) = $91.2M → minus $1.2M expenses = $90M net ✓"
+  ],
+  "why": "The firm must first cover its direct out-of-pocket expenses, then inflate (gross up) the amount so that after the underwriter takes 5% of everything raised, exactly $90M is left for the project.",
+  "w": [
+   "",
+   "A near-miss distractor: results from a slightly different (incorrect) order of grossing-up operations.",
+   "A near-miss distractor: e.g., grossing up only the $90M and then adding expenses in share form, instead of including expenses before the gross-up.",
+   "A near-miss distractor from applying the spread on the wrong base (net rather than gross proceeds)."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "تحتاج شركة إلى جمع 90,000,000 دولار صافي لمشروع جديد. عمولة التغطية 5% من إجمالي الحصيلة، والمصروفات المباشرة (قانونية ومحاسبية وطباعة) 1,200,000 دولار. إذا كان سعر الطرح 40 دولارًا للسهم، فكم سهمًا يجب بيعه؟",
+  "o": [
+   "2,400,000",
+   "2,400,632",
+   "2,401,579",
+   "2,402,500"
+  ],
+  "f": "إجمالي الحصيلة = (الصافي المطلوب + المصروفات المباشرة) ÷ (1 − نسبة العمولة)\nعدد الأسهم = إجمالي الحصيلة ÷ سعر الطرح",
+  "s": [
+   "أضف المصروفات المباشرة إلى الصافي المطلوب: 90,000,000 + 1,200,000 = 91,200,000 دولار.",
+   "قم بالزيادة الإجمالية لتغطية عمولة 5%: 91,200,000 ÷ (1 − 0.05) = 91,200,000 ÷ 0.95 = 96,000,000 دولار.",
+   "اقسم على سعر الطرح: 96,000,000 ÷ 40 = 2,400,000 سهم.",
+   "التحقق: 2,400,000 × 40 = 96 مليون إجمالي ← نطرح عمولة 5% (4.8 مليون) = 91.2 مليون ← نطرح المصروفات 1.2 مليون = 90 مليون صافي ✓"
+  ],
+  "why": "يجب على الشركة أولًا تغطية مصروفاتها المباشرة، ثم تضخيم المبلغ (Gross-up) بحيث يتبقى لها بالضبط 90 مليون دولار للمشروع بعد أن يقتطع متعهد التغطية 5% من كل ما يتم جمعه.",
+  "w": [
+   "",
+   "إجابة قريبة خاطئة: ناتجة عن ترتيب عمليات مختلف (وخاطئ) قليلًا في حساب الزيادة الإجمالية.",
+   "إجابة قريبة خاطئة: مثل تضخيم الـ 90 مليون فقط ثم إضافة المصروفات في صورة أسهم، بدلًا من ضم المصروفات قبل التضخيم.",
+   "إجابة قريبة خاطئة ناتجة عن تطبيق نسبة العمولة على أساس خطأ (الصافي بدلًا من الإجمالي)."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q06",
+ "sec": "equity",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "A company needs to raise $120,000,000 net for a new project. The underwriting spread is 7% of gross proceeds, and direct expenses are $1,400,000. If the offer price is $50 per share, how many shares must be sold?",
+  "o": [
+   "2,610,753",
+   "2,500,000",
+   "2,400,000",
+   "2,700,000"
+  ],
+  "f": "Gross proceeds = (Net needed + Direct expenses) / (1 − Spread)\nShares to sell = Gross proceeds / Offer price",
+  "s": [
+   "Net needed + expenses: $120,000,000 + $1,400,000 = $121,400,000.",
+   "Gross up for the 7% spread: $121,400,000 / (1 − 0.07) = $121,400,000 / 0.93 = $130,537,634.41.",
+   "Shares = $130,537,634.41 / $50 = 2,610,752.69 → round up to 2,610,753 shares (you cannot sell a fraction of a share, and rounding down would leave the raise short)."
+  ],
+  "why": "Same gross-up logic as the previous IPO question: cover expenses first, then divide by (1 − spread) because the spread is a percentage of the GROSS amount, and finally convert dollars into shares at the offer price.",
+  "w": [
+   "",
+   "Too low: implies only about a 4% gross-up — it under-collects and the net proceeds fall short of $120M.",
+   "Exactly $120M / $50 — this ignores both the spread and the direct expenses entirely.",
+   "Too high: over-grosses-up (as if adding 7% on top plus more), raising more money than needed."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "تحتاج شركة إلى جمع 120,000,000 دولار صافي لمشروع جديد. عمولة التغطية 7% من إجمالي الحصيلة، والمصروفات المباشرة 1,400,000 دولار. إذا كان سعر الطرح 50 دولارًا للسهم، فكم سهمًا يجب بيعه؟",
+  "o": [
+   "2,610,753",
+   "2,500,000",
+   "2,400,000",
+   "2,700,000"
+  ],
+  "f": "إجمالي الحصيلة = (الصافي المطلوب + المصروفات المباشرة) ÷ (1 − نسبة العمولة)\nعدد الأسهم = إجمالي الحصيلة ÷ سعر الطرح",
+  "s": [
+   "الصافي المطلوب + المصروفات: 120,000,000 + 1,400,000 = 121,400,000 دولار.",
+   "الزيادة الإجمالية لتغطية عمولة 7%: 121,400,000 ÷ (1 − 0.07) = 121,400,000 ÷ 0.93 = 130,537,634.41 دولار.",
+   "عدد الأسهم = 130,537,634.41 ÷ 50 = 2,610,752.69 ← يُقرَّب لأعلى إلى 2,610,753 سهمًا (لا يمكن بيع جزء من سهم، والتقريب لأسفل يجعل الحصيلة أقل من المطلوب)."
+  ],
+  "why": "نفس منطق الزيادة الإجمالية في سؤال الطرح السابق: غطِّ المصروفات أولًا، ثم اقسم على (1 − نسبة العمولة) لأن العمولة نسبة من الإجمالي وليس الصافي، وأخيرًا حوّل الدولارات إلى أسهم بقسمتها على سعر الطرح.",
+  "w": [
+   "",
+   "أقل من المطلوب: تفترض زيادة إجمالية بنحو 4% فقط، فتكون الحصيلة الصافية أقل من 120 مليون دولار.",
+   "هذا ببساطة 120 مليون ÷ 50، أي أنه يتجاهل العمولة والمصروفات المباشرة معًا.",
+   "أكثر من اللازم: تضخيم زائد (كأنه أضاف 7% وأكثر فوق المبلغ)، فيجمع أموالًا أكثر من الحاجة."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q07",
+ "sec": "equity",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "A company issues 15,000,000 shares at an offer price of $18. On the first day of trading, the stock closes at $24. How much money was left on the table?",
+  "o": [
+   "$75,000,000",
+   "$80,000,000",
+   "$90,000,000",
+   "$100,000,000"
+  ],
+  "f": "Money left on the table = (First-day closing price − Offer price) × Number of shares issued",
+  "s": [
+   "Price difference per share: $24 − $18 = $6.",
+   "Multiply by the number of shares issued: $6 × 15,000,000 = $90,000,000."
+  ],
+  "why": "“Money left on the table” measures the cost of IPO underpricing: it is the instant paper profit captured by new investors because the offer price was set $6 below where the market valued the stock on day one.",
+  "w": [
+   "Uses a wrong price gap (e.g., $5 instead of $6 per share).",
+   "Uses a wrong price gap (≈ $5.33 per share) — a distractor around the true $6 difference.",
+   "",
+   "Would imply a gap of $6.67 per share — overstating the underpricing."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "طرحت شركة 15,000,000 سهم بسعر عرض 18 دولارًا. وفي أول يوم تداول أغلق السهم عند 24 دولارًا. كم تبلغ «الأموال المتروكة على الطاولة»؟",
+  "o": [
+   "75,000,000 دولار",
+   "80,000,000 دولار",
+   "90,000,000 دولار",
+   "100,000,000 دولار"
+  ],
+  "f": "الأموال المتروكة على الطاولة = (سعر إغلاق أول يوم − سعر العرض) × عدد الأسهم المطروحة",
+  "s": [
+   "فرق السعر للسهم الواحد: 24 − 18 = 6 دولارات.",
+   "نضرب في عدد الأسهم المطروحة: 6 × 15,000,000 = 90,000,000 دولار."
+  ],
+  "why": "«الأموال المتروكة على الطاولة» تقيس تكلفة التسعير بأقل من القيمة في الطرح العام: فهي الربح الفوري الذي اقتنصه المستثمرون الجدد لأن سعر العرض حُدّد أقل بـ 6 دولارات من القيمة التي قدّرها السوق للسهم في اليوم الأول.",
+  "w": [
+   "يستخدم فرق سعر خاطئًا (مثل 5 دولارات بدلًا من 6 للسهم).",
+   "يستخدم فرق سعر خاطئًا (حوالي 5.33 دولار) — إجابة مغلوطة قريبة من الفرق الحقيقي 6 دولارات.",
+   "",
+   "يفترض فرقًا قدره 6.67 دولار للسهم — أي مبالغة في تقدير التسعير المنخفض."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q08",
+ "sec": "equity",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "A company issues 20,000,000 shares at an offer price of $25. On the first day of trading, the stock closes at $32. How much money was left on the table?",
+  "o": [
+   "$140,000,000",
+   "$150,000,000",
+   "$160,000,000",
+   "$170,000,000"
+  ],
+  "f": "Money left on the table = (First-day closing price − Offer price) × Number of shares issued",
+  "s": [
+   "Price difference per share: $32 − $25 = $7.",
+   "Multiply by the shares issued: $7 × 20,000,000 = $140,000,000."
+  ],
+  "why": "The company could have raised $7 × 20M = $140M more had the offer price matched the first-day market value. That $140M is the wealth transferred to new investors — the textbook measure of underpricing cost.",
+  "w": [
+   "",
+   "Implies an $7.5 gap per share ($150M / 20M) — a small arithmetic slip.",
+   "Implies an $8 gap per share — using the closing price digits incorrectly.",
+   "Implies an $8.5 gap per share — overstated difference."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "طرحت شركة 20,000,000 سهم بسعر عرض 25 دولارًا. وفي أول يوم تداول أغلق السهم عند 32 دولارًا. كم تبلغ «الأموال المتروكة على الطاولة»؟",
+  "o": [
+   "140,000,000 دولار",
+   "150,000,000 دولار",
+   "160,000,000 دولار",
+   "170,000,000 دولار"
+  ],
+  "f": "الأموال المتروكة على الطاولة = (سعر إغلاق أول يوم − سعر العرض) × عدد الأسهم المطروحة",
+  "s": [
+   "فرق السعر للسهم الواحد: 32 − 25 = 7 دولارات.",
+   "نضرب في عدد الأسهم المطروحة: 7 × 20,000,000 = 140,000,000 دولار."
+  ],
+  "why": "كان بإمكان الشركة جمع 140 مليون دولار إضافية (7 × 20 مليون) لو أن سعر العرض عادل قيمة السوق في اليوم الأول. هذا المبلغ هو الثروة المنتقلة إلى المستثمرين الجدد، وهو المقياس المعياري في الكتاب لتكلفة التسعير المنخفض.",
+  "w": [
+   "",
+   "يفترض فرق 7.5 دولار للسهم (150 مليون ÷ 20 مليون) — خطأ حسابي بسيط.",
+   "يفترض فرق 8 دولارات للسهم — ناتج عن استخدام خاطئ لرقم سعر الإغلاق.",
+   "يفترض فرق 8.5 دولار للسهم — فرق مبالغ فيه."
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q40",
+ "sec": "dividends",
+ "diff": "calc",
+ "correct": 1,
+ "en": {
+  "q": "A firm has a dividend policy of paying a $0.80 regular dividend. If EPS exceeds $2.50, it pays an extra dividend equal to 50% of EPS above $2.50. This year, EPS is $5.00. What is the total dividend per share?",
+  "o": [
+   "$1.80",
+   "$2.05",
+   "$2.30",
+   "$2.55"
+  ],
+  "f": "Extra dividend = Extra rate × (EPS − Threshold)\nTotal dividend = Regular + Extra",
+  "s": [
+   "EPS $5.00 exceeds the $2.50 threshold → an extra dividend is paid.",
+   "Extra = 0.50 × ($5.00 − $2.50) = 0.50 × $2.50 = $1.25.",
+   "Total DPS = $0.80 + $1.25 = $2.05."
+  ],
+  "why": "The low-regular-and-extra policy gives shareholders a dependable base dividend ($0.80) plus a bonus that only kicks in on the earnings ABOVE the threshold — here 50% of the $2.50 excess = $1.25.",
+  "w": [
+   "$1.80 would imply an extra of only $1.00 — e.g., applying the 50% rate to the wrong base.",
+   "",
+   "$2.30 implies an extra of $1.50 = 0.50 × (5.00 − 2.00) — using a wrong threshold of $2.00.",
+   "$2.55 implies an extra of $1.75 — mis-applying the rate to most of EPS."
+  ],
+  "note": "If EPS had been $2.50 or less, the extra would be $0 and total DPS would just be the regular $0.80."
+ },
+ "ar": {
+  "q": "تتبع شركة سياسة توزيع قدرها 0.80 دولار منتظم. وإذا تجاوز EPS مبلغ 2.50 دولار، تدفع توزيعًا إضافيًا يعادل 50% من EPS الزائد عن 2.50 دولار. هذا العام بلغ EPS مبلغ 5.00 دولار. فما إجمالي التوزيع للسهم؟",
+  "o": [
+   "1.80 دولار",
+   "2.05 دولار",
+   "2.30 دولار",
+   "2.55 دولار"
+  ],
+  "f": "التوزيع الإضافي = معدل الإضافي × (EPS − الحد الفاصل)\nإجمالي التوزيع = المنتظم + الإضافي",
+  "s": [
+   "EPS البالغ 5.00 دولار تجاوز الحد الفاصل 2.50 دولار ← إذن يُدفع توزيع إضافي.",
+   "الإضافي = 0.50 × (5.00 − 2.50) = 0.50 × 2.50 = 1.25 دولار.",
+   "إجمالي DPS = 0.80 + 1.25 = 2.05 دولار."
+  ],
+  "why": "تمنح سياسة «المنخفض المنتظم + الإضافي» المساهمين توزيعًا أساسيًا يمكن الاعتماد عليه (0.80 دولار) إضافةً إلى مكافأة تُدفع فقط على الأرباح التي تتجاوز الحد الفاصل — وهنا 50% من الزيادة البالغة 2.50 دولار = 1.25 دولار.",
+  "w": [
+   "1.80 دولار تفترض إضافيًا قدره 1.00 دولار فقط — مثل تطبيق معدل 50% على أساس خاطئ.",
+   "",
+   "2.30 دولار تفترض إضافيًا قدره 1.50 دولار = 0.50 × (5.00 − 2.00) — أي استخدام حد فاصل خاطئ قدره 2.00 دولار.",
+   "2.55 دولار تفترض إضافيًا قدره 1.75 دولار — تطبيق خاطئ للمعدل على معظم EPS."
+  ],
+  "note": "لو كان EPS يساوي 2.50 دولار أو أقل، لكان الإضافي صفرًا ولإجمالي التوزيع أن يبقى 0.80 دولار المنتظم فقط."
+ }
+});
+QB.push({
+ "id": "q41",
+ "sec": "dividends",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "A firm has EPS = $5.00 and DPS = $2.00. What is the payout ratio?",
+  "o": [
+   "20%",
+   "30%",
+   "40%",
+   "50%"
+  ],
+  "f": "Payout ratio = DPS / EPS      (Retention ratio = 1 − Payout)",
+  "s": [
+   "Payout = $2.00 / $5.00 = 0.40 = 40%."
+  ],
+  "why": "The payout ratio is the fraction of each dollar earned that is distributed as cash dividends: the firm pays out 40 cents of every dollar of earnings (and retains 60% for reinvestment).",
+  "w": [
+   "20% = 1.00/5.00 — wrong DPS used.",
+   "30% = 1.50/5.00 — wrong DPS used.",
+   "",
+   "50% would be $2.50/$5.00 — or the result of confusing DPS with half of EPS."
+  ],
+  "note": "Companion measure: retention ratio = 1 − 0.40 = 60% — the share of earnings kept inside the firm."
+ },
+ "ar": {
+  "q": "لدى شركة EPS = 5.00 دولار وDPS = 2.00 دولار. فما نسبة التوزيع (Payout Ratio)؟",
+  "o": [
+   "20%",
+   "30%",
+   "40%",
+   "50%"
+  ],
+  "f": "نسبة التوزيع = DPS ÷ EPS      (ونسبة الاحتجاز = 1 − نسبة التوزيع)",
+  "s": [
+   "نسبة التوزيع = 2.00 ÷ 5.00 = 0.40 = 40%."
+  ],
+  "why": "نسبة التوزيع هي حصة كل دولار من الأرباح يُوزع نقدًا على المساهمين: فالشركة توزع 40 سنتًا من كل دولار أرباح (وتحتجز 60% لإعادة الاستثمار).",
+  "w": [
+   "20% = 1.00÷5.00 — DPS خاطئ.",
+   "30% = 1.50÷5.00 — DPS خاطئ.",
+   "",
+   "50% تناظر 2.50÷5.00 — أو نتيجة خلط DPS بنصف EPS."
+  ],
+  "note": "المقياس المرافق: نسبة الاحتجاز = 1 − 0.40 = 60% — وهي حصة الأرباح التي تبقى داخل الشركة."
+ }
+});
+QB.push({
+ "id": "q42",
+ "sec": "dividends",
+ "diff": "calc",
+ "correct": 2,
+ "en": {
+  "q": "Earnings = $6,000,000. Capital budget = $4,000,000. Target equity ratio = 50%. What is the residual dividend?",
+  "o": [
+   "$2,000,000",
+   "$3,000,000",
+   "$4,000,000",
+   "$5,000,000"
+  ],
+  "f": "Equity needed = Target equity ratio × Capital budget\nResidual dividend = max(0, Earnings − Equity needed)",
+  "s": [
+   "Equity needed to fund the budget: 0.50 × $4,000,000 = $2,000,000.",
+   "Residual dividend = $6,000,000 − $2,000,000 = $4,000,000."
+  ],
+  "why": "The residual policy puts investment FIRST: the firm funds the equity portion of its capital budget ($2M) out of earnings, and distributes whatever is left over ($4M) as dividends.",
+  "w": [
+   "$2,000,000 is the equity needed for the budget — the amount RETAINED, not distributed.",
+   "$3,000,000 = 50% of earnings — that is constant-payout logic, not residual.",
+   "",
+   "$5,000,000 would result from retaining only $1M (e.g., funding just part of the equity need)."
+  ],
+  "note": "Consequence of the residual policy: dividends fluctuate with investment opportunities — they can even be zero when the capital budget is large."
+ },
+ "ar": {
+  "q": "الأرباح = 6,000,000 دولار. الموازنة الرأسمالية = 4,000,000 دولار. نسبة حقوق الملكية المستهدفة = 50%. فما التوزيع المتبقي (Residual Dividend)؟",
+  "o": [
+   "2,000,000 دولار",
+   "3,000,000 دولار",
+   "4,000,000 دولار",
+   "5,000,000 دولار"
+  ],
+  "f": "حقوق الملكية المطلوبة = نسبة حقوق الملكية المستهدفة × الموازنة الرأسمالية\nالتوزيع المتبقي = max(0، الأرباح − حقوق الملكية المطلوبة)",
+  "s": [
+   "حقوق الملكية اللازمة لتمويل الموازنة: 0.50 × 4,000,000 = 2,000,000 دولار.",
+   "التوزيع المتبقي = 6,000,000 − 2,000,000 = 4,000,000 دولار."
+  ],
+  "why": "سياسة التوزيع المتبقي تعطي الأولوية للاستثمار: تموّل الشركة حصة حقوق الملكية من موازنتها الرأسمالية (2 مليون دولار) من الأرباح، ثم توزع ما يتبقى (4 ملايين دولار) كتوزيعات أرباح.",
+  "w": [
+   "2,000,000 دولار هي حقوق الملكية المطلوبة للموازنة — أي المبلغ المحتَجَز وليس الموزَّع.",
+   "3,000,000 دولار = 50% من الأرباح — وهذا منطق نسبة التوزيع الثابتة وليس المتبقي.",
+   "",
+   "5,000,000 دولار تنتج عن احتجاز مليون واحد فقط (مثل تمويل جزء فقط من الحاجة لحقوق الملكية)."
+  ],
+  "note": "نتيجة سياسة التوزيع المتبقي: تتذبذب التوزيعات مع فرص الاستثمار — وقد تصل إلى صفر عندما تكون الموازنة الرأسمالية كبيرة."
+ }
+});
+QB.push({
+ "id": "q43",
+ "sec": "dividends",
+ "diff": "calc",
+ "correct": 3,
+ "en": {
+  "q": "A company reports earnings per share (EPS) of $6.00 and pays dividends per share (DPS) of $1.80. What is the retention ratio?",
+  "o": [
+   "30%",
+   "40%",
+   "60%",
+   "70%"
+  ],
+  "f": "Payout = DPS / EPS      Retention = 1 − Payout",
+  "s": [
+   "Payout ratio = $1.80 / $6.00 = 0.30 = 30%.",
+   "Retention ratio = 1 − 0.30 = 0.70 = 70%."
+  ],
+  "why": "The retention ratio is the share of earnings kept in the business (reinvested) rather than paid out. The firm distributes 30% and retains 70% — that retained 70% is what funds future growth.",
+  "w": [
+   "30% is the PAYOUT ratio — the classic trap: answer the question that was asked (retention), not its complement.",
+   "40% has no basis in the data.",
+   "60% would be the retention if DPS were $2.40 (payout 40%).",
+   ""
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "أفصحت شركة عن ربحية سهم (EPS) قدرها 6.00 دولار وتوزيعات للسهم (DPS) قدرها 1.80 دولار. فما نسبة الاحتجاز (Retention Ratio)؟",
+  "o": [
+   "30%",
+   "40%",
+   "60%",
+   "70%"
+  ],
+  "f": "نسبة التوزيع = DPS ÷ EPS      نسبة الاحتجاز = 1 − نسبة التوزيع",
+  "s": [
+   "نسبة التوزيع = 1.80 ÷ 6.00 = 0.30 = 30%.",
+   "نسبة الاحتجاز = 1 − 0.30 = 0.70 = 70%."
+  ],
+  "why": "نسبة الاحتجاز هي حصة الأرباح التي تبقى في النشاط (يُعاد استثمارها) بدل توزيعها. فالشركة توزع 30% وتحتجز 70% — وهذا المحتَجَز هو ما يمول النمو المستقبلي.",
+  "w": [
+   "30% هي نسبة التوزيع — وهذا هو الفخ الكلاسيكي: أجب عن السؤال المطلوب (الاحتجاز) وليس مكمّله.",
+   "40% لا أساس لها في المعطيات.",
+   "60% ستكون نسبة الاحتجاز لو كان DPS يساوي 2.40 دولار (توزيع 40%).",
+   ""
+  ],
+  "note": null
+ }
+});
+QB.push({
+ "id": "q44",
+ "sec": "dividends",
+ "diff": "calc",
+ "correct": 0,
+ "en": {
+  "q": "A company reports EPS of $10.00 and DPS of $3.50. What are the payout ratio and retention ratio, respectively?",
+  "o": [
+   "35% and 65%",
+   "65% and 35%",
+   "30% and 70%",
+   "70% and 30%"
+  ],
+  "f": "Payout = DPS / EPS      Retention = 1 − Payout",
+  "s": [
+   "Payout ratio = $3.50 / $10.00 = 0.35 = 35%.",
+   "Retention ratio = 1 − 0.35 = 0.65 = 65%."
+  ],
+  "why": "Divide the dividend by the earnings for the payout ratio, then subtract from 1 for the retention. The two ratios always sum to 100%.",
+  "w": [
+   "",
+   "65% and 35% reverses the order — the question asks for payout FIRST, then retention.",
+   "30% and 70% uses DPS = $3.00 instead of $3.50.",
+   "70% and 30% both uses the wrong DPS and reverses the order."
+  ],
+  "note": null
+ },
+ "ar": {
+  "q": "أفصحت شركة عن EPS قدره 10.00 دولار وDPS قدره 3.50 دولار. فما نسبتا التوزيع والاحتجاز على الترتيب؟",
+  "o": [
+   "35% و65%",
+   "65% و35%",
+   "30% و70%",
+   "70% و30%"
+  ],
+  "f": "نسبة التوزيع = DPS ÷ EPS      نسبة الاحتجاز = 1 − نسبة التوزيع",
+  "s": [
+   "نسبة التوزيع = 3.50 ÷ 10.00 = 0.35 = 35%.",
+   "نسبة الاحتجاز = 1 − 0.35 = 0.65 = 65%."
+  ],
+  "why": "اقسم التوزيعات على الأرباح لتحصل على نسبة التوزيع، ثم اطرحها من 1 لتحصل على نسبة الاحتجاز. ومجموع النسبتين يساوي 100% دائمًا.",
+  "w": [
+   "",
+   "65% و35% تعكسان الترتيب — فالسؤال يطلب نسبة التوزيع أولًا ثم الاحتجاز.",
+   "30% و70% تستخدمان DPS = 3.00 دولار بدلًا من 3.50 دولار.",
+   "70% و30% تستخدمان DPS خاطئًا وتعكسان الترتيب أيضًا."
+  ],
+  "note": null
+ }
+});
 
 </script>
 <script>
@@ -2115,7 +3231,7 @@ const state = {
   view: "dashboard",
   studySec: "all",
   studyFilter: "all",
-  examSetup: { count: "all", secs: new Set(SECS), shuffle: true },
+  examSetup: { count: "all", secs: new Set(SECS), shuffle: false },
   exam: null,
   lastResult: null
 };
@@ -2240,6 +3356,10 @@ VIEWS.dashboard = function(){
      + statCard("gold","i-star", P.bookmarks.length, t("statBookmarks"))
      + '</div>';
 
+  h += '<div style="display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin:.4rem 0 1.2rem">'
+     + '<button class="btn '+(P.shuffleOpts?"btn-primary":"")+'" data-action="toggle-shuffle"><svg class="ico"><use href="#i-shuffle"/></svg>'+esc(t("shuffleOpts"))+' — <b>'+esc(t(P.shuffleOpts?"optOn":"optOff"))+'</b></button>'
+     + '<span class="muted" style="font-size:.78rem">'+esc(t("shuffleHint"))+'</span></div>';
+
   const wrongIds = QB.filter(q => P.answers[q.id] && !P.answers[q.id].ok);
   if(wrongIds.length || P.bookmarks.length){
     h += '<div class="sec-head"><h2>'+esc(t("resumeTitle"))+'</h2></div>'
@@ -2337,13 +3457,7 @@ VIEWS.study = function(){
         + '<svg class="ico" style="font-size:15px"><use href="#'+(f[0]==="wrong"?"i-x":f[0]==="bookmarked"?"i-star":f[0]==="unanswered"?"i-info":"i-book")+'"/></svg>'
         + esc(t(f[1]))+'</button>'; });
     h += '</div></div>';
-    h += '<div class="side-card">'
-       + '<div class="side-title">'+esc(t("sideOptions"))+'</div>'
-       + '<div class="side-items">'
-       + '<button class="side-item '+(P.shuffleOpts?"active":"")+'" data-action="toggle-shuffle">'
-       + '<svg class="ico" style="font-size:15px"><use href="#i-shuffle"/></svg>'+esc(t("shuffleOpts"))
-       + '<span class="count">'+esc(t(P.shuffleOpts?"optOn":"optOff"))+'</span></button>'
-       + '</div></div></aside>';
+    h += '</aside>';
   }
   /* question column */
   h += '<div class="q-col">';
@@ -2384,7 +3498,6 @@ function cardHTML(q, o){
      + (peeked ? '<span class="badge badge-peek"><svg class="ico" style="font-size:12px;vertical-align:-1px"><use href="#i-eye"/></svg> '+esc(t("badgePeek"))+'</span>' : '')
      + (revealed && !peeked ? '<span class="badge '+(ok?"badge-ok":"badge-bad")+'">'+(ok?"✓ "+LETTERS[q.correct]:"✗ "+LETTERS[q.correct])+'</span>' : '')
      + '<span class="spacer"></span>'
-     + (o.mode !== "review" && !revealed ? '<button class="icon-btn" data-action="shuffle-opts" data-qid="'+q.id+'" title="'+esc(t("btnShuffle"))+'"><svg class="ico"><use href="#i-shuffle"/></svg></button>' : '')
      + (o.mode === "study" && revealed ? '<button class="icon-btn" data-action="retry" data-qid="'+q.id+'" title="Retry"><svg class="ico"><use href="#i-refresh"/></svg></button>' : '')
      + '<button class="icon-btn '+(bm?"on":"")+'" data-action="bm" data-qid="'+q.id+'" title="'+esc(t(bm?"bookmarked":"bookmark"))+'"><svg class="ico"><use href="#'+(bm?"i-star":"i-star-o")+'"/></svg></button>'
      + '</div>';
@@ -2474,7 +3587,6 @@ VIEWS.examSetup = function(){
        + '<span class="tick">✓</span>'+esc(secMeta()[sec].title)+' ('+bySec(sec).length+')</button>';
   });
   h += '</div>';
-  h += '<button class="sec-pick '+(s.shuffle?"sel":"")+'" data-action="exam-shuffle" style="margin-bottom:1.3rem"><span class="tick">✓</span>🔀 '+esc(t("examShuffle"))+'</button>';
   h += '<div style="display:flex;gap:.7rem;flex-wrap:wrap">'
      + '<button class="btn btn-primary" data-action="start-exam" style="font-size:1rem;padding:.7rem 1.6rem"><svg class="ico"><use href="#i-flag"/></svg>'+esc(t("examStart"))+'</button></div>';
   h += '</div></div>';
@@ -2660,8 +3772,7 @@ function render(){
 
 /* ---------------- exam engine ---------------- */
 function buildQueue(){
-  let pool = QB.filter(q => state.examSetup.secs.has(q.sec));
-  if(state.examSetup.shuffle) pool = shuffle(pool.slice());
+  let pool = QB.filter(q => state.examSetup.secs.has(q.sec));   /* file (slide) order, always */
   const want = state.examSetup.count === "all" ? pool.length : parseInt(state.examSetup.count, 10);
   if(want > pool.length) return null;
   return { queue: pool.slice(0, want), picks: {}, idx: 0, t0: Date.now(), timer: null, n: Math.min(want, pool.length), done: false };
@@ -2759,13 +3870,6 @@ document.addEventListener("click", function(e){
       go("exam"); break;
     case "pick": answer(qid, parseInt(el.dataset.i,10)); break;
     case "peek": peek(qid); break;
-    case "shuffle-opts": {
-      const cur = getOrder(qid).join(",");
-      let np; do { np = shuffle([0,1,2,3]); } while(np.join(",") === cur);
-      P.order[qid] = np; save();
-      if(state.view === "examRun"){ render(); startTimerKeep(); } else refreshCard(qid);
-      break;
-    }
     case "toggle-shuffle":
       P.shuffleOpts = !P.shuffleOpts;
       if(!P.shuffleOpts) P.order = {};
@@ -2808,7 +3912,6 @@ document.addEventListener("click", function(e){
       if(s.has(sec)) { if(s.size > 1) s.delete(sec); } else s.add(sec);
       render(); break;
     }
-    case "exam-shuffle": state.examSetup.shuffle = !state.examSetup.shuffle; render(); break;
     case "start-exam": {
       const q2 = buildQueue();
       if(!q2){ toast(t("examNotEnough")); break; }
