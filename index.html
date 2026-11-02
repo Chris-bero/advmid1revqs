@@ -3219,6 +3219,7 @@ const P = {
   sid: typeof saved.sid === "string" && saved.sid ? saved.sid : "",
   syncUrl: typeof saved.syncUrl === "string" ? saved.syncUrl : DEFAULT_SYNC_URL,
   syncAdmin: saved.syncAdmin === true,
+  lifePrac: (saved.lifePrac && typeof saved.lifePrac === "object") ? saved.lifePrac : { c:0, s:0, topics:{} },
   lastSync: typeof saved.lastSync === "number" ? saved.lastSync : 0,
   queue: Array.isArray(saved.queue) ? saved.queue : [],
   dirty: saved.dirty === true
@@ -3276,9 +3277,32 @@ function statSec(sec){
 }
 /* grade model: overall = 50% practice accuracy + 50% mock-exam average */
 function letter(p){ return p >= 90 ? "A" : p >= 80 ? "B" : p >= 70 ? "C" : p >= 60 ? "D" : "F"; }
-function computeGrade(){
+/* cumulative practice stats (survive study-session wipes) merged with the live session */
+function pracMerged(){
+  const st = statAll(); const topics = {};
+  SECS.forEach(sec => {
+    const s = statSec(sec); const lf = (P.lifePrac.topics || {})[sec] || [0,0];
+    topics[sec] = [lf[0]+s.correct, lf[1]+s.selections];
+  });
+  return { correct:(P.lifePrac.c||0)+st.correct, selections:(P.lifePrac.s||0)+st.selections, topics };
+}
+/* study answers are ephemeral: fold them into lifetime stats, then erase them */
+function clearStudyTrace(){
   const st = statAll();
-  const pracAcc = st.selections ? Math.round(st.correct / st.selections * 100) : null;
+  if(st.selections){
+    P.lifePrac.c = (P.lifePrac.c||0) + st.correct;
+    P.lifePrac.s = (P.lifePrac.s||0) + st.selections;
+    P.lifePrac.topics = P.lifePrac.topics || {};
+    SECS.forEach(sec => { const s = statSec(sec); const t0 = P.lifePrac.topics[sec] || [0,0];
+      P.lifePrac.topics[sec] = [t0[0]+s.correct, t0[1]+s.selections]; });
+  }
+  P.answers = {}; P.peeked = []; P.order = {};
+  Object.keys(explOverride).forEach(k => delete explOverride[k]);
+  save();
+}
+function computeGrade(){
+  const pm = pracMerged();
+  const pracAcc = pm.selections ? Math.round(pm.correct / pm.selections * 100) : null;
   const examAvg = P.exams.length ? Math.round(P.exams.reduce((a,r) => a + r.pct, 0) / P.exams.length) : null;
   let overall = null;
   if(pracAcc !== null && examAvg !== null) overall = Math.round(pracAcc * 0.5 + examAvg * 0.5);
@@ -3321,6 +3345,7 @@ function go(view){
     stopTimer(); state.exam = null;
   }
   if(view === "exam"){ view = (state.exam && !state.exam.done) ? "examRun" : "examSetup"; }
+  if(state.view === "study" && view !== "study") clearStudyTrace();   /* training answers are ephemeral */
   state.view = view; render(); window.scrollTo({top:0, behavior:"smooth"});
 }
 
@@ -3486,7 +3511,10 @@ function cardHTML(q, o){
   const ansRec = P.answers[q.id];
   if(ansRec){ sel = ansRec.sel; revealed = true; ok = ansRec.ok; }
   else if(P.peeked.includes(q.id)){ peeked = true; revealed = true; }
-  if(o.mode === "exam" && state.exam && state.exam.picks[q.id] !== undefined){ sel = state.exam.picks[q.id]; revealed = false; peeked = false; }
+  if(o.mode === "exam"){   /* live exam: never leak or lock from study answers/peeks */
+    sel = (state.exam && state.exam.picks[q.id] !== undefined) ? state.exam.picks[q.id] : undefined;
+    revealed = false; peeked = false; ok = false;
+  }
   if(o.mode === "review"){ sel = o.sel; revealed = true; ok = (sel === q.correct); peeked = false; }
 
   const bm = P.bookmarks.includes(q.id);
@@ -3511,7 +3539,7 @@ function cardHTML(q, o){
       else if(orig === sel){ cls += " wrong-pick"; mark = '<svg class="ico opt-mark"><use href="#i-x"/></svg>'; }
       else cls += " dim";
     } else if(sel === orig){ cls += " picked"; }  /* exam: neutral highlight of the pick */
-    const dis = revealed ? "disabled" : "";
+    const dis = (revealed && o.mode !== "study") ? "disabled" : "";
     const act = o.mode === "exam" ? "exam-pick" : "pick";
     h += '<button class="'+cls+'" data-action="'+act+'" data-qid="'+q.id+'" data-i="'+orig+'" '+dis+'>'
        + '<span class="opt-key">'+LETTERS[p]+'</span><span class="u-bidi">'+esc(d.o[orig])+'</span>'+mark+'</button>';
@@ -3796,7 +3824,6 @@ function submitExam(){
     const sel = ex.picks[q.id];
     const ok = sel !== undefined && sel === q.correct;
     if(ok) correct++; else wrongIds.push(q.id);
-    if(sel !== undefined) P.answers[q.id] = { sel: sel, ok: ok, ts: Date.now() };
   });
   SESSION.answered = (SESSION.answered || 0) + ex.queue.filter(q => ex.picks[q.id] !== undefined).length;
   const pct = Math.round(correct / ex.n * 100);
@@ -3812,9 +3839,11 @@ function submitExam(){
 
 /* ---------------- actions ---------------- */
 function answer(qid, i){
-  const q = QB.find(x => x.id === qid); if(!q || P.answers[qid] || P.peeked.includes(qid)) return;
+  const q = QB.find(x => x.id === qid); if(!q) return;
+  const first = !P.answers[qid];
+  if(first) P.peeked = P.peeked.filter(x => x !== qid);
   P.answers[qid] = { sel: i, ok: i === q.correct, ts: Date.now() };
-  SESSION.answered = (SESSION.answered || 0) + 1;
+  if(first) SESSION.answered = (SESSION.answered || 0) + 1;
   P.dirty = true;
   save();
   explOverride[qid] = true;
@@ -3929,7 +3958,14 @@ document.addEventListener("click", function(e){
     case "exam-goto": if(state.exam){ state.exam.idx = Math.min(state.exam.n-1, Math.max(0, parseInt(el.dataset.i,10))); render(); startTimerKeep(); } break;
     case "exam-move": if(state.exam){ examMove(parseInt(el.dataset.d,10)); } break;
     case "exam-submit": submitExam(); break;
-    case "retry-wrong": state.view = "study"; state.studySec = "all"; state.studyFilter = "wrong"; render(); window.scrollTo({top:0}); break;
+    case "retry-wrong": {
+      if(state.exam && state.exam.picks){   /* seed a fresh ephemeral session from the exam attempt */
+        state.exam.queue.forEach(qq => { const sp = state.exam.picks[qq.id];
+          if(sp !== undefined) P.answers[qq.id] = { sel: sp, ok: sp === qq.correct, ts: Date.now() }; });
+        save();
+      }
+      state.view = "study"; state.studySec = "all"; state.studyFilter = "wrong"; render(); window.scrollTo({top:0}); break;
+    }
     case "show-bookmarks": state.view = "study"; state.studySec = "all"; state.studyFilter = "bookmarked"; render(); window.scrollTo({top:0}); break;
     case "retake": {
       const q3 = buildQueue();
@@ -4044,21 +4080,20 @@ window.addEventListener("pagehide", () => {
   if(P.syncUrl && typeof navigator !== "undefined" && navigator.sendBeacon){
     try{ navigator.sendBeacon(P.syncUrl, new Blob([JSON.stringify(syncPayload())], {type:"text/plain"})); }catch(e){}
   }
+  clearStudyTrace();
 });
 
 /* ---------------- Google Sheets sync (Apps Script backend) ---------------- */
 if(!P.sid) P.sid = "s-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8);
 function syncPayload(){
   touchSession();
-  const st = statAll();
-  const topics = {};
-  SECS.forEach(sec => { const s = statSec(sec); topics[sec] = [s.correct, s.selections]; });
+  const pm = pracMerged();
   P.exams.forEach(r => { if(!r.eid) r.eid = r.ts + "-" + Math.random().toString(36).slice(2,7); });
   return {
     action: "sync",
     student: { sid: P.sid, name: P.name, firstVisit: P.firstVisit, lastSeen: Date.now(),
                visits: P.visits, totalSecs: totalSecs(),
-               practiceCorrect: st.correct, practiceSelections: st.selections, topics: topics },
+               practiceCorrect: pm.correct, practiceSelections: pm.selections, topics: pm.topics },
     exams: P.exams.map(r => ({ eid:r.eid, sid:P.sid, name:P.name, ts:r.ts, total:r.total, correct:r.correct, pct:r.pct, secs:r.secs })),
     sessions: P.sessions.map(s => ({ ssid:String(s.start), sid:P.sid, name:P.name, ts:s.start, secs:s.secs||0, answered:s.answered||0 }))
   };
